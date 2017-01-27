@@ -532,7 +532,7 @@ if (scriptEnvironment=="nyt") {
         create_promo_image: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
         image_format: {defaultValue: ["png"], includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "array", possibleValues: "jpg, png, png24", notes: "Images will be generated in mulitple formats if multiple formats are listed, separated by commas. The first format will be used in the html. Sometimes this is useful to compare which format will have a smaller file size."},
         write_image_files: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” to skip writing the image files. Generally only use this after you have run the script once with this setting set to “yes.”"},
-        responsiveness: {defaultValue: "fixed", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "fixed, dynamic", notes: "Dynamic responsiveness means ai graphics will scale to fill the container they are placed in."},
+        responsiveness: {defaultValue: "dynamic", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "fixed, dynamic", notes: "Dynamic responsiveness means ai graphics will scale to fill the container they are placed in."},
         max_width: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "", notes: "Blank or any positive number in pixels, but do not write “px” - blank means artboards will set max size, the max width is not included in the html stub, instead it is written to the config file so that the max width can be applied to the template’s container."},
         output: {defaultValue: "one-file", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "one-file, multiple-files", notes: "One html file containing all the artboards or a separate html file for each artboard."},
         project_name: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "Use this to set a custom project name. The project name is being used in output filenames, class names, etc."},
@@ -552,7 +552,7 @@ if (scriptEnvironment=="nyt") {
         include_resizer_css_js: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_classes: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_widths: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "If set to “yes”, ai2html adds data-min-width and data-max-width attributes to each artboard"},
-        include_resizer_script: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
+        include_resizer_script: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         svg_embed_images: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         render_rotated_skewed_text_as: {defaultValue: "html", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "image, html", notes: ""},
         show_completion_dialog_box: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to see the dialog box confirming completion of the script."},
@@ -591,66 +591,158 @@ if (scriptEnvironment=="nyt") {
 	// Make a copy of the spreadsheet for yourself.
 	// Modify the settings to taste.
 var fonts = [
-	{"aifont":"ArialMT","family":"arial,helvetica,sans-serif","weight":"","style":""},
-	{"aifont":"Arial-BoldMT","family":"arial,helvetica,sans-serif","weight":"bold","style":""},
-	{"aifont":"Arial-ItalicMT","family":"arial,helvetica,sans-serif","weight":"","style":"italic"},
-	{"aifont":"Arial-BoldItalicMT","family":"arial,helvetica,sans-serif","weight":"bold","style":"italic"},
-	{"aifont":"Georgia","family":"georgia,'times new roman',times,serif","weight":"","style":""},
-	{"aifont":"Georgia-Bold","family":"georgia,'times new roman',times,serif","weight":"bold","style":""},
-	{"aifont":"Georgia-Italic","family":"georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"Georgia-BoldItalic","family":"georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-	{"aifont":"NYTFranklin-Light","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"NYTFranklin-Medium","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":""},
-	{"aifont":"NYTFranklin-SemiBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
-	{"aifont":"NYTFranklinSemiBold-Regular","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
-	{"aifont":"NYTFranklin-Bold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"NYTFranklin-LightItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":"italic"},
-	{"aifont":"NYTFranklin-MediumItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":"italic"},
-	{"aifont":"NYTFranklin-BoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-	{"aifont":"NYTFranklin-Headline","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":""},
-	{"aifont":"NYTFranklin-HeadlineItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":"italic"},
-	{"aifont":"NYTCheltenham-ExtraLight","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
-	{"aifont":"NYTCheltenhamExtLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
-	{"aifont":"NYTCheltenham-Light","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
-	{"aifont":"NYTCheltenhamLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
-	{"aifont":"NYTCheltenham-Book","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
-	{"aifont":"NYTCheltenhamBook-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
-	{"aifont":"NYTCheltenham-Wide","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":""},
-	{"aifont":"NYTCheltenhamMedium-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
-	{"aifont":"NYTCheltenham-Medium","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
-	{"aifont":"NYTCheltenham-Bold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
-	{"aifont":"NYTCheltenham-BoldCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-	{"aifont":"NYTCheltenham-BoldExtraCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-	{"aifont":"NYTCheltenham-ExtraBold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-	{"aifont":"NYTCheltenham-ExtraLightIt","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-ExtraLightItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-LightItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-BookItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-WideItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-MediumItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-	{"aifont":"NYTCheltenham-BoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
-	{"aifont":"NYTCheltenham-ExtraBoldItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-	{"aifont":"NYTCheltenham-ExtraBoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-	{"aifont":"NYTKarnakText-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
-	{"aifont":"NYTKarnakDisplay-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
-	{"aifont":"NYTStymieLight-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"NYTStymieMedium-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
-	{"aifont":"StymieNYT-Light","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"StymieNYT-LightPhoenetic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"StymieNYT-Lightitalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":"italic"},
-	{"aifont":"StymieNYT-Medium","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
-	{"aifont":"StymieNYT-MediumItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":"italic"},
-	{"aifont":"StymieNYT-Bold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"StymieNYT-BoldItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-	{"aifont":"StymieNYT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"StymieNYT-ExtraBoldText","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"StymieNYT-ExtraBoldTextItal","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-	{"aifont":"StymieNYTBlack-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"StymieBT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-	{"aifont":"Stymie-Thin","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"Stymie-UltraLight","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-	{"aifont":"NYTMagSans-Regular","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"500","style":""},
-	{"aifont":"NYTMagSans-Bold","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"700","style":""}
+	// {"aifont":"ArialMT","family":"arial,helvetica,sans-serif","weight":"","style":""},
+	// {"aifont":"Arial-BoldMT","family":"arial,helvetica,sans-serif","weight":"bold","style":""},
+	// {"aifont":"Arial-ItalicMT","family":"arial,helvetica,sans-serif","weight":"","style":"italic"},
+	// {"aifont":"Arial-BoldItalicMT","family":"arial,helvetica,sans-serif","weight":"bold","style":"italic"},
+	// {"aifont":"Georgia","family":"georgia,'times new roman',times,serif","weight":"","style":""},
+	// {"aifont":"Georgia-Bold","family":"georgia,'times new roman',times,serif","weight":"bold","style":""},
+	// {"aifont":"Georgia-Italic","family":"georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"Georgia-BoldItalic","family":"georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+	// {"aifont":"NYTFranklin-Light","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"NYTFranklin-Medium","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":""},
+	// {"aifont":"NYTFranklin-SemiBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
+	// {"aifont":"NYTFranklinSemiBold-Regular","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
+	// {"aifont":"NYTFranklin-Bold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"NYTFranklin-LightItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":"italic"},
+	// {"aifont":"NYTFranklin-MediumItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":"italic"},
+	// {"aifont":"NYTFranklin-BoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+	// {"aifont":"NYTFranklin-Headline","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":""},
+	// {"aifont":"NYTFranklin-HeadlineItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":"italic"},
+	// {"aifont":"NYTCheltenham-ExtraLight","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
+	// {"aifont":"NYTCheltenhamExtLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
+	// {"aifont":"NYTCheltenham-Light","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
+	// {"aifont":"NYTCheltenhamLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
+	// {"aifont":"NYTCheltenham-Book","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
+	// {"aifont":"NYTCheltenhamBook-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
+	// {"aifont":"NYTCheltenham-Wide","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":""},
+	// {"aifont":"NYTCheltenhamMedium-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
+	// {"aifont":"NYTCheltenham-Medium","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
+	// {"aifont":"NYTCheltenham-Bold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
+	// {"aifont":"NYTCheltenham-BoldCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+	// {"aifont":"NYTCheltenham-BoldExtraCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+	// {"aifont":"NYTCheltenham-ExtraBold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+	// {"aifont":"NYTCheltenham-ExtraLightIt","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-ExtraLightItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-LightItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-BookItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-WideItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-MediumItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+	// {"aifont":"NYTCheltenham-BoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
+	// {"aifont":"NYTCheltenham-ExtraBoldItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+	// {"aifont":"NYTCheltenham-ExtraBoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+	// {"aifont":"NYTKarnakText-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
+	// {"aifont":"NYTKarnakDisplay-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
+	// {"aifont":"NYTStymieLight-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"NYTStymieMedium-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
+	// {"aifont":"StymieNYT-Light","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"StymieNYT-LightPhoenetic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"StymieNYT-Lightitalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":"italic"},
+	// {"aifont":"StymieNYT-Medium","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
+	// {"aifont":"StymieNYT-MediumItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":"italic"},
+	// {"aifont":"StymieNYT-Bold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"StymieNYT-BoldItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+	// {"aifont":"StymieNYT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"StymieNYT-ExtraBoldText","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"StymieNYT-ExtraBoldTextItal","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+	// {"aifont":"StymieNYTBlack-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"StymieBT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+	// {"aifont":"Stymie-Thin","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"Stymie-UltraLight","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+	// {"aifont":"NYTMagSans-Regular","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"500","style":""},
+	// {"aifont":"NYTMagSans-Bold","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"700","style":""}
+
+	{
+      "aifont": "DE2DisplayEgyptianLight",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "300",
+      "style": ""
+  }, {
+      "aifont": "DE3DisplayEgyptian",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "400",
+      "style": ""
+  }, {
+      "aifont": "DE4DisplayEgyptianMedium",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "500",
+      "style": ""
+  }, {
+      "aifont": "DE5DisplayEgyptianSemiBold",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "600",
+      "style": ""
+  }, {
+      "aifont": "DE6DisplayEgyptianBold",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "800",
+      "style": ""
+  }, {
+      "aifont": "DS6DisplaySansBold",
+      "family": "'Guardian Text Sans Web', Arial, sans-serif",
+      "weight": "800",
+      "style": ""
+  }, {
+      "aifont": "DS5DisplaySansSemibold",
+      "family": "'Guardian Text Sans Web', Arial, sans-serif",
+      "weight": "600",
+      "style": ""
+  }, {
+      "aifont": "DE1DisplayEgyptianThin",
+      "family": "'Guardian Egyptian Web', Georgia, serif",
+      "weight": "200",
+      "style": ""
+  }, {
+      "aifont": "DS2DisplaySansLight",
+      "family": "'Guardian Text Sans Web', Arial, sans-serif",
+      "weight": "300",
+      "style": ""
+  }, {
+      "aifont": "DS3DisplaySans-Italic",
+      "family": "'Guardian Text Sans Web', Arial, sans-serif",
+      "weight": "",
+      "style": "italic"
+  }, {
+      "aifont": "DS3DisplaySans",
+      "family": "'Guardian Text Sans Web', Arial, sans-serif",
+      "weight": "400",
+      "style": ""
+  }, {
+      "aifont": "AS31AgateSans",
+      "family": "'Guardian Agate Sans', Arial, sans-serif",
+      "weight": "500",
+      "style": ""
+  }, {
+      "aifont": "AS31AgateSans-Bold",
+      "family": "'Guardian Agate Sans', Arial, sans-serif",
+      "weight": "800",
+      "style": ""
+  }, {
+      "aifont": "AS32AgateSans",
+      "family": "'Guardian Agate Sans', Arial, sans-serif",
+      "weight": "500",
+      "style": ""
+  }, {
+      "aifont": "AS32AgateSans-Bold",
+      "family": "'Guardian Agate Sans', Arial, sans-serif",
+      "weight": "800",
+      "style": ""
+  }, {
+      "aifont": "TS4TextSansMedium",
+      "family": "'Guardian Sans Web', Arial, sans-serif",
+      "weight": "500",
+      "style": ""
+  }, {
+      "aifont": "TS4TextSansMedium-Bold",
+      "family": "'Guardian Sans Web', Arial, sans-serif",
+      "weight": "800",
+      "style": ""
+  }, {
+      "aifont": "TS3TextSans",
+      "family": "'Guardian Sans Web', Arial, sans-serif",
+      "weight": "400",
+      "style": ""
+  }
 ];
 
 var caps = [
@@ -695,7 +787,7 @@ var currMin       = zeroPad(d.getMinutes(),2);
 var dateTimeStamp = currYear + "-" + currMonth + "-" + currDate + " - " + currHour + ":" + currMin;
 
 // user inputs, settings, etc
-var defaultFamily       = "nyt-franklin,arial,helvetica,sans-serif";
+var defaultFamily       = "arial,helvetica,sans-serif";
 var defaultWeight       = "";
 var defaultStyle        = "";
 var defaultSize         = 13;
@@ -1035,6 +1127,13 @@ if (!docHadSettingsBlock) {
 	};
 };
 
+// ================================================
+// import guardian fonts
+// ================================================
+
+var guFontsCss		= "\r\t<style type='text/css' media='screen,print'>\r";
+              guFontsCss += "@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.svg#GuardianTextEgyptianWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.svg#GuardianTextEgyptianWeb-RegularItalic') format('svg');font-weight:400;font-style:italic;font-stretch:normal}@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.svg#GuardianTextEgyptianWeb-Medium') format('svg');font-weight:700;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.svg#GuardianEgyptianWeb-Light') format('svg');font-weight:200;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.svg#GuardianEgyptianWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.svg#GuardianEgyptianWeb-Medium') format('svg');font-weight:500;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.svg#GuardianEgyptianWeb-Semibold') format('svg');font-weight:900;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.svg#GuardianTextSansWeb-RegularItalic') format('svg');font-weight:400;font-style:italic;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.svg#GuardianTextSansWeb-Medium') format('svg');font-weight:700;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.svg#GuardianSansWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal} @font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.svg#Guardian-Text-Egyp-Web-Reg') format('svg');font-weight:normal;font-style:normal;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.svg#Guardian-Text-Egyp-Web-Reg-It') format('svg');font-weight:normal;font-style:italic;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.svg#Guardian-Text-Egyp-Web-Medium') format('svg');font-weight:bold;font-style:normal;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.svg#Guardian-Text-Egyp-Web-Med-It') format('svg');font-weight:bold;font-style:italic;font-stretch:normal;}";
+              guFontsCss += "</style>\r";
 
 // ================================================
 // grab custom settings, html, css, js and text blocks
@@ -1047,6 +1146,8 @@ var customCss        = "\r\t<style type='text/css' media='screen,print'>\r",
 	customCssBlocks  = 0,
 	customHtmlBlocks = 0,
 	customJsBlocks   = 0;
+
+	
 
 customYml += "ai2html_version: " + scriptVersion      + "\n";
 customYml += "project_type: "    + previewProjectType + "\n";
@@ -1997,7 +2098,23 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				var responsiveTextScoop = responsiveHtml;
 				var textForFile         = "";
 				var htmlFileDestination = "";
-				var headerText          = "<div id='" + nameSpace + docArtboardName + "-box' class='ai2html'>\r";
+				var headerText          = "<!doctype html>\r";
+				headerText += "<html lang='en'>\r";
+                headerText += "<head>\r";
+                headerText += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
+
+				// zero margin and padding for iframe html
+				headerText += "<style type='text/css' media='screen,print'>\r"
+	 			headerText += "html, body {\r";
+     			headerText += "\tpadding:0;\r";
+	 			headerText += "\tmargin:0;\r";
+     			headerText += "\t-webkit-font-smoothing:antialiased;\r";
+     			headerText += "}\r";
+				headerText += "</style>\r";
+
+                headerText += "</head>\r";
+                headerText += "<body>\r";
+				headerText         += "<div id='" + nameSpace + docArtboardName + "-box' class='ai2html'>\r";
 				headerText             += "\t<!-- Generated by ai2html v" + scriptVersion + " - " + dateTimeStamp + " -->\r"
 				headerText             += "\t<!-- ai file: " + docSettings.project_name + " -->\r";
 				if (docSettings.ai2html_environment=="nyt") {
@@ -2019,9 +2136,12 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				headerText             += "\t</style>\r";
 				headerText             += "\r";
 				var footerText          = "\t<!-- End ai2html" + " - " + dateTimeStamp + " -->\r</div>\r";
+				footerText += "</body>\r";
+              	footerText += "</html>\r";
 
 				textForFile += headerText;
 				if (previewProjectType=="ai2html") { textForFile += responsiveCss; };
+				textForFile += guFontsCss;
 				if (customCssBlocks>0)             { textForFile += customCss;     };
 				textForFile += responsiveTextScoop;
 				if (customHtml.length>0)           { textForFile += customHtml;    };
@@ -2077,7 +2197,23 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 		var textForFile               = "";
 		var htmlFileDestinationFolder = "";
 		var htmlFileDestination       = "";
-		var headerText                = "<div id='" + nameSpace + makeKeyword(docSettings.project_name) + "-box' class='ai2html'>\r";
+		var headerText          = "<!doctype html>\r";
+				headerText += "<html lang='en'>\r";
+                headerText += "<head>\r";
+                headerText += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
+
+				// zero margin and padding for iframe html
+				headerText += "<style type='text/css' media='screen,print'>\r"
+	 			headerText += "html, body {\r";
+     			headerText += "\tpadding:0;\r";
+	 			headerText += "\tmargin:0;\r";
+     			headerText += "\t-webkit-font-smoothing:antialiased;\r";
+     			headerText += "}\r";
+				headerText += "</style>\r";
+				
+                headerText += "</head>\r";
+                headerText += "<body>\r";
+		headerText                += "<div id='" + nameSpace + makeKeyword(docSettings.project_name) + "-box' class='ai2html'>\r";
 		headerText                   += "\t<!-- Generated by ai2html v" + scriptVersion + " - " + dateTimeStamp + " -->\r"
 		headerText                   += "\t<!-- ai file: " + docSettings.project_name + " -->\r";
 		if (docSettings.ai2html_environment=="nyt") {
@@ -2114,9 +2250,12 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			footerText += "\t</a>\r";
 		}
 		footerText                += "\t<!-- End ai2html" + " - " + dateTimeStamp + " -->\r</div>\r";
+		footerText += "</body>\r";
+        footerText += "</html>\r";
 
 		textForFile += headerText;
 		if (previewProjectType=="ai2html") { textForFile += responsiveCss; };
+		textForFile += guFontsCss;
 		if (customCssBlocks>0)             { textForFile += customCss;     };
 		textForFile += responsiveTextScoop;
 		if (customHtml.length>0)           { textForFile += customHtml;    };
