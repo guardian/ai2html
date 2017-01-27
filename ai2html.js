@@ -2009,11 +2009,63 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 							};
 						};
 
+
+
+
 						html[6] += "\t\t\t\t<p class='"+nameSpace+"aiPstyle" + pStyleKeyId + "'>";
 						if (isNaN(thisFrame.paragraphs[k].length)) {
 							html[6] += "&nbsp;";
 						} else {
-							textToClean = thisFrame.paragraphs[k].contents;
+
+							// ADD INLINE STYLES FOR COLOURED TEXT WITHIN paragraphs
+							// MAYBE DO BOLD AND ITALIC later
+
+							
+                            
+       function addInlineStyles(p) {
+
+				   // adds inline span styles
+
+       			var i, lastRed = null, lastGreen = null, lastBlue = null,r,g,b, htmlText = "", hexColor ;
+       
+       				for (i=0; i < p.characters.length; i++) {
+           				r = p.characters[i].fillColor.red;
+           				g = p.characters[i].fillColor.green;
+           				b = p.characters[i].fillColor.blue;
+           
+           
+           
+           				if (r != lastRed || g != lastGreen || b != lastBlue) { // newcolor!
+               			//$.writeln( "new! r=" + r + "new! g=" + g + "new! b=" + b );
+               				if (i != 0) { 
+                   				htmlText += "</span>";
+                   			}
+               				hexColor = rgbToHex(r, g, b); 
+               				htmlText += "<span style='color:" + hexColor  + ";' >";
+           				}
+           				lastRed = r;
+           				lastBlue = b;
+           				lastGreen = g;
+           				htmlText += p.characters[i].contents;
+       				}
+
+					htmlText += "</span>";
+					//$.writeln( htmlText );
+					return htmlText;
+       	}
+
+		function componentToHex(c) {
+    		var hex = c.toString(16);
+    		return hex.length == 1 ? "0" + hex : hex;
+		}
+
+		function rgbToHex(r, g, b) {
+    		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+		}
+
+							// textToClean = thisFrame.paragraphs[k].contents;
+							textToClean = addInlineStyles(thisFrame.paragraphs[k]);
+
 							textToClean = straightenCurlyQuotesInsideAngleBrackets(textToClean);
 							cleanedText = cleanText(textToClean);
 							html[6] += cleanedText;
