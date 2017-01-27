@@ -1,7 +1,38 @@
 // ai2html.js
 var scriptVersion     = "0.61";
 // var scriptEnvironment = "nyt";
-var scriptEnvironment = "";
+var scriptEnvironment = "guardian";
+
+// Partial html for standard iframe template
+
+var iframeHeaderPartial = "";
+
+	iframeHeaderPartial += "<!doctype html>\r";
+	iframeHeaderPartial += "<html lang='en'>\r";
+    iframeHeaderPartial += "<head>\r";
+    iframeHeaderPartial += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
+
+	// zero margin and padding for iframe html
+	iframeHeaderPartial += "<style type='text/css' media='screen,print'>\r"
+	iframeHeaderPartial += "html, body {\r";
+    iframeHeaderPartial += "\tpadding:0;\r";
+	iframeHeaderPartial += "\tmargin:0;\r";
+    iframeHeaderPartial += "\t-webkit-font-smoothing:antialiased;\r";
+    iframeHeaderPartial += "}\r";
+	iframeHeaderPartial += "</style>\r";
+
+    iframeHeaderPartial += "</head>\r";
+    iframeHeaderPartial += "<body>\r";
+
+var iframeFooterPartial = "";
+	iframeFooterPartial = "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
+	iframeFooterPartial += "<script>iframeMessenger.enableAutoResize()</script>\r";
+	iframeFooterPartial += "</body>\r";
+	iframeFooterPartial += "</html>\r";
+
+
+
+
 
 // ai2html is a script for Adobe Illustrator that converts your Illustrator document into html and css.
 
@@ -753,12 +784,17 @@ if (scriptEnvironment=="nyt") {
         clickable_link: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "If you put a url in this field, an <a> tag will be added, wrapping around the output and pointing to that url."},
         testing_mode: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         last_updated_text: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-        headline: {defaultValue: "Ai Graphic Headline", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-        leadin: {defaultValue: "Introductory text here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		embed_as_iframe: {defaultValue: "yes", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to create a html wrapper with iframe messenger script."},
+		add_headline_source_wrapper: {defaultValue: "no", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “yes” if you want to automatically add a headline, source etc in the standard graphics style. This will be created from the following headline, standfirst, source_left and source_right values"},
+        headline: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		standfirst: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		source_left: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		source_right: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+        // leadin: {defaultValue: "Introductory text here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
         summary: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: "Summary field for Scoop assets"},
         notes: {defaultValue: "Notes: Text goes here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-        sources: {defaultValue: "Source: Name goes here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-        credit: {defaultValue: "By ai2html", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+        // sources: {defaultValue: "Source: Name goes here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+        credit: {defaultValue: "By ai2html (customized Guardian version)", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
         page_template: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
         publish_system: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
         environment: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
@@ -2344,22 +2380,69 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				var responsiveTextScoop = responsiveHtml;
 				var textForFile         = "";
 				var htmlFileDestination = "";
-				var headerText          = "<!doctype html>\r";
-				headerText += "<html lang='en'>\r";
-                headerText += "<head>\r";
-                headerText += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
+				var headerText          = "";
 
-				// zero margin and padding for iframe html
-				headerText += "<style type='text/css' media='screen,print'>\r"
-	 			headerText += "html, body {\r";
-     			headerText += "\tpadding:0;\r";
-	 			headerText += "\tmargin:0;\r";
-     			headerText += "\t-webkit-font-smoothing:antialiased;\r";
-     			headerText += "}\r";
-				headerText += "</style>\r";
+				if (docSettings.embed_as_iframe=="yes") {
+				headerText += iframeHeaderPartial;
+				}
 
-                headerText += "</head>\r";
-                headerText += "<body>\r";
+				if (docSettings.add_headline_source_wrapper=="yes") {
+
+			    headerText  += "<style>";
+			  headerText  += "." + nameSpace + "graphic-header {\r";
+              headerText  += "\tposition:relative;\r";
+              headerText  += "\tpadding-bottom:30px;\r";
+              headerText  += "}\r";
+              headerText  += "." + nameSpace + "graphic-header h1 {\r";
+              headerText  += "\tpadding:0 0 0 0;\r";
+              headerText  += "\tmargin:0;\r";
+              headerText  += "\tfont-family:'Guardian Egyptian Web', Georgia, serif;\r";
+              headerText  += "\tfont-size:18px;\r";
+              headerText  += "\tfont-weight:600;\r";
+              headerText  += "\tline-height: 22px;\r";
+              headerText  += "\tcolor: #333;\r";
+              headerText  += "}\r";
+              headerText  += "@media screen and (min-width: 380px) {\r";
+              headerText  += "." + nameSpace + "graphic-header h1 {\r";
+              headerText  += "\tfont-size:20px;\r";
+              headerText  += "\tline-height: 24px;\r";
+              headerText  += "}\r";
+              headerText  += "}\r";
+
+			  headerText  += "." + nameSpace + "graphic-footer {\r";
+              headerText  += "\tposition:relative;\r";
+              headerText  += "\theight:34px;\r";
+              headerText  += "\tborder-top:2px solid #f0f0f0;\r";
+              headerText  += "\tmargin-top:10px;\r";
+              headerText  += "}\r";
+              headerText  += " ." + nameSpace + "graphic-footer p {\r";
+              headerText  += "\tpadding:8px 0 0 0;\r";
+              headerText  += "\tmargin:0;\r";
+              headerText  += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
+              headerText  += "\tfont-size:13px;\r";
+              headerText  += "\tline-height: 13px;\r";
+              headerText  += "\tcolor: #767676;\r";
+              headerText  += "\tdisplay: inline-block;\r";
+              headerText   += "}\r";
+              headerText   += "." + nameSpace + "graphic-footer p:nth-of-type(2) {\r";
+              headerText   += "\tfloat:right;\r";
+              headerText   += "}\r";
+
+			  headerText  += "</style>\r";
+
+				headerText += "<div class='" + nameSpace + "graphic-header'>\r";
+                headerText  += "<h1>" + docSettings.headline + "</h1>\r";
+				headerText  += "</div>\r";
+
+			  headerText  += "</style>\r";
+
+				headerText += "<div class='" + nameSpace + "graphic-header'>\r";
+                headerText  += "<h1>" + docSettings.headline + "</h1>\r";
+				headerText  += "</div>\r";
+
+				}
+
+
 				headerText         += "<div id='" + nameSpace + docArtboardName + "-box' class='ai2html'>\r";
 				headerText             += "\t<!-- Generated by ai2html v" + scriptVersion + " - " + dateTimeStamp + " -->\r"
 				headerText             += "\t<!-- ai file: " + docSettings.project_name + " -->\r";
@@ -2382,8 +2465,19 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				headerText             += "\t</style>\r";
 				headerText             += "\r";
 				var footerText          = "\t<!-- End ai2html" + " - " + dateTimeStamp + " -->\r</div>\r";
-				footerText += "</body>\r";
-              	footerText += "</html>\r";
+
+				if (docSettings.add_headline_source_wrapper=="yes") {
+
+				  footerText += "<div class='" + nameSpace + "graphic-footer'>\r";
+                  footerText += "<p>" + docSettings.source_left + "</p>\r";
+                  footerText += "<p>" + docSettings.source_right + "</p>\r";
+                  footerText += "</div>\r";
+
+				}
+
+				if (docSettings.embed_as_iframe=="yes") {
+				footerText += iframeFooterPartial;
+				}
 
 				textForFile += headerText;
 				if (previewProjectType=="ai2html") { textForFile += responsiveCss; };
@@ -2443,23 +2537,63 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 		var textForFile               = "";
 		var htmlFileDestinationFolder = "";
 		var htmlFileDestination       = "";
-		var headerText          = "<!doctype html>\r";
-				headerText += "<html lang='en'>\r";
-                headerText += "<head>\r";
-                headerText += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
+		var headerText                = "";
 
-				// zero margin and padding for iframe html
-				headerText += "<style type='text/css' media='screen,print'>\r"
-	 			headerText += "html, body {\r";
-     			headerText += "\tpadding:0;\r";
-	 			headerText += "\tmargin:0;\r";
-     			headerText += "\t-webkit-font-smoothing:antialiased;\r";
-     			headerText += "}\r";
-				headerText += "</style>\r";
-				
-                headerText += "</head>\r";
-                headerText += "<body>\r";
-		headerText                += "<div id='" + nameSpace + makeKeyword(docSettings.project_name) + "-box' class='ai2html'>\r";
+		if (docSettings.embed_as_iframe=="yes") {
+		headerText     				 += iframeHeaderPartial;
+		}
+
+			if (docSettings.add_headline_source_wrapper=="yes") {
+
+			  headerText  += "<style>";
+			  headerText  += "." + nameSpace + "graphic-header {\r";
+              headerText  += "\tposition:relative;\r";
+              headerText  += "\tpadding-bottom:30px;\r";
+              headerText  += "}\r";
+              headerText  += "." + nameSpace + "graphic-header h1 {\r";
+              headerText  += "\tpadding:0 0 0 0;\r";
+              headerText  += "\tmargin:0;\r";
+              headerText  += "\tfont-family:'Guardian Egyptian Web', Georgia, serif;\r";
+              headerText  += "\tfont-size:18px;\r";
+              headerText  += "\tfont-weight:600;\r";
+              headerText  += "\tline-height: 22px;\r";
+              headerText  += "\tcolor: #333;\r";
+              headerText  += "}\r";
+              headerText  += "@media screen and (min-width: 380px) {\r";
+              headerText  += "." + nameSpace + "graphic-header h1 {\r";
+              headerText  += "\tfont-size:20px;\r";
+              headerText  += "\tline-height: 24px;\r";
+              headerText  += "}\r";
+              headerText  += "}\r";
+
+			  headerText  += "." + nameSpace + "graphic-footer {\r";
+              headerText  += "\tposition:relative;\r";
+              headerText  += "\theight:34px;\r";
+              headerText  += "\tborder-top:2px solid #f0f0f0;\r";
+              headerText  += "\tmargin-top:10px;\r";
+              headerText  += "}\r";
+              headerText  += " ." + nameSpace + "graphic-footer p {\r";
+              headerText  += "\tpadding:8px 0 0 0;\r";
+              headerText  += "\tmargin:0;\r";
+              headerText  += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
+              headerText  += "\tfont-size:13px;\r";
+              headerText  += "\tline-height: 13px;\r";
+              headerText  += "\tcolor: #767676;\r";
+              headerText  += "\tdisplay: inline-block;\r";
+              headerText   += "}\r";
+              headerText   += "." + nameSpace + "graphic-footer p:nth-of-type(2) {\r";
+              headerText   += "\tfloat:right;\r";
+              headerText   += "}\r";
+
+			  headerText  += "</style>\r";
+
+				headerText += "<div class='" + nameSpace + "graphic-header'>\r";
+                headerText  += "<h1>" + docSettings.headline + "</h1>\r";
+				headerText  += "</div>\r";
+
+				}
+
+		headerText                   += "<div id='" + nameSpace + makeKeyword(docSettings.project_name) + "-box' class='ai2html'>\r";
 		headerText                   += "\t<!-- Generated by ai2html v" + scriptVersion + " - " + dateTimeStamp + " -->\r"
 		headerText                   += "\t<!-- ai file: " + docSettings.project_name + " -->\r";
 		if (docSettings.ai2html_environment=="nyt") {
@@ -2489,6 +2623,8 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			headerText += "\t<a class='"+nameSpace+"ai2htmlLink' href='"+docSettings.clickable_link+"'>\r";
 		};
 
+		
+
 
 
 		var footerText = "";
@@ -2496,8 +2632,20 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			footerText += "\t</a>\r";
 		}
 		footerText                += "\t<!-- End ai2html" + " - " + dateTimeStamp + " -->\r</div>\r";
-		footerText += "</body>\r";
-        footerText += "</html>\r";
+
+		if (docSettings.add_headline_source_wrapper=="yes") {
+
+				  footerText += "<div class='" + nameSpace + "graphic-footer'>\r";
+                  footerText += "<p>" + docSettings.source_left + "</p>\r";
+                  footerText += "<p>" + docSettings.source_right + "</p>\r";
+                  footerText += "</div>\r";
+
+		}
+
+		if (docSettings.embed_as_iframe=="yes") {
+		footerText += iframeFooterPartial;
+		}
+        
 
 		textForFile += headerText;
 		if (previewProjectType=="ai2html") { textForFile += responsiveCss; };
