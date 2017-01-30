@@ -189,7 +189,7 @@ var iframeFooterPartial = "";
               headerPartial += "\tmargin:0;\r";
               headerPartial += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
               headerPartial += "\tfont-size:13px;\r";
-              headerPartial += "\tline-height: 13px;\r";
+              headerPartial += "\tline-height: 17px;\r";
               headerPartial += "\tcolor: #767676;\r";
               headerPartial += "\tdisplay: inline-block;\r";
               headerPartial  += "}\r";
@@ -203,21 +203,16 @@ var iframeFooterPartial = "";
                 headerPartial += "<h1>" + docSettings.headline + "</h1>\r";
 				headerPartial += "</div>\r";
 
-			  headerPartial += "</style>\r";
-
-				headerPartial+= "<div class='" + nameSpace + "graphic-header'>\r";
-                headerPartial += "<h1>" + docSettings.headline + "</h1>\r";
-				headerPartial += "</div>\r";
-
 
 				var footerPartial = "";
 				 footerPartial += "<div class='" + nameSpace + "graphic-footer'>\r";
-                  footerPartial += "<p>" + docSettings.source_left + "</p>\r";
-                  footerPartial += "<p>" + docSettings.source_right + "</p>\r";
+                  footerPartial += "<p>" + docSettings.source + "</p>\r";
+                //   footerPartial += "<p>" + docSettings.source_right + "</p>\r";
                   footerPartial += "</div>\r";
 
 
 				if ( position == "header" ) {
+					
 					return headerPartial;
 				} else {
 					return footerPartial;
@@ -1032,9 +1027,9 @@ if (scriptEnvironment=="nyt") {
 		embed_as_iframe: {defaultValue: "yes", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to create a html wrapper with iframe messenger script."},
 		add_headline_source_wrapper: {defaultValue: "no", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “yes” if you want to automatically add a headline, source etc in the standard graphics style. This will be created from the following headline, standfirst, source_left and source_right values"},
         headline: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		standfirst: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		source_left: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		source_right: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		// standfirst: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		source: {defaultValue: "Guardian graphic  |  Source: insert source here", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		// source_right: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
         // leadin: {defaultValue: "Introductory text here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
         summary: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: "Summary field for Scoop assets"},
         notes: {defaultValue: "Notes: Text goes here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
@@ -2530,7 +2525,9 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 		headerText     				 += addIframeHtml("header");
 		}
 
+		
 			if (docSettings.add_headline_source_wrapper=="yes") {
+
 
 			  headerText  += addHeadlineSourceHtml( "header");
 
@@ -2578,7 +2575,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 
 		if (docSettings.add_headline_source_wrapper=="yes") {
 
-			headerText  += addHeadlineSourceHtml( "footer");
+			footerText  += addHeadlineSourceHtml( "footer");
 
 		}
 
