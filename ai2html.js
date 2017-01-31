@@ -1034,7 +1034,7 @@ if (scriptEnvironment=="nyt") {
         jpg_quality: {defaultValue: 60, includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "0 to 100", notes: ""},
         center_html_output: {defaultValue: "true", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "Adds “margin:0 auto;” to the div containing the ai2html output."},
         use_2x_images_if_possible: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-        use_lazy_loader: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
+        use_lazy_loader: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_css_js: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_classes: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_widths: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "If set to “yes”, ai2html adds data-min-width and data-max-width attributes to each artboard"},
@@ -1776,7 +1776,11 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				for (var bpIndex = 1; bpIndex < uniqueArtboardWidths.length; bpIndex++) {
 					if (abW < uniqueArtboardWidths[bpIndex]) break;
 				}
+				if (bpIndex == 1) {
+					html[1] += " data-min-width='0'"; // Fix so smallest artboard does not disappear in narrow viewports
+				} else {
 				html[1] += " data-min-width='"+uniqueArtboardWidths[bpIndex-1]+"'";
+				}
 				if (bpIndex < uniqueArtboardWidths.length) {
 					html[1] += " data-max-width='"+(uniqueArtboardWidths[bpIndex]-1)+"'";
 				}
@@ -1834,7 +1838,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 					if (docSettings.ai2html_environment=="nyt") {
 						html[5] += "\t\t\t\tsrc='"   + docSettings.preview_image_path + docArtboardName + imageExtension + "'\r";
 					} else {
-						html[5] += "\t\t\t\tsrc='"   + docSettings.image_source_path + docArtboardName + imageExtension + "'\r";
+						html[5] += "\t\t\t\tsrc='"   + docSettings.image_source_path + docArtboardName + imageExtension + "'\r"; // THIS lineArray
 					};
 				} else {
                     html[5] += "\t\t\t\tsrc='data:image/gif;base64,R0lGODlhCgAKAIAAAB8fHwAAACH5BAEAAAAALAAAAAAKAAoAAAIIhI+py+0PYysAOw=='\r"; // dummy image to hold space while image loads
@@ -2758,7 +2762,7 @@ if (docSettings.show_completion_dialog_box=="true") {
 	alert(alertHed + "\n" + alertText + "\n\n\n================\nai2html-nyt5 v"+scriptVersion);
 };
 
-finalFolder.execute();
+finalFolder.execute(); // Open folder on completion
 
 
 function getResizerScript() {
