@@ -3,6 +3,8 @@ var scriptVersion     = "0.61-guardian-customized";
 // var scriptEnvironment = "nyt";
 var scriptEnvironment = "guardian";
 
+var finishedFolder;
+
 
 
 // ----------------------------  Custom Guardian stuff here ----------------------------------------------
@@ -160,10 +162,9 @@ var iframeFooterPartial = "";
 		    headerPartial += "<style>";
 			  headerPartial += "." + nameSpace + "graphic-header {\r";
               headerPartial += "\tposition:relative;\r";
-              headerPartial += "\tpadding-bottom:30px;\r";
               headerPartial += "}\r";
               headerPartial += "." + nameSpace + "graphic-header h1 {\r";
-              headerPartial += "\tpadding:0 0 0 0;\r";
+              headerPartial += "\tpadding:0 0 25px 0;\r";
               headerPartial += "\tmargin:0;\r";
               headerPartial += "\tfont-family:'Guardian Egyptian Web', Georgia, serif;\r";
               headerPartial += "\tfont-size:18px;\r";
@@ -176,6 +177,20 @@ var iframeFooterPartial = "";
               headerPartial += "\tfont-size:20px;\r";
               headerPartial += "\tline-height: 24px;\r";
               headerPartial += "}\r";
+              headerPartial += "}\r";
+
+			  headerPartial += "." + nameSpace + "graphic-header h2 {\r";
+              headerPartial += "\tpadding:0 0 20px 0;\r";
+              headerPartial += "\tmargin:0;\r";
+              headerPartial += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
+              headerPartial += "\tfont-size:14px;\r";
+              headerPartial += "\tfont-weight:200;\r";
+              headerPartial += "\tline-height: 18px;\r";
+              headerPartial += "\tcolor: #767676;\r";
+              headerPartial += "}\r";
+
+			  headerPartial += "." + nameSpace + "graphic-header h2 b {\r";
+              headerPartial += "\tfont-weight:600;\r";
               headerPartial += "}\r";
 
 			  headerPartial += "." + nameSpace + "graphic-footer {\r";
@@ -200,13 +215,16 @@ var iframeFooterPartial = "";
 			  headerPartial += "</style>\r";
 
 				headerPartial+= "<div class='" + nameSpace + "graphic-header'>\r";
-                headerPartial += "<h1>" + docSettings.headline + "</h1>\r";
+				headerPartial += "<h1>" + cleanText( docSettings.headline ) + "</h1>\r";
+				if (docSettings.standfirst != "" && docSettings.standfirst != " ") {
+				headerPartial += "<h2>" + cleanText( docSettings.standfirst ) + "</h2>\r";
+				}
 				headerPartial += "</div>\r";
 
 
 				var footerPartial = "";
 				 footerPartial += "<div class='" + nameSpace + "graphic-footer'>\r";
-                  footerPartial += "<p>" + docSettings.source + "</p>\r";
+				  footerPartial += "<p>" + cleanText( docSettings.source ) + "</p>\r";
                 //   footerPartial += "<p>" + docSettings.source_right + "</p>\r";
                   footerPartial += "</div>\r";
 
@@ -861,6 +879,9 @@ var checkForOutputFolder = function(folderPath, nickname) {
 			warnings.push("The " + nickname + " folder did not exist and could not be created.");
 		};
 	};
+
+	return outputFolder;
+
 };
 
 // ================================================
@@ -1027,7 +1048,7 @@ if (scriptEnvironment=="nyt") {
 		embed_as_iframe: {defaultValue: "yes", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to create a html wrapper with iframe messenger script."},
 		add_headline_source_wrapper: {defaultValue: "no", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “yes” if you want to automatically add a headline, source etc in the standard graphics style. This will be created from the following headline, standfirst, source_left and source_right values"},
         headline: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		// standfirst: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
+		standfirst: {defaultValue: "", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
 		source: {defaultValue: "Guardian graphic  |  Source: insert source here", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
 		// source_right: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
         // leadin: {defaultValue: "Introductory text here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
@@ -2474,7 +2495,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				// textForFile  = straightenCurlyQuotesInsideAngleBrackets(textForFile);
 
 				htmlFileDestinationFolder = docPath + docSettings.html_output_path;
-				checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
+				finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
 				htmlFileDestination = htmlFileDestinationFolder + docArtboardName + docSettings.html_output_extension;
 				if (docSettings.local_preview_template!="") {
 					pBar.setTitle(docArtboardName + ': Writing HTML file...');
@@ -2600,7 +2621,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 		// textForFile  = straightenCurlyQuotesInsideAngleBrackets(textForFile);
 
 		htmlFileDestinationFolder = docPath + docSettings.html_output_path;
-		checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
+		finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
 		if (previewProjectType=="ai2html") {
 			htmlFileDestination     = htmlFileDestinationFolder + "index" + docSettings.html_output_extension;
 		} else if ((previewProjectType!="ai2html"&&srcFolder.exists)||docSettings.ai2html_environment!="nyt") {
@@ -2736,6 +2757,9 @@ pBar.close();
 if (docSettings.show_completion_dialog_box=="true") {
 	alert(alertHed + "\n" + alertText + "\n\n\n================\nai2html-nyt5 v"+scriptVersion);
 };
+
+finalFolder.execute();
+
 
 function getResizerScript() {
 	var resizerScript="";
