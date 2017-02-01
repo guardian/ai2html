@@ -1034,11 +1034,12 @@ if (scriptEnvironment=="nyt") {
         jpg_quality: {defaultValue: 60, includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "0 to 100", notes: ""},
         center_html_output: {defaultValue: "true", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "Adds “margin:0 auto;” to the div containing the ai2html output."},
         use_2x_images_if_possible: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-        use_lazy_loader: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
+        use_lazy_loader: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_css_js: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_classes: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         include_resizer_widths: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "If set to “yes”, ai2html adds data-min-width and data-max-width attributes to each artboard"},
-        include_resizer_script: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
+        include_resizer_script: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
+		useMediaQueriesForBreakpoints: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Uses css media queries to toggle visibility of breakpoint views"},
         svg_embed_images: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
         render_rotated_skewed_text_as: {defaultValue: "html", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "image, html", notes: ""},
         show_completion_dialog_box: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to see the dialog box confirming completion of the script."},
@@ -1790,6 +1791,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			html[1] += "\t\t\t#"+nameSpace+docArtboardName+"{\r";
 			html[1] += "\t\t\t\tposition:relative;\r";
 			html[1] += "\t\t\t\toverflow:hidden;\r";
+			html[1] += "\t\t\t\tdisplay:none;\r"; // Default for Media query css visibility toggling
 			if (docSettings.responsiveness=="fixed") {
 				html[1] += "\t\t\t\twidth:"  + Math.round(abW) + "px;\r";
 			};
@@ -1797,11 +1799,45 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			// 	html[1] += "\t\t\t\tmax-width:"  + Math.round(docSettings.max_width) + "px;\r";
 			// };
 			html[1] += "\t\t\t}\r";
+
+			if (docSettings.useMediaQueriesForBreakpoints== "yes") {
+				// add media queries for artboard visibility toggling
+				// find breakpoints
+				for (var bpIndex = 1; bpIndex < uniqueArtboardWidths.length; bpIndex++) {
+					if (abW < uniqueArtboardWidths[bpIndex]) break;
+				}
+				if (bpIndex == 1) {
+					html[1] += "\t\t\t@media screen and (min-width: 0px) and (max-width: " + (uniqueArtboardWidths[bpIndex]-1) + "px)  { \r";
+				} else if (bpIndex < uniqueArtboardWidths.length) {
+					html[1] += "\t\t\t@media screen and (min-width: " + uniqueArtboardWidths[bpIndex-1] + "px) and (max-width: " + (uniqueArtboardWidths[bpIndex]-1) + "px)  { \r";
+				} else {
+					html[1] += "\t\t\t@media screen and (min-width: " + uniqueArtboardWidths[bpIndex-1] + "px) { \r";
+				}
+
+				html[1] += "\t\t\t\t#"+nameSpace+docArtboardName+"{\r";
+				html[1] += "\t\t\t\tdisplay: block;\r";
+				html[1] += "\t\t\t\t}\r";
+				html[1] += "\t\t\t}\r";
+
+
+
+				// if (bpIndex < uniqueArtboardWidths.length) {
+				// 	html[1] += " data-max-width='"+(uniqueArtboardWidths[bpIndex]-1)+"'";
+				// }
+				
+			}
 			html[1] += "\t\t\t."+nameSpace+"aiAbs{\r";
 			html[1] += "\t\t\t\tposition:absolute;\r";
 			html[1] += "\t\t\t}\r";
 			html[1] += "\t\t\t."+nameSpace+"aiImg{\r";
 			html[1] += "\t\t\t\tdisplay:block;\r";
+			html[1] += "\t\t\t\twidth:100% !important;\r";
+			html[1] += "\t\t\t}\r";
+			html[1] += "\t\t\t."+nameSpace+"aiBackgroundImg{\r";
+			html[1] += "\t\t\t\tdisplay:block;\r";
+			html[1] += "\t\t\t\tposition:relative;\r";
+			html[1] += "\t\t\t\tbackground-repeat:no-repeat;\r";
+			html[1] += "\t\t\t\tbackground-size:cover;\r";
 			html[1] += "\t\t\t\twidth:100% !important;\r";
 			html[1] += "\t\t\t}\r";
 			html[1] += "\t\t\t#"+nameSpace+docArtboardName+" p{\r";
@@ -1831,14 +1867,18 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 				html[5] += "\t\t\t\t/>\r";
 			} else if (outputType=="pct") {
 				// this is the default option which seems to work with both fixed and dynamic responsiveness
-				html[5] += "\t\t\t<img id='" +nameSpace+"ai"+abNumber+"-0'\r";
-				html[5] += "\t\t\t\tclass='" +nameSpace+"aiImg'\r";
+				// html[5] += "\t\t\t<img id='" +nameSpace+"ai"+abNumber+"-0'\r"; // uncomment if images used
+				html[5] += "\t\t\t<div id='" +nameSpace+"ai"+abNumber+"-0'\r"; // for background images (divs)
+				// html[5] += "\t\t\t\tclass='" +nameSpace+"aiImg'\r"; // uncomment if images used
+				html[5] += "\t\t\t\tclass='" +nameSpace+"aiBackgroundImg'\r"; // for background images (divs)
 				// html[5] += "\t\t\t\tstyle='width:100% !important;'\r";
 				if (docSettings.use_lazy_loader=="no") {
 					if (docSettings.ai2html_environment=="nyt") {
 						html[5] += "\t\t\t\tsrc='"   + docSettings.preview_image_path + docArtboardName + imageExtension + "'\r";
 					} else {
-						html[5] += "\t\t\t\tsrc='"   + docSettings.image_source_path + docArtboardName + imageExtension + "'\r"; // THIS lineArray
+						// html[5] += "\t\t\t\tsrc='"   + docSettings.image_source_path + docArtboardName + imageExtension + "'\r";  // uncomment if images used
+						html[5] += "\t\t\t\tstyle='width:100%;padding-bottom:" + (artboardAspectRatio * 100) + "%;background-image:url("   + docSettings.image_source_path + docArtboardName + imageExtension + ");' >\r"; // Use background images
+
 					};
 				} else {
                     html[5] += "\t\t\t\tsrc='data:image/gif;base64,R0lGODlhCgAKAIAAAB8fHwAAACH5BAEAAAAALAAAAAAKAAoAAAIIhI+py+0PYysAOw=='\r"; // dummy image to hold space while image loads
@@ -1849,7 +1889,8 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 					};
                     html[5] += "\t\t\t\tdata-height-multiplier='" + roundTo(artboardAspectRatio,4) + "'\r";
 				};
-				html[5] += "\t\t\t\t/>\r";
+				// html[5] += "\t\t\t\t/>\r"; // uncomment if images used
+				html[5] += "\t\t\t\t</div>\r"; // for background images (divs)
 			};
 
 			html[8]  += "\t\t</div>\r"; // closing the nameSpace+docArtboardName div
