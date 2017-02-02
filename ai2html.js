@@ -3,9 +3,6 @@ var scriptVersion     = "0.61-guardian-customized";
 // var scriptEnvironment = "nyt";
 var scriptEnvironment = "guardian";
 
-var finishedFolder;
-
-
 
 // ----------------------------  Custom Guardian stuff here ----------------------------------------------
 
@@ -2734,7 +2731,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 
 		htmlFileDestinationFolder = docPath + docSettings.html_output_path;
 		finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
-		if (previewProjectType=="ai2html") {
+		if (previewProjectType=="ai2html" || scriptEnvironment == "guardian") {
 			htmlFileDestination     = htmlFileDestinationFolder + "index" + docSettings.html_output_extension;
 		} else if ((previewProjectType!="ai2html"&&srcFolder.exists)||docSettings.ai2html_environment!="nyt") {
 			htmlFileDestination     = htmlFileDestinationFolder + docSettings.project_name + docSettings.html_output_extension;
