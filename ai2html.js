@@ -112,6 +112,31 @@ var guFontsCss		= "\r\t<style type='text/css' media='screen,print'>\r";
   }
 ];
 
+function customGuardianGraphicsCss() {
+
+var cggCss = "";
+
+// White text outline "glow"
+cggCss += ".white-outlined-text p {\r";
+// customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
+cggCss += "\ttext-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px  1px 0 #FFF, 1px  1px 0 #FFF;\r";
+cggCss += "}\r";
+
+// White text outline "glow"
+cggCss += ".white-background-text {\r";
+// customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
+cggCss += "\tbackground-color: #FFF;\r";
+cggCss += "\tpadding: 4px;\r";
+cggCss += "\tmargin: -4px 0 0 -4px;\r";
+cggCss += "}\r";
+
+return cggCss;
+
+}
+
+
+
+
 
 			  // Partial html for standard iframe template
 
@@ -285,7 +310,21 @@ var iframeFooterPartial = "";
     		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
+		function getAttributes (source) {
+    
+        var map = {};
 
+       if ("" != source) {
+            var groups = String(source).split("&");           
+
+            for (var i in groups) {
+                var a = String(groups[i]).split("=");
+                map[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+            }
+       }
+
+        return map;
+    }
 
 
 
@@ -1476,9 +1515,11 @@ var customCss        = "\r\t<style type='text/css' media='screen,print'>\r",
 	customJs         = "",
 	customHtml       = "",
 	customYml        = "",
-	customCssBlocks  = 0,
+	customCssBlocks  = 1,
 	customHtmlBlocks = 0,
 	customJsBlocks   = 0;
+
+	customCss += customGuardianGraphicsCss(); // add in standard graphics css
 
 	
 
@@ -2221,12 +2262,38 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 
 				var j = i+1;
 				var thisFrameId = nameSpace+"ai"+abNumber+"-" + j;
+				var customClass = "", customData = "", attr;
+
 				if (thisFrame.name!="") {
-					thisFrameId = makeKeyword(thisFrame.name);
+
+					// Probably has custom attributes
+
+					attr = getAttributes( thisFrame.name );
+
+					
+
+					if (attr === null) {
+						thisFrameId = makeKeyword(thisFrame.name); // default nyt script behaviour - turns name into id
+					} else {
+
+					if (attr.id != undefined) {
+						  thisFrameId = makeKeyword(attr.id);
+              		}
+               
+               		if (attr.class != undefined) {
+						  customClass = " " + makeKeyword(attr.class);
+              		}
+          
+               		if (attr.data != undefined) {
+                  		customData = " data-set='" + attr.data + "'";
+              		}
+
+					}
+
 				};
 				html[6] += "\t\t\t<div id='"+thisFrameId;
-				html[6] += "' class='"+nameSpace+frameLayer+" "+nameSpace+"aiAbs"+
-					(textIsTransformed(thisFrame) && kind == "point" ? ' g-aiPtransformed' : '')+"' style='";
+				html[6] += "' class='"+nameSpace+frameLayer+" "+nameSpace+"aiAbs"+ customClass +
+					(textIsTransformed(thisFrame) && kind == "point" ? ' g-aiPtransformed' : '')+"'" + customData + " style='";
 
 				// check if text is transformed
 				if (textIsTransformed(thisFrame)) {
@@ -2759,8 +2826,8 @@ if (parentFolder !== null) {
 // alert box
 // ==============================
 
-if (customCssBlocks==1)  { feedback.push(customCssBlocks  + " custom CSS block was added.") };
-if (customCssBlocks>1)   { feedback.push(customCssBlocks  + " custom CSS blocks were added.") };
+if (customCssBlocks==2)  { feedback.push(customCssBlocks  + " custom CSS block was added.") };
+if (customCssBlocks>2)   { feedback.push(customCssBlocks  + " custom CSS blocks were added.") };
 if (customHtmlBlocks==1) { feedback.push(customHtmlBlocks + " custom HTML block was added.") };
 if (customHtmlBlocks>1)  { feedback.push(customHtmlBlocks + " custom HTML blocks were added.") };
 if (customJsBlocks==1)   { feedback.push(customJsBlocks   + " custom JS block was added.") };
