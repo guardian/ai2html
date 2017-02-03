@@ -236,8 +236,11 @@ var iframeFooterPartial = "";
 
 			  headerPartial += "</style>\r";
 
+				
 				headerPartial+= "<div class='" + nameSpace + "graphic-header'>\r";
+				if (docSettings.headline != "" && docSettings.headline != " ") {
 				headerPartial += "<h1>" + cleanText( docSettings.headline ) + "</h1>\r";
+				}
 				if (docSettings.standfirst != "" && docSettings.standfirst != " ") {
 				headerPartial += "<h2>" + cleanText( docSettings.standfirst ) + "</h2>\r";
 				}
