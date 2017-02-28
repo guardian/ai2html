@@ -1,5 +1,5 @@
 // ai2html.js
-var scriptVersion     = "0.61-guardian-customized";
+var scriptVersion     = "0.61-guardian-customized-v10";
 // var scriptEnvironment = "nyt";
 var scriptEnvironment = "guardian";
 
