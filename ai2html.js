@@ -1866,6 +1866,46 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 
 	// begin main stuff
 	var responsiveHtml = "";
+
+	//toggle on and off artboards
+	if (docSettings.useMediaQueriesForBreakpoints== "yes") {
+
+		responsiveHtml += "\t\t<style type='text/css' media='screen,print'>\r";
+		for(var abIndex = 0; abIndex < uniqueArtboardWidths.length; abIndex ++) {
+			
+			if (abIndex > 0) {
+				responsiveHtml += "\t\t\t@media (min-width: " + (Number(uniqueArtboardWidths[abIndex]) -.5) + "px) { \r";
+			}
+
+			for (var abNumber = 0; abNumber < doc.artboards.length; abNumber++) {
+				var activeArtboard      =  doc.artboards[abNumber];
+				docSettings.docName     =  makeKeyword(docSettings.project_name);
+				var artboardName        =  makeKeyword(activeArtboard.name.replace( /^(.+):\d+$/ , "$1"));
+				var activeArtboardRect  =  activeArtboard.artboardRect;
+				var docArtboardName     =  docSettings.docName + "-" + artboardName;
+				var abX                 =  activeArtboardRect[0];
+				var abY                 = -activeArtboardRect[1];
+				var abW                 =  Math.round(activeArtboardRect[2]-abX);
+
+				responsiveHtml += "\t\t\t\t#" + nameSpace+docArtboardName +"-graphic" + " {"
+				if( abW == uniqueArtboardWidths[abIndex] ) {
+					responsiveHtml += " display: block;";
+				} else {
+					responsiveHtml += " display: none;";
+				}
+				responsiveHtml += "}\r"
+
+			}
+
+			if (abIndex > 0) {
+				responsiveHtml += "\t\t\t\t} \r";
+			}
+		}
+		responsiveHtml += "\t\t</style>\r";
+		
+	}
+
+
 	for (var abNumber = 0; abNumber < doc.artboards.length; abNumber++) {
 		if (artboardsToProcess[abNumber]) {
 			doc.artboards.setActiveArtboardIndex(abNumber);
@@ -1946,7 +1986,6 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			html[1] += "\t\t\t#"+nameSpace+docArtboardName+"{\r";
 			html[1] += "\t\t\t\tposition:relative;\r";
 			html[1] += "\t\t\t\toverflow:hidden;\r";
-			html[1] += "\t\t\t\tdisplay:none;\r"; // Default for Media query css visibility toggling
 			if (docSettings.responsiveness=="fixed") {
 				html[1] += "\t\t\t\twidth:"  + Math.round(abW) + "px;\r";
 			};
@@ -1955,32 +1994,7 @@ if (doc.documentColorSpace!="DocumentColorSpace.RGB") {
 			// };
 			html[1] += "\t\t\t}\r";
 
-			if (docSettings.useMediaQueriesForBreakpoints== "yes") {
-				// add media queries for artboard visibility toggling
-				// find breakpoints
-				for (var bpIndex = 1; bpIndex < uniqueArtboardWidths.length; bpIndex++) {
-					if (abW < uniqueArtboardWidths[bpIndex]) break;
-				}
-				if (bpIndex == 1) {
-					html[1] += "\t\t\t@media screen and (min-width: 0px) and (max-width: " + (uniqueArtboardWidths[bpIndex]-1) + "px)  { \r";
-				} else if (bpIndex < uniqueArtboardWidths.length) {
-					html[1] += "\t\t\t@media screen and (min-width: " + uniqueArtboardWidths[bpIndex-1] + "px) and (max-width: " + (uniqueArtboardWidths[bpIndex]-1) + "px)  { \r";
-				} else {
-					html[1] += "\t\t\t@media screen and (min-width: " + uniqueArtboardWidths[bpIndex-1] + "px) { \r";
-				}
 
-				html[1] += "\t\t\t\t#"+nameSpace+docArtboardName+"{\r";
-				html[1] += "\t\t\t\tdisplay: block;\r";
-				html[1] += "\t\t\t\t}\r";
-				html[1] += "\t\t\t}\r";
-
-
-
-				// if (bpIndex < uniqueArtboardWidths.length) {
-				// 	html[1] += " data-max-width='"+(uniqueArtboardWidths[bpIndex]-1)+"'";
-				// }
-				
-			}
 			html[1] += "\t\t\t."+nameSpace+"aiAbs{\r";
 			html[1] += "\t\t\t\tposition:absolute;\r";
 			html[1] += "\t\t\t}\r";
