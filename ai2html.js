@@ -688,7 +688,12 @@ var htmlCharacterCodes = [
 ["\xFC", "&uuml;"],
 ["\xFD", "&yacute;"],
 ["\xFE", "&thorn;"],
-["\xFF", "&yuml;"]
+["\xFF", "&yuml;"],
+["\xA0", "&nbsp;"],
+["\u011f", "&#x11f;"],
+["\xe7", "&ccedil;"],
+["\xe2", "&acirc;"],
+["\u0131", "&#305;"]
  ];
 
 
