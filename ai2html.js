@@ -1,4 +1,4 @@
-// ai2html.js
+﻿// ai2html.js
 var scriptVersion     = "0.61-guardian-customized-v10";
 // var scriptEnvironment = "nyt";
 var scriptEnvironment = "guardian";
@@ -110,6 +110,9 @@ var guFontsCss		= "\r\t<style type='text/css' media='screen,print'>\r";
 ];
 
 function customGuardianGraphicsCss() {
+    
+    
+// To use, rename text in layers palette to class=dropshadow etc
 
 var cggCss = "";
 
@@ -125,6 +128,14 @@ cggCss += ".white-background-text {\r";
 cggCss += "\tbackground-color: #FFF;\r";
 cggCss += "\tpadding: 4px;\r";
 cggCss += "\tmargin: -4px 0 0 -4px;\r";
+cggCss += "}\r";
+
+cggCss += ".dropshadow p {\r";         
+cggCss += "\ttext-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);\r";
+cggCss += "}\r";
+
+cggCss += ".glow p {\r";         
+cggCss += "\ttext-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);\r";
 cggCss += "}\r";
 
 return cggCss;
@@ -311,7 +322,7 @@ var iframeFooterPartial = "";
 		}
 
 		function getAttributes (source) {
-    
+			
         var map = {};
 
        if ("" != source) {
