@@ -7,7 +7,7 @@ function main() {
 // See (for example) https://forums.adobe.com/thread/1810764 and
 // http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/pdf/illustrator/scripting/Readme.txt
 
-var scriptVersion = "0.65.1-guardian-customized-v11"; // Increment final digit for bug fixes, middle digit for new functionality
+var scriptVersion = "0.65.1"; // Increment final digit for bug fixes, middle digit for new functionality
 
 // ai2html is a script for Adobe Illustrator that converts your Illustrator document into html and css.
 // Copyright (c) 2011-2015 The New York Times Company
@@ -172,600 +172,79 @@ var htmlCharacterCodes = [["\xA0","&nbsp;"], ["\xA1","&iexcl;"], ["\xA2","&cent;
   // https://docs.google.com/spreadsheets/d/13ESQ9ktfkdzFq78FkWLGaZr2s3lNbv2cN25F2pYf5XM/edit?usp=sharing
   // Make a copy of the spreadsheet for yourself.
   // Modify the settings to taste.
-// var fonts = [
-//   {"aifont":"ArialMT","family":"arial,helvetica,sans-serif","weight":"","style":""},
-//   {"aifont":"Arial-BoldMT","family":"arial,helvetica,sans-serif","weight":"bold","style":""},
-//   {"aifont":"Arial-ItalicMT","family":"arial,helvetica,sans-serif","weight":"","style":"italic"},
-//   {"aifont":"Arial-BoldItalicMT","family":"arial,helvetica,sans-serif","weight":"bold","style":"italic"},
-//   {"aifont":"Georgia","family":"georgia,'times new roman',times,serif","weight":"","style":""},
-//   {"aifont":"Georgia-Bold","family":"georgia,'times new roman',times,serif","weight":"bold","style":""},
-//   {"aifont":"Georgia-Italic","family":"georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"Georgia-BoldItalic","family":"georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-//   {"aifont":"NYTFranklin-Light","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"NYTFranklin-Medium","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":""},
-//   {"aifont":"NYTFranklin-SemiBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
-//   {"aifont":"NYTFranklin-Semibold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
-//   {"aifont":"NYTFranklinSemiBold-Regular","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
-//   {"aifont":"NYTFranklin-SemiboldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":"italic"},
-//   {"aifont":"NYTFranklin-Bold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"NYTFranklin-LightItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":"italic"},
-//   {"aifont":"NYTFranklin-MediumItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":"italic"},
-//   {"aifont":"NYTFranklin-BoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-//   {"aifont":"NYTFranklin-ExtraBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"800","style":""},
-//   {"aifont":"NYTFranklin-ExtraBoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"800","style":"italic"},
-//   {"aifont":"NYTFranklin-Headline","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":""},
-//   {"aifont":"NYTFranklin-HeadlineItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":"italic"},
-//   {"aifont":"NYTCheltenham-ExtraLight","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
-//   {"aifont":"NYTCheltenhamExtLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
-//   {"aifont":"NYTCheltenham-Light","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
-//   {"aifont":"NYTCheltenhamLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
-//   {"aifont":"NYTCheltenham-LightSC","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
-//   {"aifont":"NYTCheltenham-Book","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
-//   {"aifont":"NYTCheltenhamBook-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
-//   {"aifont":"NYTCheltenham-Wide","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":""},
-//   {"aifont":"NYTCheltenhamMedium-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
-//   {"aifont":"NYTCheltenham-Medium","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
-//   {"aifont":"NYTCheltenham-Bold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
-//   {"aifont":"NYTCheltenham-BoldCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-//   {"aifont":"NYTCheltenham-BoldExtraCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-//   {"aifont":"NYTCheltenham-ExtraBold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
-//   {"aifont":"NYTCheltenham-ExtraLightIt","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-ExtraLightItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-LightItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-BookItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-WideItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-MediumItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
-//   {"aifont":"NYTCheltenham-BoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
-//   {"aifont":"NYTCheltenham-ExtraBoldItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-//   {"aifont":"NYTCheltenham-ExtraBoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
-//   {"aifont":"NYTCheltenhamSH-Regular","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
-//   {"aifont":"NYTCheltenhamSH-Italic","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":"italic"},
-//   {"aifont":"NYTCheltenhamSH-Bold","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
-//   {"aifont":"NYTCheltenhamSH-BoldItalic","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
-//   {"aifont":"NYTCheltenhamWide-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
-//   {"aifont":"NYTCheltenhamWide-Italic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":"italic"},
-//   {"aifont":"NYTKarnakText-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
-//   {"aifont":"NYTKarnakDisplay-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
-//   {"aifont":"NYTStymieLight-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"NYTStymieMedium-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
-//   {"aifont":"StymieNYT-Light","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"StymieNYT-LightPhoenetic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"StymieNYT-Lightitalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":"italic"},
-//   {"aifont":"StymieNYT-Medium","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
-//   {"aifont":"StymieNYT-MediumItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":"italic"},
-//   {"aifont":"StymieNYT-Bold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"StymieNYT-BoldItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-//   {"aifont":"StymieNYT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"StymieNYT-ExtraBoldText","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"StymieNYT-ExtraBoldTextItal","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
-//   {"aifont":"StymieNYTBlack-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"StymieBT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
-//   {"aifont":"Stymie-Thin","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"Stymie-UltraLight","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
-//   {"aifont":"NYTMagSans-Regular","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"500","style":""},
-//   {"aifont":"NYTMagSans-Bold","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"700","style":""}
-// ];
-
-// ----------------------------  Inititialize custom Guardian stuff here ----------------------------------------------
-
-
-// Guardian base settings block
-
-var guardianBaseSettings = {
-  ai2html_environment: {defaultValue: scriptEnvironment, includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  settings_version: {defaultValue: scriptVersion, includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  create_promo_image: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  image_format: {defaultValue: ["png"], includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "array", possibleValues: "jpg, png, png24", notes: "Images will be generated in mulitple formats if multiple formats are listed, separated by commas. The first format will be used in the html. Sometimes this is useful to compare which format will have a smaller file size."},
-  write_image_files: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to \u201Cno\u201D to skip writing the image files. Generally only use this after you have run the script once with this setting set to \u201Cyes.\u201D"},
-  responsiveness: {defaultValue: "dynamic", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "fixed, dynamic", notes: "Dynamic responsiveness means ai graphics will scale to fill the container they are placed in."},
-  max_width: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "", notes: "Blank or any positive number in pixels, but do not write \u201Cpx\u201D - blank means artboards will set max size, the max width is not included in the html stub, instead it is written to the config file so that the max width can be applied to the template’s container."},
-  output: {defaultValue: "one-file", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "one-file, multiple-files", notes: "One html file containing all the artboards or a separate html file for each artboard."},
-  project_name: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "Use this to set a custom project name. The project name is being used in output filenames, class names, etc."},
-  html_output_path: {defaultValue: "/ai2html-output/", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "folderPath", possibleValues: "", notes: "Allows user to change folder to write html files, path should be written relative to ai file location. This is ignored if the project_type in the yml is ai2html."},
-  html_output_extension: {defaultValue: ".html", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "fileExtension", possibleValues: "", notes: "This is ignored if the project_type in the yml is ai2html."},
-  image_output_path: {defaultValue: "", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "folderPath", possibleValues: "", notes: "This is where the image files get written to locally and should be written as if the html_output is the starting point."},
-  image_source_path: {defaultValue: null, includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "folderPath", possibleValues: "", notes: "Use this setting to specify from where the images are being loaded from the HTML file. Defaults to image_output_path"},
-  create_config_file: {defaultValue: "false", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "trueFalse", possibleValues: "", notes: "This is ignored in env=nyt."},
-  config_file_path: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "filePath", possibleValues: "", notes: "This only gets used to write the config file. It’s not used in the nyt mode to read the config.yml. Path should written relative to the ai file location."},
-  local_preview_template: {defaultValue: "", includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "filePath", possibleValues: "", notes: ""},
-  png_transparent: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  png_number_of_colors: {defaultValue: 128, includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "2 to 256", notes: ""},
-  jpg_quality: {defaultValue: 60, includeInSettingsBlock: true, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "integer", possibleValues: "0 to 100", notes: ""},
-  center_html_output: {defaultValue: "true", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "Adds \u201Cmargin:0 auto;\u201D to the div containing the ai2html output."},
-  use_2x_images_if_possible: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  use_lazy_loader: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  include_resizer_css_js: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  include_resizer_classes: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  include_resizer_widths: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "If set to \u201Cyes\u201D, ai2html adds data-min-width and data-max-width attributes to each artboard"},
-  include_resizer_script: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  useMediaQueriesForBreakpoints: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Uses css media queries to toggle visibility of breakpoint views"},
-  svg_embed_images: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  render_rotated_skewed_text_as: {defaultValue: "html", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "image, html", notes: ""},
-  show_completion_dialog_box: {defaultValue: "yes", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to \u201Cno\u201D if you don't want to see the dialog box confirming completion of the script."},
-  clickable_link: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: "If you put a url in this field, an <a> tag will be added, wrapping around the output and pointing to that url."},
-  testing_mode: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
-  last_updated_text: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-
-  add_headline_source_wrapper: {defaultValue: "no", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “yes” if you want to automatically add a headline, source etc in the standard graphics style. This will be created from the following headline, standfirst, source_left and source_right values"},
-        headline: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		standfirst: {defaultValue: "", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-		source: {defaultValue: "Guardian graphic  |  Source: insert source here", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-
-  // headline: {defaultValue: "Ai Graphic Headline", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-  // leadin: {defaultValue: "Introductory text here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-  summary: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: "Summary field for Scoop assets"},
-  notes: {defaultValue: "Notes: Text goes here.", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-  // sources: {defaultValue: "Guardian graphic  |  Source: Text goes here", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-  credit: {defaultValue: "By ai2html", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
-  page_template: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  publish_system: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  environment: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  show_in_compatible_apps: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: true, inputType: "yesNo", possibleValues: "", notes: ""},
-  display_for_promotion_only: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "trueFalse", possibleValues: "", notes: ""},
-  constrain_width_to_text_column: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "trueFalse", possibleValues: "", notes: ""},
-  scoop_publish_fields: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "trueFalse", possibleValues: "", notes: ""},
-  scoop_asset_id: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  scoop_username: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  scoop_slug: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""},
-  scoop_external_edit_key: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "text", possibleValues: "", notes: ""}
-};
-
-
-// ================================================
-// import guardian fonts
-// ================================================
-
-var guFontsCss = "\r\t<style type='text/css' media='screen,print'>\r";
-guFontsCss += "@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Regular.svg#GuardianTextEgyptianWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-RegularItalic.svg#GuardianTextEgyptianWeb-RegularItalic') format('svg');font-weight:400;font-style:italic;font-stretch:normal}@font-face{font-family:'Guardian Text Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextEgyptianWeb/GuardianTextEgyptianWeb-Medium.svg#GuardianTextEgyptianWeb-Medium') format('svg');font-weight:700;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Light.svg#GuardianEgyptianWeb-Light') format('svg');font-weight:200;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Regular.svg#GuardianEgyptianWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Medium.svg#GuardianEgyptianWeb-Medium') format('svg');font-weight:500;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Egyptian Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianEgyptianWeb/GuardianEgyptianWeb-Semibold.svg#GuardianEgyptianWeb-Semibold') format('svg');font-weight:900;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Regular.svg#GuardianTextSansWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-RegularItalic.svg#GuardianTextSansWeb-RegularItalic') format('svg');font-weight:400;font-style:italic;font-stretch:normal}@font-face{font-family:'Guardian Text Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianTextSansWeb/GuardianTextSansWeb-Medium.svg#GuardianTextSansWeb-Medium') format('svg');font-weight:700;font-style:normal;font-stretch:normal}@font-face{font-family:'Guardian Sans Web';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianSansWeb/GuardianSansWeb-Regular.svg#GuardianSansWeb-Regular') format('svg');font-weight:400;font-style:normal;font-stretch:normal} @font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.svg#Guardian-Text-Egyp-Web-Reg') format('svg');font-weight:normal;font-style:normal;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-RegularItalic.svg#Guardian-Text-Egyp-Web-Reg-It') format('svg');font-weight:normal;font-style:italic;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.svg#Guardian-Text-Egyp-Web-Medium') format('svg');font-weight:bold;font-style:normal;font-stretch:normal;}@font-face{font-family:'Guardian Agate Sans';src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.eot');src:url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.eot?#iefix') format('embedded-opentype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.woff2') format('woff2'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.woff') format('woff'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.ttf') format('truetype'),url('https://interactive.guim.co.uk/fonts/guss-webfonts/GuardianAgateSans1Web/GuardianAgateSans1Web-BoldItalic.svg#Guardian-Text-Egyp-Web-Med-It') format('svg');font-weight:bold;font-style:italic;font-stretch:normal;}";
-guFontsCss += "</style>\r";
-
 var fonts = [
-  {
-    "aifont": "DE2DisplayEgyptianLight",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "300",
-    "style": ""
-  }, {
-    "aifont": "DE3DisplayEgyptian",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "400",
-    "style": ""
-  }, {
-    "aifont": "DE4DisplayEgyptianMedium",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "500",
-    "style": ""
-  }, {
-    "aifont": "DE5DisplayEgyptianSemiBold",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "600",
-    "style": ""
-  }, {
-    "aifont": "DE6DisplayEgyptianBold",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "800",
-    "style": ""
-  }, {
-    "aifont": "DS6DisplaySansBold",
-    "family": "'Guardian Text Sans Web', Arial, sans-serif",
-    "weight": "800",
-    "style": ""
-  }, {
-    "aifont": "DS5DisplaySansSemibold",
-    "family": "'Guardian Text Sans Web', Arial, sans-serif",
-    "weight": "600",
-    "style": ""
-  }, {
-    "aifont": "DE1DisplayEgyptianThin",
-    "family": "'Guardian Egyptian Web', Georgia, serif",
-    "weight": "200",
-    "style": ""
-  }, {
-    "aifont": "DS2DisplaySansLight",
-    "family": "'Guardian Text Sans Web', Arial, sans-serif",
-    "weight": "300",
-    "style": ""
-  }, {
-    "aifont": "DS3DisplaySans-Italic",
-    "family": "'Guardian Text Sans Web', Arial, sans-serif",
-    "weight": "",
-    "style": "italic"
-  }, {
-    "aifont": "DS3DisplaySans",
-    "family": "'Guardian Text Sans Web', Arial, sans-serif",
-    "weight": "400",
-    "style": ""
-  }, {
-    "aifont": "AS31AgateSans",
-    "family": "'Guardian Agate Sans', Arial, sans-serif",
-    "weight": "500",
-    "style": ""
-  }, {
-    "aifont": "AS31AgateSans-Bold",
-    "family": "'Guardian Agate Sans', Arial, sans-serif",
-    "weight": "800",
-    "style": ""
-  }, {
-    "aifont": "AS32AgateSans",
-    "family": "'Guardian Agate Sans', Arial, sans-serif",
-    "weight": "500",
-    "style": ""
-  }, {
-    "aifont": "AS32AgateSans-Bold",
-    "family": "'Guardian Agate Sans', Arial, sans-serif",
-    "weight": "800",
-    "style": ""
-  }, {
-    "aifont": "TS4TextSansMedium",
-    "family": "'Guardian Sans Web', Arial, sans-serif",
-    "weight": "500",
-    "style": ""
-  }, {
-    "aifont": "TS4TextSansMedium-Bold",
-    "family": "'Guardian Sans Web', Arial, sans-serif",
-    "weight": "800",
-    "style": ""
-  }, {
-    "aifont": "TS3TextSans",
-    "family": "'Guardian Sans Web', Arial, sans-serif",
-    "weight": "400",
-    "style": ""
-  }
+  {"aifont":"ArialMT","family":"arial,helvetica,sans-serif","weight":"","style":""},
+  {"aifont":"Arial-BoldMT","family":"arial,helvetica,sans-serif","weight":"bold","style":""},
+  {"aifont":"Arial-ItalicMT","family":"arial,helvetica,sans-serif","weight":"","style":"italic"},
+  {"aifont":"Arial-BoldItalicMT","family":"arial,helvetica,sans-serif","weight":"bold","style":"italic"},
+  {"aifont":"Georgia","family":"georgia,'times new roman',times,serif","weight":"","style":""},
+  {"aifont":"Georgia-Bold","family":"georgia,'times new roman',times,serif","weight":"bold","style":""},
+  {"aifont":"Georgia-Italic","family":"georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"Georgia-BoldItalic","family":"georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+  {"aifont":"NYTFranklin-Light","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"NYTFranklin-Medium","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":""},
+  {"aifont":"NYTFranklin-SemiBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
+  {"aifont":"NYTFranklin-Semibold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
+  {"aifont":"NYTFranklinSemiBold-Regular","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":""},
+  {"aifont":"NYTFranklin-SemiboldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"600","style":"italic"},
+  {"aifont":"NYTFranklin-Bold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"NYTFranklin-LightItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"300","style":"italic"},
+  {"aifont":"NYTFranklin-MediumItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"500","style":"italic"},
+  {"aifont":"NYTFranklin-BoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+  {"aifont":"NYTFranklin-ExtraBold","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"800","style":""},
+  {"aifont":"NYTFranklin-ExtraBoldItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"800","style":"italic"},
+  {"aifont":"NYTFranklin-Headline","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":""},
+  {"aifont":"NYTFranklin-HeadlineItalic","family":"nyt-franklin,arial,helvetica,sans-serif","weight":"bold","style":"italic"},
+  {"aifont":"NYTCheltenham-ExtraLight","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
+  {"aifont":"NYTCheltenhamExtLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"200","style":""},
+  {"aifont":"NYTCheltenham-Light","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
+  {"aifont":"NYTCheltenhamLt-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
+  {"aifont":"NYTCheltenham-LightSC","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"300","style":""},
+  {"aifont":"NYTCheltenham-Book","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
+  {"aifont":"NYTCheltenhamBook-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
+  {"aifont":"NYTCheltenham-Wide","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":""},
+  {"aifont":"NYTCheltenhamMedium-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
+  {"aifont":"NYTCheltenham-Medium","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
+  {"aifont":"NYTCheltenham-Bold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
+  {"aifont":"NYTCheltenham-BoldCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+  {"aifont":"NYTCheltenham-BoldExtraCond","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+  {"aifont":"NYTCheltenham-ExtraBold","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":""},
+  {"aifont":"NYTCheltenham-ExtraLightIt","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-ExtraLightItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-LightItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-BookItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-WideItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-MediumItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"","style":"italic"},
+  {"aifont":"NYTCheltenham-BoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
+  {"aifont":"NYTCheltenham-ExtraBoldItal","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+  {"aifont":"NYTCheltenham-ExtraBoldItalic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"bold","style":"italic"},
+  {"aifont":"NYTCheltenhamSH-Regular","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":""},
+  {"aifont":"NYTCheltenhamSH-Italic","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"400","style":"italic"},
+  {"aifont":"NYTCheltenhamSH-Bold","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":""},
+  {"aifont":"NYTCheltenhamSH-BoldItalic","family":"nyt-cheltenham-sh,nyt-cheltenham,georgia,'times new roman',times,serif","weight":"700","style":"italic"},
+  {"aifont":"NYTCheltenhamWide-Regular","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":""},
+  {"aifont":"NYTCheltenhamWide-Italic","family":"nyt-cheltenham,georgia,'times new roman',times,serif","weight":"500","style":"italic"},
+  {"aifont":"NYTKarnakText-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
+  {"aifont":"NYTKarnakDisplay-Regular","family":"nyt-karnak-display-130124,georgia,'times new roman',times,serif","weight":"400","style":""},
+  {"aifont":"NYTStymieLight-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"NYTStymieMedium-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
+  {"aifont":"StymieNYT-Light","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"StymieNYT-LightPhoenetic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"StymieNYT-Lightitalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":"italic"},
+  {"aifont":"StymieNYT-Medium","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":""},
+  {"aifont":"StymieNYT-MediumItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"500","style":"italic"},
+  {"aifont":"StymieNYT-Bold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"StymieNYT-BoldItalic","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+  {"aifont":"StymieNYT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"StymieNYT-ExtraBoldText","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"StymieNYT-ExtraBoldTextItal","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":"italic"},
+  {"aifont":"StymieNYTBlack-Regular","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"StymieBT-ExtraBold","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"700","style":""},
+  {"aifont":"Stymie-Thin","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"Stymie-UltraLight","family":"nyt-stymie,arial,helvetica,sans-serif","weight":"300","style":""},
+  {"aifont":"NYTMagSans-Regular","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"500","style":""},
+  {"aifont":"NYTMagSans-Bold","family":"'nyt-mag-sans',arial,helvetica,sans-serif","weight":"700","style":""}
 ];
-
-
-// Add extra Guardian character codes
-
-var guardianCharacterCodes = [
-  ["\x22", "&quot;"],
-  ["\xA0", "&nbsp;"],
-  ["\xA1", "&iexcl;"],
-  ["\xA2", "&cent;"],
-  ["\xA3", "&pound;"],
-  ["\xA4", "&curren;"],
-  ["\xA5", "&yen;"],
-  ["\xA6", "&brvbar;"],
-  ["\xA7", "&sect;"],
-  ["\xA8", "&uml;"],
-  ["\xA9", "&copy;"],
-  ["\xAA", "&ordf;"],
-  ["\xAB", "&laquo;"],
-  ["\xAC", "&not;"],
-  ["\xAD", "&shy;"],
-  ["\xAE", "&reg;"],
-  ["\xAF", "&macr;"],
-  ["\xB0", "&deg;"],
-  ["\xB1", "&plusmn;"],
-  ["\xB2", "&sup2;"],
-  ["\xB3", "&sup3;"],
-  ["\xB4", "&acute;"],
-  ["\xB5", "&micro;"],
-  ["\xB6", "&para;"],
-  ["\xB7", "&middot;"],
-  ["\xB8", "&cedil;"],
-  ["\xB9", "&sup1;"],
-  ["\xBA", "&ordm;"],
-  ["\xBB", "&raquo;"],
-  ["\xBC", "&frac14;"],
-  ["\xBD", "&frac12;"],
-  ["\xBE", "&frac34;"],
-  ["\xBF", "&iquest;"],
-  ["\xC0", "&Agrave;"],
-  ["\xC1", "&Aacute;"],
-  ["\xC2", "&Acirc;"],
-  ["\xC3", "&Atilde;"],
-  ["\xC4", "&Auml;"],
-  ["\xC5", "&Aring;"],
-  ["\xC6", "&AElig;"],
-  ["\xC7", "&Ccedil;"],
-  ["\xC8", "&Egrave;"],
-  ["\xC9", "&Eacute;"],
-  ["\xCA", "&Ecirc;"],
-  ["\xCB", "&Euml;"],
-  ["\xCC", "&Igrave;"],
-  ["\xCD", "&Iacute;"],
-  ["\xCE", "&Icirc;"],
-  ["\xCF", "&Iuml;"],
-  ["\xD0", "&ETH;"],
-  ["\xD1", "&Ntilde;"],
-  ["\xD2", "&Ograve;"],
-  ["\xD3", "&Oacute;"],
-  ["\xD4", "&Ocirc;"],
-  ["\xD5", "&Otilde;"],
-  ["\xD6", "&Ouml;"],
-  ["\xD7", "&times;"],
-  ["\xD8", "&Oslash;"],
-  ["\xD9", "&Ugrave;"],
-  ["\xDA", "&Uacute;"],
-  ["\xDB", "&Ucirc;"],
-  ["\xDC", "&Uuml;"],
-  ["\xDD", "&Yacute;"],
-  ["\xDE", "&THORN;"],
-  ["\xDF", "&szlig;"],
-  ["\xE0", "&agrave;"],
-  ["\xE1", "&aacute;"],
-  ["\xE2", "&acirc;"],
-  ["\xE3", "&atilde;"],
-  ["\xE4", "&auml;"],
-  ["\xE5", "&aring;"],
-  ["\xE6", "&aelig;"],
-  ["\xE7", "&ccedil;"],
-  ["\xE8", "&egrave;"],
-  ["\xE9", "&eacute;"],
-  ["\xEA", "&ecirc;"],
-  ["\xEB", "&euml;"],
-  ["\xEC", "&igrave;"],
-  ["\xED", "&iacute;"],
-  ["\xEE", "&icirc;"],
-  ["\xEF", "&iuml;"],
-  ["\xF0", "&eth;"],
-  ["\xF1", "&ntilde;"],
-  ["\xF2", "&ograve;"],
-  ["\xF3", "&oacute;"],
-  ["\xF4", "&ocirc;"],
-  ["\xF5", "&otilde;"],
-  ["\xF6", "&ouml;"],
-  ["\xF7", "&divide;"],
-  ["\xF8", "&oslash;"],
-  ["\xF9", "&ugrave;"],
-  ["\xFA", "&uacute;"],
-  ["\xFB", "&ucirc;"],
-  ["\xFC", "&uuml;"],
-  ["\xFD", "&yacute;"],
-  ["\xFE", "&thorn;"],
-  ["\xFF", "&yuml;"],
-  ["\xA0", "&nbsp;"],
-  ["\u011f", "&#x11f;"],
-  ["\xe7", "&ccedil;"],
-  ["\xe2", "&acirc;"],
-  ["\u0131", "&#305;"]
-];
-
-htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
-
-// ================================================
-// built-in guardian graphics styles and html
-// ================================================
-
-
-  function customGuardianGraphicsCss() {
-
-    // To use, rename text in layers palette to class=dropshadow etc
-
-    var cggCss = "";
-
-    // White text outline "glow"
-    cggCss += ".white-outlined-text p {\r";
-    // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
-    cggCss += "\ttext-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px  1px 0 #FFF, 1px  1px 0 #FFF;\r";
-    cggCss += "}\r";
-
-    // White text outline "glow"
-    cggCss += ".white-background-text {\r";
-    // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
-    cggCss += "\tbackground-color: #FFF;\r";
-    cggCss += "\tpadding: 4px;\r";
-    cggCss += "\tmargin: -4px 0 0 -4px;\r";
-    cggCss += "}\r";
-
-    cggCss += ".dropshadow p {\r";
-    cggCss += "\ttext-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);\r";
-    cggCss += "}\r";
-
-    cggCss += ".glow p {\r";
-    cggCss += "\ttext-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);\r";
-    cggCss += "}\r";
-
-    return cggCss;
-
-  }
-
-
-// Partial html for standard Guardian graphics iframe template
-
-  function addIframeHtml(position) {
-
-
-    var iframeHeaderPartial = "";
-
-    iframeHeaderPartial += "<!doctype html>\r";
-    iframeHeaderPartial += "<html lang='en'>\r";
-    iframeHeaderPartial += "<head>\r";
-    iframeHeaderPartial += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
-
-    // zero margin and padding for iframe html
-    iframeHeaderPartial += "<style type='text/css' media='screen,print'>\r"
-    iframeHeaderPartial += "html, body {\r";
-    iframeHeaderPartial += "\tpadding:0;\r";
-    iframeHeaderPartial += "\tmargin:0;\r";
-    iframeHeaderPartial += "\t-webkit-font-smoothing:antialiased;\r";
-    iframeHeaderPartial += "}\r";
-    iframeHeaderPartial += "</style>\r";
-
-    iframeHeaderPartial += "</head>\r";
-    iframeHeaderPartial += "<body>\r";
-
-    var iframeFooterPartial = "";
-    iframeFooterPartial = "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
-    iframeFooterPartial += "<script>iframeMessenger.enableAutoResize()</script>\r";
-    iframeFooterPartial += "</body>\r";
-    iframeFooterPartial += "</html>\r";
-
-
-    if (position == "header") {
-      return iframeHeaderPartial;
-    } else {
-      return iframeFooterPartial;
-    }
-  }
-
-// Partial html for standard Guardian graphics headline and source
-
-  function addHeadlineSourceHtml(position) {
-
-    var headerPartial = "";
-
-    headerPartial += "<style>";
-    headerPartial += "." + nameSpace + "graphic-header {\r";
-    headerPartial += "\tposition:relative;\r";
-    headerPartial += "}\r";
-    headerPartial += "." + nameSpace + "graphic-header h1 {\r";
-    headerPartial += "\tpadding:0 0 25px 0;\r";
-    headerPartial += "\tmargin:0;\r";
-    headerPartial += "\tfont-family:'Guardian Egyptian Web', Georgia, serif;\r";
-    headerPartial += "\tfont-size:18px;\r";
-    headerPartial += "\tfont-weight:600;\r";
-    headerPartial += "\tline-height: 22px;\r";
-    headerPartial += "\tcolor: #333;\r";
-    headerPartial += "}\r";
-    headerPartial += "@media screen and (min-width: 380px) {\r";
-    headerPartial += "." + nameSpace + "graphic-header h1 {\r";
-    headerPartial += "\tfont-size:20px;\r";
-    headerPartial += "\tline-height: 24px;\r";
-    headerPartial += "}\r";
-    headerPartial += "}\r";
-
-    headerPartial += "." + nameSpace + "graphic-header h2 {\r";
-    headerPartial += "\tpadding:0 0 20px 0;\r";
-    headerPartial += "\tmargin:0;\r";
-    headerPartial += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
-    headerPartial += "\tfont-size:14px;\r";
-    headerPartial += "\tfont-weight:200;\r";
-    headerPartial += "\tline-height: 18px;\r";
-    headerPartial += "\tcolor: #767676;\r";
-    headerPartial += "}\r";
-
-    headerPartial += "." + nameSpace + "graphic-header h2 b {\r";
-    headerPartial += "\tfont-weight:600;\r";
-    headerPartial += "}\r";
-
-    headerPartial += "." + nameSpace + "graphic-footer {\r";
-    headerPartial += "\tposition:relative;\r";
-    headerPartial += "\theight:auto;\r";
-    headerPartial += "\tborder-top:2px solid #f0f0f0;\r";
-    headerPartial += "\tmargin-top:10px;\r";
-    headerPartial += "}\r";
-    headerPartial += " ." + nameSpace + "graphic-footer p {\r";
-    headerPartial += "\tpadding:8px 0 0 0;\r";
-    headerPartial += "\tmargin:0;\r";
-    headerPartial += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
-    headerPartial += "\tfont-size:13px;\r";
-    headerPartial += "\tline-height: 17px;\r";
-    headerPartial += "\tcolor: #767676;\r";
-    headerPartial += "\tdisplay: inline-block;\r";
-    headerPartial += "}\r";
-    headerPartial += "." + nameSpace + "graphic-footer p:nth-of-type(2) {\r";
-    headerPartial += "\tfloat:right;\r";
-    headerPartial += "}\r";
-
-    headerPartial += "</style>\r";
-
-
-    headerPartial += "<div class='" + nameSpace + "graphic-header'>\r";
-    if (docSettings.headline != "" && docSettings.headline != " ") {
-      headerPartial += "<h1>" + cleanText(docSettings.headline) + "</h1>\r";
-    }
-    if (docSettings.standfirst != "" && docSettings.standfirst != " ") {
-      headerPartial += "<h2>" + cleanText(docSettings.standfirst) + "</h2>\r";
-    }
-    headerPartial += "</div>\r";
-
-
-    var footerPartial = "";
-    footerPartial += "<div class='" + nameSpace + "graphic-footer'>\r";
-    footerPartial += "<p>" + cleanText(docSettings.source) + "</p>\r";
-    //   footerPartial += "<p>" + docSettings.source_right + "</p>\r";
-    footerPartial += "</div>\r";
-
-
-    if (position == "header") {
-
-      return headerPartial;
-    } else {
-      return footerPartial;
-    }
-
-  }
-
-// ADD INLINE STYLES FOR COLOURED TEXT WITHIN paragraphs
-// MAYBE DO BOLD AND ITALIC later
-
-							
-                            
-  function addInlineStyles(p) {
-
-    // adds inline span styles
-
-    var i, lastRed = null, lastGreen = null, lastBlue = null, r, g, b, htmlText = "", hexColor;
-
-    for (i = 0; i < p.characters.length; i++) {
-      r = p.characters[i].fillColor.red;
-      g = p.characters[i].fillColor.green;
-      b = p.characters[i].fillColor.blue;
-
-
-
-      if (r != lastRed || g != lastGreen || b != lastBlue) { // newcolor!
-        //$.writeln( "new! r=" + r + "new! g=" + g + "new! b=" + b );
-        if (i != 0) {
-          htmlText += "</span>";
-        }
-        hexColor = rgbToHex(r, g, b);
-        htmlText += "<span style='color:" + hexColor + ";' >";
-      }
-      lastRed = r;
-      lastBlue = b;
-      lastGreen = g;
-      htmlText += p.characters[i].contents;
-    }
-
-    htmlText += "</span>";
-    //$.writeln( htmlText );
-    return htmlText;
-  }
-
-  function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-  }
-
-  function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-  }
-
-  function getAttributes(source) {
-
-    var map = {};
-
-    if ("" != source) {
-      var groups = String(source).split("&");
-
-      for (var i in groups) {
-        var a = String(groups[i]).split("=");
-        map[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
-      }
-    }
-
-    return map;
-  }
-
-
-
-
-
-// ----------------------------  End initialize custom Guardian stuff here ----------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
 
 // CSS text-transform equivalents
 var caps = [
@@ -818,7 +297,7 @@ var nyt5Breakpoints = [
 ];
 
 // TODO: add these to settings spreadsheet
-var nameSpace           = "gu-";
+var nameSpace           = "g-";
 var cssPrecision        = 4;
 // If all three RBG channels (0-255) are below this value, convert text fill to pure black.
 var rgbBlackThreshold  = 36;
@@ -1141,30 +620,24 @@ function render() {
       textData.html +
       "\t</div>\r";
 
-
     //=====================================
     // output html file here if doing a file for every artboard
     //=====================================
 
     if (docSettings.output=="multiple-files") {
-      generateOutputHtml(addCustomContent(artboardContent, customBlocks), docArtboardName, docSettings, null);
+      generateOutputHtml(addCustomContent(artboardContent, customBlocks), docArtboardName, docSettings);
       artboardContent = "";
     }
 
   }); // end artboard loop
-
-
 
   //=====================================
   // output html file here if doing one file for all artboards
   //=====================================
 
   if (docSettings.output=="one-file") {
-    var mqCss = generateMediaQueryCss();
-    generateOutputHtml(addCustomContent(artboardContent, customBlocks), docName, docSettings, mqCss);
+    generateOutputHtml(addCustomContent(artboardContent, customBlocks), docName, docSettings);
   }
-
-
 
   //=====================================
   // write configuration file with graphic metadata
@@ -1696,16 +1169,8 @@ function showEngineInfo() {
 }
 
 function initScriptEnvironment(env) {
-
-  //scriptEnvironment = env;
-  
-  //ai2htmlBaseSettings = env == 'nyt' ? nytBaseSettings : defaultBaseSettings;
-
-  // Override settings to guardian
-
-  scriptEnvironment = "guardian";
-
-  ai2htmlBaseSettings = guardianBaseSettings;
+  scriptEnvironment = env;
+  ai2htmlBaseSettings = env == 'nyt' ? nytBaseSettings : defaultBaseSettings;
 
   // Enable timing using T.start() and T.stop("message")
   T = {
@@ -3320,50 +2785,6 @@ function generatePageCss(containerId, settings) {
   return css;
 }
 
-// toggle on and off artboards with media queries
-
-function generateMediaQueryCss() {
-
-var css = "", infoArr, ab, abW;
-
-if (isTrue(docSettings.useMediaQueriesForBreakpoints)) {
-
-css += "\t<style type='text/css' media='screen,print'>\r";
-infoArr = getArtboardInfo();
-
-for(var abIndex = 0; abIndex < infoArr.length; abIndex ++) {
-			
-			if (abIndex > 0) {
-				css += "\t\t@media (min-width: " + (Number(infoArr[abIndex].width) -.5) + "px) { \r";
-			}
-
-      
-
-			for (var abNumber = 0; abNumber < infoArr.length; abNumber++) {
-        abW = infoArr[abNumber].width;
-        ab = doc.artboards[infoArr[abNumber].id];
-        
-				css += "\t\t\t#" + nameSpace+ getArtboardFullName(ab) + " {"
-				if( abW == infoArr[abIndex].width ) {
-					css += " display: block;";
-				} else {
-					css += " display: none;";
-				}
-				css += "}\r"
-
-			}
-
-			if (abIndex > 0) {
-				css += "\t\t\t} \r";
-			}
-		}
-    css += "\t</style>\r";
-}
-
-return css;
-
-}
-
 function generateYamlFileContent(breakpoints, settings) {
   var lines = [];
   lines.push("ai2html_version: " + scriptVersion);
@@ -3513,7 +2934,7 @@ function addCustomContent(content, customBlocks) {
 }
 
 // Wrap content HTML in a <div>, add styles and resizer script, write to a file
-function generateOutputHtml(pageContent, pageName, settings, mqCss) {
+function generateOutputHtml(pageContent, pageName, settings) {
   var linkSrc = settings.clickable_link || "";
   var textForFile = "";
   var responsiveCss = "";
@@ -3532,11 +2953,6 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
   if (isTrue(settings.include_resizer_script)) {
     responsiveJs  = '\t' + getResizerScript() + '\n';
     responsiveCss = "";
-  }
-
-// add media query breakpoint css
-  if (isTrue(settings.useMediaQueriesForBreakpoints) && mqCss !=null) {
-    responsiveCss = mqCss;
   }
 
   // wrap content in a <div> tag
