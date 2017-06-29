@@ -286,6 +286,7 @@ var guardianBaseSettings = {
   testing_mode: {defaultValue: "no", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: ""},
   last_updated_text: {defaultValue: "", includeInSettingsBlock: false, includeInConfigFile: false, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
 
+  embed_as_iframe: {defaultValue: "yes", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “no” if you don't want to create a html wrapper with iframe messenger script."},
   add_headline_source_wrapper: {defaultValue: "no", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: false, inputType: "yesNo", possibleValues: "", notes: "Set this to “yes” if you want to automatically add a headline, source etc in the standard graphics style. This will be created from the following headline, standfirst, source_left and source_right values"},
         headline: {defaultValue: "Replace this text", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
 		standfirst: {defaultValue: "", includeInSettingsBlock: true, includeInConfigFile: true, useQuoteMarksInConfigFile: true, inputType: "text", possibleValues: "", notes: ""},
@@ -535,26 +536,26 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
     var cggCss = "";
 
     // White text outline "glow"
-    cggCss += ".white-outlined-text p {\r";
+    cggCss += "\t\t.white-outlined-text p {\r";
     // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
-    cggCss += "\ttext-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px  1px 0 #FFF, 1px  1px 0 #FFF;\r";
-    cggCss += "}\r";
+    cggCss += "\t\t\ttext-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px  1px 0 #FFF, 1px  1px 0 #FFF;\r";
+    cggCss += "\t\t}\r";
 
     // White text outline "glow"
-    cggCss += ".white-background-text {\r";
+    cggCss += "\t\t.white-background-text {\r";
     // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
-    cggCss += "\tbackground-color: #FFF;\r";
-    cggCss += "\tpadding: 4px;\r";
-    cggCss += "\tmargin: -4px 0 0 -4px;\r";
-    cggCss += "}\r";
+    cggCss += "\t\t\tbackground-color: #FFF;\r";
+    cggCss += "\t\t\tpadding: 4px;\r";
+    cggCss += "\t\t\tmargin: -4px 0 0 -4px;\r";
+    cggCss += "}\t\r";
 
-    cggCss += ".dropshadow p {\r";
-    cggCss += "\ttext-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);\r";
-    cggCss += "}\r";
+    cggCss += "\t\t.dropshadow p {\r";
+    cggCss += "\t\t\ttext-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);\r";
+    cggCss += "\t\t}\r";
 
-    cggCss += ".glow p {\r";
-    cggCss += "\ttext-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);\r";
-    cggCss += "}\r";
+    cggCss += "\t\t.glow p {\r";
+    cggCss += "\t\t\ttext-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);\r";
+    cggCss += "\t\t}\r";
 
     return cggCss;
 
@@ -673,7 +674,9 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
 
     var footerPartial = "";
     footerPartial += "<div class='" + nameSpace + "graphic-footer'>\r";
+    if (docSettings.source != "" && docSettings.source != " ") {
     footerPartial += "<p>" + cleanText(docSettings.source) + "</p>\r";
+    }
     //   footerPartial += "<p>" + docSettings.source_right + "</p>\r";
     footerPartial += "</div>\r";
 
@@ -687,67 +690,67 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
 
   }
 
-// ADD INLINE STYLES FOR COLOURED TEXT WITHIN paragraphs
-// MAYBE DO BOLD AND ITALIC later
+// // ADD INLINE STYLES FOR COLOURED TEXT WITHIN paragraphs
+// // MAYBE DO BOLD AND ITALIC later
 
 							
                             
-  function addInlineStyles(p) {
+//   function addInlineStyles(p) {
 
-    // adds inline span styles
+//     // adds inline span styles
 
-    var i, lastRed = null, lastGreen = null, lastBlue = null, r, g, b, htmlText = "", hexColor;
+//     var i, lastRed = null, lastGreen = null, lastBlue = null, r, g, b, htmlText = "", hexColor;
 
-    for (i = 0; i < p.characters.length; i++) {
-      r = p.characters[i].fillColor.red;
-      g = p.characters[i].fillColor.green;
-      b = p.characters[i].fillColor.blue;
+//     for (i = 0; i < p.characters.length; i++) {
+//       r = p.characters[i].fillColor.red;
+//       g = p.characters[i].fillColor.green;
+//       b = p.characters[i].fillColor.blue;
 
 
 
-      if (r != lastRed || g != lastGreen || b != lastBlue) { // newcolor!
-        //$.writeln( "new! r=" + r + "new! g=" + g + "new! b=" + b );
-        if (i != 0) {
-          htmlText += "</span>";
-        }
-        hexColor = rgbToHex(r, g, b);
-        htmlText += "<span style='color:" + hexColor + ";' >";
-      }
-      lastRed = r;
-      lastBlue = b;
-      lastGreen = g;
-      htmlText += p.characters[i].contents;
-    }
+//       if (r != lastRed || g != lastGreen || b != lastBlue) { // newcolor!
+//         //$.writeln( "new! r=" + r + "new! g=" + g + "new! b=" + b );
+//         if (i != 0) {
+//           htmlText += "</span>";
+//         }
+//         hexColor = rgbToHex(r, g, b);
+//         htmlText += "<span style='color:" + hexColor + ";' >";
+//       }
+//       lastRed = r;
+//       lastBlue = b;
+//       lastGreen = g;
+//       htmlText += p.characters[i].contents;
+//     }
 
-    htmlText += "</span>";
-    //$.writeln( htmlText );
-    return htmlText;
-  }
+//     htmlText += "</span>";
+//     //$.writeln( htmlText );
+//     return htmlText;
+//   }
 
-  function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-  }
+  // function componentToHex(c) {
+  //   var hex = c.toString(16);
+  //   return hex.length == 1 ? "0" + hex : hex;
+  // }
 
-  function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-  }
+  // function rgbToHex(r, g, b) {
+  //   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  // }
 
-  function getAttributes(source) {
+  // function getAttributes(source) {
 
-    var map = {};
+  //   var map = {};
 
-    if ("" != source) {
-      var groups = String(source).split("&");
+  //   if ("" != source) {
+  //     var groups = String(source).split("&");
 
-      for (var i in groups) {
-        var a = String(groups[i]).split("=");
-        map[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
-      }
-    }
+  //     for (var i in groups) {
+  //       var a = String(groups[i]).split("=");
+  //       map[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+  //     }
+  //   }
 
-    return map;
-  }
+  //   return map;
+  // }
 
 
 
@@ -1551,6 +1554,7 @@ function checkForOutputFolder(folderPath, nickname) {
       warnings.push("The " + nickname + " folder did not exist and could not be created.");
     }
   }
+  return outputFolder;
 }
 
 
@@ -2970,6 +2974,13 @@ function generateImageHtml(ab, settings) {
       extension = (settings.image_format[0] || "png").substring(0,3),
       src = settings.image_source_path + abName + "." + extension,
       html;
+  
+  if (isTrue(settings.useMediaQueriesForBreakpoints)) { // use background images
+
+    html = '\t\t<div id="' + imgId + '" class="' + nameSpace + 'aiBackgroundImg" ';
+    html += 'style="width:100%;padding-bottom:' + (roundTo(abPos.height / abPos.width, 4) * 100) + '%; background-image:url(' + src + ');"></div>\r';
+
+  } else { // use images
 
   html = '\t\t<img id="' + imgId + '" class="' + nameSpace + 'aiImg"';
   if (isTrue(settings.use_lazy_loader)) {
@@ -2979,6 +2990,7 @@ function generateImageHtml(ab, settings) {
     src = 'data:image/gif;base64,R0lGODlhCgAKAIAAAB8fHwAAACH5BAEAAAAALAAAAAAKAAoAAAIIhI+py+0PYysAOw==';
   }
   html += ' src="' + src + '"/>\r';
+  }
   return html;
 }
 
@@ -3315,7 +3327,20 @@ function generatePageCss(containerId, settings) {
   css += t3 + "width:100% !important;\r";
   css += t2 + "}\r";
 
-  css += t2 + '.' + nameSpace + 'aiPointText p { white-space: nowrap; }\r'; // TODO: move to page css block
+  // when using background images for lazyloading with media queries
+
+  css += t2 + "."+nameSpace+"aiBackgroundImg{\r";
+	css += t3 + "display:block;\r";
+	css += t3 + "position:relative;\r";
+	css += t3 + "background-repeat:no-repeat;\r";
+	css += t3 + "background-size:cover;\r";
+	css += t3 + "width:100% !important;\r";
+	css += t2 + "}\r";
+
+  css += t2 + '.' + nameSpace + 'aiPointText p { white-space: nowrap; }\r'; // TODO: move to page css
+  
+  css += customGuardianGraphicsCss();
+  
   css += "\t</style>\r";
   return css;
 }
@@ -3520,6 +3545,7 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
   var responsiveJs = "";
   var containerId = nameSpace + pageName + "-box";
   var htmlFileDestination, htmlFileDestinationFolder;
+  var finalFolder;
 
   pBar.setTitle('Writing HTML output...');
 
@@ -3539,6 +3565,16 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
     responsiveCss = mqCss;
   }
 
+  if (isTrue(settings.embed_as_iframe)) {
+			textForFile += addIframeHtml("header");
+	}
+
+	if (isTrue(settings.add_headline_source_wrapper)) {
+
+			textForFile += addHeadlineSourceHtml( "header" );
+
+	}
+
   // wrap content in a <div> tag
   textForFile += '<div id="' + containerId + '" class="ai2html">\r';
 
@@ -3555,6 +3591,7 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
     textForFile += "\t<a class='" + nameSpace + "ai2htmlLink' href='" + linkSrc + "'>\r";
   }
 
+  textForFile += guFontsCss; // ADD GUARDIAN FONTS
   textForFile += responsiveCss;
   textForFile += pageContent;
   textForFile += responsiveJs;
@@ -3566,9 +3603,21 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
   // close <div> wrapper
   textForFile += "\t<!-- End ai2html" + " - " + getDateTimeStamp() + " -->\r</div>\r";
 
+  
+
+	if (isTrue(settings.add_headline_source_wrapper)) {
+
+			textForFile += addHeadlineSourceHtml( "footer" );
+
+	}
+
+  if (isTrue(settings.embed_as_iframe)) {
+			textForFile += addIframeHtml("footer");
+	}
+
   textForFile = applyTemplate(textForFile, settings);
   htmlFileDestinationFolder = docPath + settings.html_output_path;
-  checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
+  finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
   htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
 
   if (settings.output == 'one-file' && previewProjectType == 'ai2html') {
@@ -3584,6 +3633,8 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
     var previewFileDestination = htmlFileDestinationFolder + pageName + ".preview.html";
     outputLocalPreviewPage(textForFile, previewFileDestination, settings);
   }
+
+  finalFolder.execute(); // Open folder on completion
 }
 } // end main() function definition
 main();
