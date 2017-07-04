@@ -2659,7 +2659,7 @@ function convertAiTextStyle(aiStyle) {
     cssStyle["padding-bottom"] = aiStyle.spaceAfter + "px";
   }
   if ('tracking' in aiStyle) {
-    cssStyle["letter-spacing"] = roundTo(aiStyle.tracking / 1000, cssPrecision) + "em";
+    //cssStyle["letter-spacing"] = roundTo(aiStyle.tracking / 1000, cssPrecision) + "em";
   }
   if (aiStyle.justification && (tmp = getJustificationCss(aiStyle.justification))) {
     cssStyle["text-align"] = tmp;
