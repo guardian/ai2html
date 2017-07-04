@@ -536,24 +536,24 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
     var cggCss = "";
 
     // White text outline "glow"
-    cggCss += "\t\t.white-outlined-text p {\r";
+    cggCss += "\t\t." + nameSpace + "white-outlined-text p {\r";
     // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
     cggCss += "\t\t\ttext-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px  1px 0 #FFF, 1px  1px 0 #FFF;\r";
     cggCss += "\t\t}\r";
 
     // White text outline "glow"
-    cggCss += "\t\t.white-background-text {\r";
+    cggCss += "\t\t." + nameSpace + "white-background-text {\r";
     // customGuardianGraphicsCss += "\t-webkit-text-stroke: 1px white;\r"; //overkill
     cggCss += "\t\t\tbackground-color: #FFF;\r";
     cggCss += "\t\t\tpadding: 4px;\r";
     cggCss += "\t\t\tmargin: -4px 0 0 -4px;\r";
     cggCss += "}\t\r";
 
-    cggCss += "\t\t.dropshadow p {\r";
+    cggCss += "\t\t." + nameSpace + "dropshadow p {\r";
     cggCss += "\t\t\ttext-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);\r";
     cggCss += "\t\t}\r";
 
-    cggCss += "\t\t.glow p {\r";
+    cggCss += "\t\t." + nameSpace + "glow p {\r";
     cggCss += "\t\t\ttext-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);\r";
     cggCss += "\t\t}\r";
 
@@ -3619,7 +3619,7 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
   htmlFileDestinationFolder = docPath + settings.html_output_path;
   finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
   //htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
-  // force index.html file name
+  // force index.html file name for Guardian uploader compatibility
   htmlFileDestination = htmlFileDestinationFolder + "index" + settings.html_output_extension;
 
   if (settings.output == 'one-file' && previewProjectType == 'ai2html') {
