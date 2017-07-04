@@ -3618,7 +3618,9 @@ function generateOutputHtml(pageContent, pageName, settings, mqCss) {
   textForFile = applyTemplate(textForFile, settings);
   htmlFileDestinationFolder = docPath + settings.html_output_path;
   finalFolder = checkForOutputFolder(htmlFileDestinationFolder, "html_output_path");
-  htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
+  //htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
+  // force index.html file name
+  htmlFileDestination = htmlFileDestinationFolder + "index" + settings.html_output_extension;
 
   if (settings.output == 'one-file' && previewProjectType == 'ai2html') {
     htmlFileDestination = htmlFileDestinationFolder + "index" + settings.html_output_extension;
