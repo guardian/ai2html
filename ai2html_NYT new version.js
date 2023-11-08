@@ -50,7 +50,7 @@ var scriptVersion = '0.120.0';
 // Guardian custom settings
 // ================================================
 
-// GUARDIAN CUSTOM CODE
+// MAIN GUARDIAN CUSTOM CODE
 
 var guardianScriptVersion = '2.0';
 
@@ -308,6 +308,18 @@ var guardianScriptVersion = '2.0';
       content.js += '\r<!-- Custom Guardian JS -->\r' + 'JS HERE' + '\r';
     }
   }
+
+  function addStepClass(ab, settings) {
+    var splitNameArray = getArtboardName(ab).split("_");
+    var splitNameIndex = +splitNameArray[splitNameArray.length-1];
+    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) {
+        return " gv-ab-step gv-ab-step-" + splitNameIndex;
+    } else {
+      return "";
+    }
+  }
+
+// END MAIN GUARDIAN CUSTOM CODE
 
 // ================================================
 // ai2html and config settings
@@ -4478,7 +4490,7 @@ function assignArtboardContentToFile(name, abData, outputArr) {
 
 function generateArtboardDiv(ab, settings) {
   var id = nameSpace + getArtboardFullName(ab, settings);
-  var classname = nameSpace + 'artboard';
+  var classname = nameSpace + 'artboard' + addStepClass(ab, settings);
   var widthRange = getArtboardWidthRange(ab, settings);
   var visibleRange = getArtboardVisibilityRange(ab, settings);
   var abBox = convertAiBounds(ab.artboardRect);
@@ -4486,6 +4498,8 @@ function generateArtboardDiv(ab, settings) {
   var inlineStyle = '';
   var inlineSpacerStyle = '';
   var html = '';
+
+  if (ab.name.split(""))
 
   // Set size of graphic using inline CSS
   if (widthRange[0] == widthRange[1]) {
