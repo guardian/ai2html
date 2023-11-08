@@ -52,7 +52,7 @@ var scriptVersion = '0.120.0';
 
 // MAIN GUARDIAN CUSTOM CODE
 
-var guardianScriptVersion = '2.0';
+  var guardianScriptVersion = '2.0';
 
   // Customize default settings
 
@@ -224,10 +224,10 @@ var guardianScriptVersion = '2.0';
   function addCustomGuardianContent(content, settings) {
 
     // Guardian css
-    
-      content.css += '\r\t/* Custom Guardian CSS */\r';
 
-      // Create custom Guardian css
+    content.css += '\r\t/* Custom Guardian CSS */\r';
+
+    // Create custom Guardian css
 
     // Import fonts. Are these the best links???
 
@@ -285,7 +285,7 @@ var guardianScriptVersion = '2.0';
     content.css += "\t\t\ttext-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);\r";
     content.css += "\t\t}\r";
 
-     // Subscript
+    // Subscript
     content.css += "\t\tsub {\r";
     content.css += "\t\t\tvertical-align: sub;\r";
     content.css += "\t\t\tfont-size: smaller;\r";
@@ -296,12 +296,92 @@ var guardianScriptVersion = '2.0';
     content.css += "\t\t\tvertical-align: super;\r";
     content.css += "\t\t\tfont-size: smaller;\r";
     content.css += "\t\t}\r";
-    
-    if (true) {
-      content.html = '<!-- Custom Guardian header HTML -->\r' + 'HEADER HTML HERE' + content.html + '\r';
+
+    // add header 
+    if ((settings.headline != "" && settings.headline != " ") || (settings.standfirst != "" && settings.standfirst != " ")) {
+      content.css += "." + nameSpace + "graphic-header {\r";
+      content.css += "\tposition:relative;\r";
+      content.css += "}\r";
+      content.css += "." + nameSpace + "graphic-header h1 {\r";
+      content.css += "\tpadding:6px 0 10px 0;\r"; // was 25px
+      content.css += "\tmargin:0;\r";
+      content.css += "\tfont-family:'GH Guardian Headline', Georgia, serif;\r";
+      content.css += "\tfont-size:18px;\r";
+      content.css += "\tfont-weight:700;\r";
+      content.css += "\tline-height: 22px;\r";
+      content.css += "\tcolor: #121212;\r"; // was #3333
+      content.css += "}\r";
+      content.css += "@media screen and (min-width: 380px) {\r";
+      content.css += "." + nameSpace + "graphic-header h1 {\r";
+      content.css += "\tfont-size:20px;\r";
+      content.css += "\tline-height: 24px;\r";
+      content.css += "}\r";
+      content.css += "}\r";
+
+      content.css += "." + nameSpace + "graphic-header h2 {\r";
+      content.css += "\tpadding:0 0 25px 0;\r";
+      content.css += "\tmargin:0;\r";
+      content.css += "\tfont-family:'Guardian Text Egyptian Web', Georgia, serif;\r";
+      content.css += "\tfont-size:14px;\r";
+      content.css += "\tfont-weight:200;\r";
+      content.css += "\tline-height: 18px;\r";
+      content.css += "\tcolor: #121212;\r";
+      content.css += "}\r";
+
+      content.css += "." + nameSpace + "graphic-header h2 b {\r";
+      content.css += "\tfont-weight:600;\r";
+      content.css += "}\r";
+
+      content.css += "@media (prefers-color-scheme: dark) {\r";
+      content.css += "\t\t.dark-mode-ready ." + nameSpace + "graphic-header h1 {\r";
+      content.css += "\tcolor: #fff;\r";
+      content.css += "\t\t}\r";
+      content.css += "\t\t.dark-mode-ready ." + nameSpace + "graphic-header h2 {\r";
+      content.css += "\tcolor: #fff;\r";
+      content.css += "\t\t}\r";
+      content.css += "\t\t}\r";
+
+      var headerPartial = "<div class='" + nameSpace + "graphic-header'>\r";
+      if (settings.headline != "" && settings.headline != " ") {
+        headerPartial += "<h1>" + cleanText(settings.headline) + "</h1>\r";
+      }
+      if (settings.standfirst != "" && settings.standfirst != " ") {
+        headerPartial += "<h2>" + cleanText(settings.standfirst) + "</h2>\r";
+      }
+      headerPartial += "</div>\r";
+
+      content.html = '<!-- Custom Guardian header HTML -->\r' + headerPartial + content.html + '\r';
     }
-    if (true) {
-      content.html += '\r<!-- Custom Guardian footer HTML -->\r' + 'FOOTER HTML HERE' + '\r';
+    // add footer
+    if (settings.source != "" && settings.source != " ") {
+
+      content.css += "." + nameSpace + "graphic-footer {\r";
+      content.css += "\tposition:relative;\r";
+      content.css += "\theight:auto;\r";
+      content.css += "\tmargin-top:0;\r";
+      content.css += "}\r";
+      content.css += " ." + nameSpace + "graphic-footer p {\r";
+      content.css += "\tpadding:6px 0 6px 0;\r";
+      content.css += "\tmargin:0;\r";
+      content.css += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
+      content.css += "\tfont-size:12px;\r";
+      content.css += "\tline-height: 15px;\r";
+      content.css += "\tcolor: #767676;\r";
+      content.css += "\tdisplay: inline-block;\r";
+      content.css += "\twidth:100%;\r";
+      content.css += "}\r";
+      content.css += "@media (prefers-color-scheme: dark) {\r";
+      content.css += ".dark-mode-ready ." + nameSpace + "graphic-footer p {\r";
+      content.css += "\tcolor: #dcdcdc;\r";
+      content.css += "\t\t}\r";
+      content.css += "\t\t}\r";
+
+      var footerPartial = "<div class='" + nameSpace + "graphic-footer'>\r";
+
+      footerPartial += "<p>" + cleanText(settings.source) + "</p>\r";
+      footerPartial += "</div>\r";
+
+      content.html += '\r<!-- Custom Guardian footer HTML -->\r' + footerPartial + '\r';
     }
     // TODO: assumed JS contained in <script> tag -- verify this?
     if (true) {
@@ -311,9 +391,9 @@ var guardianScriptVersion = '2.0';
 
   function addStepClass(ab, settings) {
     var splitNameArray = getArtboardName(ab).split("_");
-    var splitNameIndex = +splitNameArray[splitNameArray.length-1];
+    var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
     if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) {
-        return " gv-ab-step gv-ab-step-" + splitNameIndex;
+      return " gv-ab-step gv-ab-step-" + splitNameIndex;
     } else {
       return "";
     }
