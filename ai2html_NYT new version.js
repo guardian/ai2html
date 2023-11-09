@@ -430,10 +430,14 @@ var scriptVersion = '0.120.0';
     headerPartial += "</head>\r";
     headerPartial += "<body class='use-rules_" + settings.top_and_bottom_rules + " immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
 
-       var footerPartial = "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
-    footerPartial += "<script>iframeMessenger.enableAutoResize();\r";
-    footerPartial += "iframeMessenger.getLocation(checkApp);\r";
-
+    // var footerPartial = "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
+    var footerPartial = "<script>\r";
+    // footerPartial += "<script>iframeMessenger.enableAutoResize();\r";
+    // footerPartial += "iframeMessenger.getLocation(checkApp);\r";
+    footerPartial += "var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r";
+    footerPartial += "var locationObj = url.contains('file:') ? { protocol: 'file:'} : { protocol: 'other'};\r";
+    footerPartial += "checkApp(locationObj);\r";
+    // footerPartial += "console.log('parentUrl=' + url);\r";
     footerPartial += "function checkApp(locationObj) {\r";
     footerPartial += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
     footerPartial += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
