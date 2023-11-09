@@ -299,49 +299,6 @@ var scriptVersion = '0.120.0';
 
     var headerPartial = "", footerPartial = "";
 
-    // iframe header
-
-    // if (settings.embed_as_iframe == "yes") {
-    //   headerPartial += "<!doctype html>\r";
-    // headerPartial += "<html lang='en'>\r";
-    // headerPartial += "<head>\r";
-    // headerPartial += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
-
-    // // zero margin and padding for iframe html
-    // headerPartial += "<style type='text/css' media='screen,print'>\r"
-    // headerPartial += "html, body {\r";
-    // headerPartial += "\tpadding:0;\r";
-    // headerPartial += "\tmargin:0;\r";
-    // headerPartial += "\t-webkit-font-smoothing:antialiased;\r";
-    // headerPartial += "}\r";
-   
-    // headerPartial += "@media screen and (min-width: 480px) {\r";
-    // headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    // headerPartial += "\tpadding-left:10px;\r";
-    // headerPartial += "}\r";
-    // headerPartial += "}\r";
-    // headerPartial += "@media screen and (min-width: 740px) {\r";
-    // headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    // headerPartial += "\tpadding-left:20px;\r";
-    // headerPartial += "}\r";
-    // headerPartial += "}\r";
-    // headerPartial += "@media screen and (min-width: 1140px) {\r";
-    // headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    // headerPartial += "\tpadding-left:0px;\r";
-    // headerPartial += "}\r";
-    // headerPartial += "}\r";
-    
-    // headerPartial += "@media (prefers-color-scheme: dark) {\r";
-    // headerPartial += "\t\tbody.dark-mode-ready {\r";
-    // headerPartial += "\t\t\tbackground-color: #1A1A1A !important;\r";
-    // headerPartial += "\t\t}\r";
-    // headerPartial += "\t\t}\r";
-    // headerPartial += "</style>\r";
-
-    // headerPartial += "</head>\r";
-    // headerPartial += "<body class='use-rules_" + settings.top_and_bottom_rules + " immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
-    // }
-
     // add header 
     if ((settings.headline != "" && settings.headline != " ") || (settings.standfirst != "" && settings.standfirst != " ")) {
       content.css += "." + nameSpace + "graphic-header {\r";
@@ -420,49 +377,20 @@ var scriptVersion = '0.120.0';
       content.css += "\t\t}\r";
 
       footerPartial += "<div class='" + nameSpace + "graphic-footer'>\r";
-
       footerPartial += "<p>" + cleanHtmlText(settings.source) + "</p>\r";
       footerPartial += "</div>\r";
     }
 
-    // iframe footer
-
-    // if (settings.embed_as_iframe == "yes") {
-    // footerPartial += "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
-    // footerPartial += "<script>iframeMessenger.enableAutoResize();\r";
-    // footerPartial += "iframeMessenger.getLocation(checkApp);\r";
-
-    // footerPartial += "function checkApp(locationObj) {\r";
-    // footerPartial += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
-    // footerPartial += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
-    // footerPartial += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    // footerPartial += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    // footerPartial += "var isApp = isIOSApp || isAndroidApp;\r";
-    // footerPartial += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
-    // footerPartial += "if (isApp) {\r";
-    // footerPartial += "document.querySelector('body').classList.remove('not-in-app');\r";
-    // footerPartial += "document.querySelector('body').classList.add('in-app');\r";
-    // footerPartial += "}\r";
-    // footerPartial += "if (isApp && darkModeArtboardsPresent) {\r";
-    // footerPartial += "document.querySelector('body').classList.add('dark-mode-ready');\r";
-    // footerPartial += "}\r";
-    // footerPartial += "}\r";
-
-    // footerPartial += "</script>\r";
-    // footerPartial += "</body>\r";
-    // footerPartial += "</html>\r";
-    // }
-
-
     content.html = '<!-- Custom Guardian header HTML -->\r' + headerPartial + content.html + '\r';
     content.html += '\r<!-- Custom Guardian footer HTML -->\r' + footerPartial + '\r';
-    // TODO: assumed JS contained in <script> tag -- verify this?
-    if (true) {
-      content.js += '\r<!-- Custom Guardian JS -->\r' + 'JS HERE' + '\r';
-    }
+  
+    // Add Guardian default javascript
+    // if (true) {
+    //   content.js += '\r<!-- Custom Guardian JS -->\r' + 'JS HERE' + '\r';
+    // }
   }
 
-  function getIframeWrapperHTML(position, settings) {
+  function addIframeWrapperHTML(position, settings) {
       var headerPartial = "<!doctype html>\r";
     headerPartial += "<html lang='en'>\r";
     headerPartial += "<head>\r";
@@ -534,11 +462,15 @@ var scriptVersion = '0.120.0';
     }
   }
 
-  function addStepClass(ab, settings) {
+  function generateStepWrapper(ab, settings, position) {
     var splitNameArray = getArtboardName(ab).split("_");
     var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
-    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) {
-      return " gv-ab-step gv-ab-step-" + splitNameIndex;
+    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic    
+      if (position == "start") { 
+        return '\t<div class="' + settings.namespace + 'step ' + settings.namespace + 'step_' + splitNameIndex +'">\r';
+      } else {
+        return '\t</div>\r';
+      }
     } else {
       return "";
     }
@@ -1157,10 +1089,12 @@ function render(settings, customBlocks) {
     //=====================================
 
     artboardContent.html += '\r\t<!-- Artboard: ' + getArtboardName(activeArtboard) + ' -->\r' +
+      generateStepWrapper(activeArtboard, settings, "start") +
        generateArtboardDiv(activeArtboard, settings) +
        imageData.html +
        textData.html +
-       '\t</div>\r';
+       '\t</div>\r'
+       + generateStepWrapper(activeArtboard, settings, "end");
 
     var abStyles = textData.styles;
     if (specialData && specialData.video) {
@@ -1191,7 +1125,7 @@ function render(settings, customBlocks) {
   //=====================================
 
   forEach(fileContentArr, function(fileContent) {
-    addCustomGuardianContent(fileContent, settings); // GUARDIAN CUSTOM ADDITION
+    addCustomGuardianContent(fileContent, settings); // GUARDIAN CUSTOM
     addCustomContent(fileContent, customBlocks);
     generateOutputHtml(fileContent, fileContent.name, settings);
   });
@@ -1950,7 +1884,7 @@ function initSpecialTextBlocks() {
 // Derive ai2html program settings by merging default settings and overrides.
 function initDocumentSettings(textBlockSettings) {
 
-  applyGuardianSettings();  // GUARDIAN CUSTOM CODE
+  applyGuardianSettings();  // GUARDIAN CUSTOM
 
   var settings = extend({}, defaultSettings); // copy default settings
 
@@ -4715,7 +4649,7 @@ function assignArtboardContentToFile(name, abData, outputArr) {
 
 function generateArtboardDiv(ab, settings) {
   var id = nameSpace + getArtboardFullName(ab, settings);
-  var classname = nameSpace + 'artboard' + addStepClass(ab, settings);
+  var classname = nameSpace + 'artboard';
   var widthRange = getArtboardWidthRange(ab, settings);
   var visibleRange = getArtboardVisibilityRange(ab, settings);
   var abBox = convertAiBounds(ab.artboardRect);
@@ -5103,9 +5037,6 @@ function generateOutputHtml(content, pageName, settings) {
 
   // HTML
   html = "";
-  if (settings.embed_as_iframe) {
-    html += getIframeWrapperHTML("header", settings);
-  }
   html += '<div id="' + containerId + '" class="' + containerClasses + '"' + ariaAttrs + '>\r';
 
   if (settings.alt_text) {
@@ -5122,9 +5053,13 @@ function generateOutputHtml(content, pageName, settings) {
   }
   html += '\r</div>\r';
 
-  if (settings.embed_as_iframe) {
-    html += getIframeWrapperHTML("footer", settings);
-  }
+  var iframeHeaderWrapperHtml = ""; // GUARDIAN CUSTOM
+  var iframeFooterWrapperHtml = ""; // GUARDIAN CUSTOM
+
+  if (settings.embed_as_iframe) { // GUARDIAN CUSTOM
+    iframeHeaderWrapperHtml = addIframeWrapperHTML("header", settings) + '\r'; // GUARDIAN CUSTOM
+    iframeFooterWrapperHtml = addIframeWrapperHTML("footer", settings) + '\r'; // GUARDIAN CUSTOM
+  } // GUARDIAN CUSTOM
 
   // CSS
   css = '<style media="screen,print">\r' +
@@ -5135,8 +5070,8 @@ function generateOutputHtml(content, pageName, settings) {
   // JS
   js = content.js + responsiveJs;
 
-  textForFile =  '\r' + commentBlock + css + '\r' + html + '\r' + js +
-     '<!-- End ai2html' + ' - ' + getDateTimeStamp() + ' -->\r';
+  textForFile =  '\r' + commentBlock + '\r' + iframeHeaderWrapperHtml + css + '\r' + html + '\r' + js + iframeFooterWrapperHtml +
+     '<!-- End ai2html' + ' - ' + getDateTimeStamp() + ' -->\r'; // GUARDIAN CUSTOM
 
   textForFile = applyTemplate(textForFile, settings);
   htmlFileDestinationFolder = docPath + settings.html_output_path;
