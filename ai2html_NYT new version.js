@@ -93,7 +93,6 @@ var scriptVersion = '0.120.0';
 
     // TO DO
     // dark mode TO TEST
-    // steps TO TEST
     // fixed responsiveness
     // font adjustments
     // special characters
@@ -425,6 +424,7 @@ var scriptVersion = '0.120.0';
     // Add Guardian default javascript
 
     content.js += '\r<!-- Custom Guardian JS -->\r';
+    content.js += '\r<script>\r';
     content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
     content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
     content.js += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
@@ -438,6 +438,7 @@ var scriptVersion = '0.120.0';
     content.js += "if (isApp && darkModeArtboardsPresent) {\r";
     content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
     content.js += "}\r";
+    content.js += '\r</script>\r';
     content.js += '\r<!-- End custom Guardian JS -->\r';
 
   }
@@ -482,32 +483,7 @@ var scriptVersion = '0.120.0';
     headerPartial += "</head>\r";
     headerPartial += "<body class='use-rules_" + settings.top_and_bottom_rules + " immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
 
-    // var footerPartial = "<script src='https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js' type='text/javascript'></script>\r";
-    var footerPartial = "<script>\r";
-    // footerPartial += "<script>iframeMessenger.enableAutoResize();\r";
-    // footerPartial += "iframeMessenger.getLocation(checkApp);\r";
-    footerPartial += "var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r";
-    footerPartial += "var locationObj = url.contains('file:') ? { protocol: 'file:'} : { protocol: 'other'};\r";
-    footerPartial += "checkApp(locationObj);\r";
-    // footerPartial += "console.log('parentUrl=' + url);\r";
-    footerPartial += "function checkApp(locationObj) {\r";
-    footerPartial += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
-    footerPartial += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
-    footerPartial += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    footerPartial += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    footerPartial += "var isApp = isIOSApp || isAndroidApp;\r";
-    footerPartial += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
-    footerPartial += "if (isApp) {\r";
-    footerPartial += "document.querySelector('body').classList.remove('not-in-app');\r";
-    footerPartial += "document.querySelector('body').classList.add('in-app');\r";
-    footerPartial += "}\r";
-    footerPartial += "if (isApp && darkModeArtboardsPresent) {\r";
-    footerPartial += "document.querySelector('body').classList.add('dark-mode-ready');\r";
-    footerPartial += "}\r";
-    footerPartial += "}\r";
-
-    footerPartial += "</script>\r";
-    footerPartial += "</body>\r";
+    footerPartial = "</body>\r";
     footerPartial += "</html>\r";
     
 
@@ -5091,31 +5067,31 @@ function generateOutputHtml(content, pageName, settings) {
   // Guardian lazyloader script
 
   if (isTrue(settings.use_lazy_loader)) {
-    responsiveJs += "\t<!-- lazyload script -->\r";
-    responsiveJs += "\t<script>\n";
-    responsiveJs += "\tconst images = document.querySelectorAll('[data-src]');\n";
-    responsiveJs += "\tconst config = {\n";
-    responsiveJs += "\trootMargin: '0px 0px 300px 0px',\n";
-    responsiveJs += "\tthreshold: 0\n";
-    responsiveJs += "\t};\n";
+    // responsiveJs += "\t<!-- lazyload script -->\r";
+    // responsiveJs += "\t<script>\n";
+    // responsiveJs += "\tconst images = document.querySelectorAll('[data-src]');\n";
+    // responsiveJs += "\tconst config = {\n";
+    // responsiveJs += "\trootMargin: '0px 0px 300px 0px',\n";
+    // responsiveJs += "\tthreshold: 0\n";
+    // responsiveJs += "\t};\n";
 
-    responsiveJs += "\tlet observer = new IntersectionObserver(function (entries, self) {\n";
-    responsiveJs += "\tentries.forEach(entry => {\n";
-    responsiveJs += "\tif (entry.isIntersecting) {\n";
-    responsiveJs += "\tpreloadImage(entry.target);\n";
-    responsiveJs += "\tself.unobserve(entry.target);\n";
-    responsiveJs += "\t}\n";
-    responsiveJs += "\t});\n";
-    responsiveJs += "\t}, config);\n";
-    responsiveJs += "\timages.forEach(image => { observer.observe(image); });\n";
+    // responsiveJs += "\tlet observer = new IntersectionObserver(function (entries, self) {\n";
+    // responsiveJs += "\tentries.forEach(entry => {\n";
+    // responsiveJs += "\tif (entry.isIntersecting) {\n";
+    // responsiveJs += "\tpreloadImage(entry.target);\n";
+    // responsiveJs += "\tself.unobserve(entry.target);\n";
+    // responsiveJs += "\t}\n";
+    // responsiveJs += "\t});\n";
+    // responsiveJs += "\t}, config);\n";
+    // responsiveJs += "\timages.forEach(image => { observer.observe(image); });\n";
 
-    responsiveJs += "\tfunction preloadImage(img) {\n";
-    responsiveJs += "\tconst src = img.getAttribute('data-src');\n";
-    responsiveJs += "\tif (!src) { return; }\n";
-    //responsiveJs += "\timg.style.backgroundImage = 'url(' + src + ')';\n";
-    responsiveJs += "\timg.src = src;\n";
-    responsiveJs += "\t}\n";
-    responsiveJs += "\t</script>\n";
+    // responsiveJs += "\tfunction preloadImage(img) {\n";
+    // responsiveJs += "\tconst src = img.getAttribute('data-src');\n";
+    // responsiveJs += "\tif (!src) { return; }\n";
+    // //responsiveJs += "\timg.style.backgroundImage = 'url(' + src + ')';\n";
+    // responsiveJs += "\timg.src = src;\n";
+    // responsiveJs += "\t}\n";
+    // responsiveJs += "\t</script>\n";
   }
 
   // comments
