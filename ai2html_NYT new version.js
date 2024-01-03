@@ -61,6 +61,44 @@ var scriptVersion = '0.120.0';
     defaultSettings.namespace = "gv-";
     defaultSettings.responsiveness = "dynamic";
     defaultSettings.include_resizer_script = true;
+    defaultSettings.top_and_bottom_rules = true;
+    defaultSettings.embed_as_iframe = true; // yes
+    defaultSettings.main_background_color = "#ffffff";
+    defaultSettings.immersive_padding_fix = false;
+    defaultSettings.heading = "Heading here";
+    defaultSettings.subheading = "Subheading here";
+    defaultSettings.source = "Source here";
+
+    defaultSettings.settings_block = [
+     "image_format",
+      "responsiveness",
+      //"include_resizer_script",
+      "use_lazy_loader",
+      "output",
+      "html_output_path",
+      "image_output_path",
+      "image_source_path",
+      "png_number_of_colors",
+      "jpg_quality",
+      "top_and_bottom_rules",
+      "embed_as_iframe",
+      "heading",
+      "subheading",
+      "source"
+    ]
+
+    //defaultSettings.output_no_headline_visual_guide = false; // no // NO LONGER USED
+    //defaultSettings.add_headline_source_wrapper = false; // no // NO LONGER USED
+    
+
+    // TO DO
+    // dark mode TO TEST
+    // steps TO TEST
+    // fixed responsiveness
+    // font adjustments
+    // special characters
+    // lazyloading TO TEST
+
 
     overrideFonts();
 
@@ -344,11 +382,11 @@ var scriptVersion = '0.120.0';
       content.css += "\t\t}\r";
 
       headerPartial += "<div class='" + nameSpace + "graphic-header'>\r";
-      if (settings.headline != "" && settings.headline != " ") {
-        headerPartial += "<h1>" + cleanHtmlText(settings.headline) + "</h1>\r";
+      if (settings.heading != "" && settings.heading != " ") {
+        headerPartial += "<h1>" + cleanHtmlText(settings.heading) + "</h1>\r";
       }
-      if (settings.standfirst != "" && settings.standfirst != " ") {
-        headerPartial += "<h2>" + cleanHtmlText(settings.standfirst) + "</h2>\r";
+      if (settings.subheading != "" && settings.subheading != " ") {
+        headerPartial += "<h2>" + cleanHtmlText(settings.subheading) + "</h2>\r";
       }
       headerPartial += "</div>\r";
     }
@@ -385,9 +423,23 @@ var scriptVersion = '0.120.0';
     content.html += '\r<!-- Custom Guardian footer HTML -->\r' + footerPartial + '\r';
   
     // Add Guardian default javascript
-    // if (true) {
-    //   content.js += '\r<!-- Custom Guardian JS -->\r' + 'JS HERE' + '\r';
-    // }
+
+    content.js += '\r<!-- Custom Guardian JS -->\r';
+    content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
+    content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
+    content.js += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    content.js += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    content.js += "var isApp = isIOSApp || isAndroidApp;\r";
+    content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
+    content.js += "if (isApp) {\r";
+    content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
+    content.js += "document.querySelector('body').classList.add('in-app');\r";
+    content.js += "}\r";
+    content.js += "if (isApp && darkModeArtboardsPresent) {\r";
+    content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
+    content.js += "}\r";
+    content.js += '\r<!-- End custom Guardian JS -->\r';
+
   }
 
   function addIframeWrapperHTML(position, settings) {
@@ -465,6 +517,8 @@ var scriptVersion = '0.120.0';
       return footerPartial;
     }
   }
+
+  
 
   function generateStepWrapper(ab, settings, position) {
     var splitNameArray = getArtboardName(ab).split("_");
@@ -4654,6 +4708,12 @@ function assignArtboardContentToFile(name, abData, outputArr) {
 function generateArtboardDiv(ab, settings) {
   var id = nameSpace + getArtboardFullName(ab, settings);
   var classname = nameSpace + 'artboard';
+  var isDarkModeArtboard = id.indexOf("_dark-mode") !== -1; // GUARDIAN CUSTOM CODE
+  if (isDarkModeArtboard) {
+    classname += " artboard-dark-mode";
+  } else {
+    classname += " artboard-light-mode";
+  }
   var widthRange = getArtboardWidthRange(ab, settings);
   var visibleRange = getArtboardVisibilityRange(ab, settings);
   var abBox = convertAiBounds(ab.artboardRect);
@@ -5026,6 +5086,36 @@ function generateOutputHtml(content, pageName, settings) {
   if (isTrue(settings.include_resizer_script)) {
     responsiveJs  = getResizerScript(containerId);
     containerClasses += ' ai2html-responsive';
+  }
+
+  // Guardian lazyloader script
+
+  if (isTrue(settings.use_lazy_loader)) {
+    responsiveJs += "\t<!-- lazyload script -->\r";
+    responsiveJs += "\t<script>\n";
+    responsiveJs += "\tconst images = document.querySelectorAll('[data-src]');\n";
+    responsiveJs += "\tconst config = {\n";
+    responsiveJs += "\trootMargin: '0px 0px 300px 0px',\n";
+    responsiveJs += "\tthreshold: 0\n";
+    responsiveJs += "\t};\n";
+
+    responsiveJs += "\tlet observer = new IntersectionObserver(function (entries, self) {\n";
+    responsiveJs += "\tentries.forEach(entry => {\n";
+    responsiveJs += "\tif (entry.isIntersecting) {\n";
+    responsiveJs += "\tpreloadImage(entry.target);\n";
+    responsiveJs += "\tself.unobserve(entry.target);\n";
+    responsiveJs += "\t}\n";
+    responsiveJs += "\t});\n";
+    responsiveJs += "\t}, config);\n";
+    responsiveJs += "\timages.forEach(image => { observer.observe(image); });\n";
+
+    responsiveJs += "\tfunction preloadImage(img) {\n";
+    responsiveJs += "\tconst src = img.getAttribute('data-src');\n";
+    responsiveJs += "\tif (!src) { return; }\n";
+    //responsiveJs += "\timg.style.backgroundImage = 'url(' + src + ')';\n";
+    responsiveJs += "\timg.src = src;\n";
+    responsiveJs += "\t}\n";
+    responsiveJs += "\t</script>\n";
   }
 
   // comments
