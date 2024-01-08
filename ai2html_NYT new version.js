@@ -59,7 +59,7 @@ var scriptVersion = '0.120.0';
   function applyGuardianSettings() {
 
     defaultSettings.namespace = "gv-";
-    defaultSettings.responsiveness = "dynamic";
+    defaultSettings.responsiveness = "auto";
     defaultSettings.include_resizer_script = true;
     defaultSettings.top_and_bottom_rules = true;
     defaultSettings.embed_as_iframe = true; // yes
@@ -1955,7 +1955,7 @@ function validateDocumentSettings(settings) {
     error("The include_resizer_classes option was removed. Please file a GitHub issue if you need this feature.");
   }
 
-  if (!(settings.responsiveness == 'fixed' || settings.responsiveness == 'dynamic')) {
+  if (!(settings.responsiveness == 'fixed' || settings.responsiveness == 'dynamic' || settings.responsiveness == 'auto')) {
     warn('Unsupported "responsiveness" setting: ' + (settings.responsiveness || '[]'));
   }
 }
@@ -2457,6 +2457,15 @@ function getArtboardVisibilityRange(ab, settings) {
 function getArtboardWidthRange(ab, settings) {
   var responsiveness = getArtboardResponsiveness(ab, settings);
   var w = getArtboardWidth(ab);
+  var sortedArtboards = getArtboardInfo ( settings ); // Custom Guardian
+  var smallestW = sortedArtboards[0].effectiveWidth; // Custom Guardian
+  if ( responsiveness == "auto") {
+    if ( w == smallestW ) {
+      responsiveness = 'dynamic'; // Custom Guardian Dynamic width for smallest artboard
+    } else {
+      responsiveness = "fixed"; // Fixed width for remainder
+    }
+  }
   var visibleRange = getArtboardVisibilityRange(ab, settings);
   if (responsiveness == 'fixed') {
     return [visibleRange[0] === 0 ? 0 : w, w];
@@ -2546,6 +2555,17 @@ function getArtboardInfo(settings) {
     });
   });
   artboards.sort(function(a, b) {return a.effectiveWidth - b.effectiveWidth;});
+
+  if (settings.responsiveness == "auto") { // Custom Guardian
+    var smallestW = artboards[0].effectiveWidth; // Custom Guardian dynamic for smallest artboards, fixed for all others
+    for (var i = 0; i < artboards.length; i++) {
+      if (artboards[i].effectiveWidth == smallestW) {
+        artboards[i].responsiveness = "dynamic";
+      } else {
+        artboards[i].responsiveness = "fixed";
+      }
+    }
+  }
   return artboards;
 }
 
