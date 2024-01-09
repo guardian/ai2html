@@ -3565,9 +3565,14 @@ function getTextFrameCss(thisFrame, abBox, pgData, settings) {
     } else {
       styles += 'margin-left:' + formatCssPct(-htmlW / 2, abBox.width )+ ';';
     }
+  } else if (thisFrameAttributes.halign == 'right') { // CUSTOM GUARDIAN
+    styles += 'left:' + formatCssPct(htmlL + htmlBox.width, abBox.width) + ';';
+    styles += 'transform: translateX(-100%);';
+    styles += 'width:' + htmlBox.width + 'px !important;';
   } else {
     styles += 'left:' + formatCssPct(htmlL, abBox.width) + ';';
   }
+
 
   classes = nameSpace + getLayerName(thisFrame.layer) + ' ' + nameSpace + 'aiAbs';
   if (thisFrame.kind == TextType.POINTTEXT) {
