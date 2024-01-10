@@ -61,6 +61,7 @@ var scriptVersion = '0.120.0';
     defaultSettings.namespace = "gv-";
     defaultSettings.responsiveness = "auto";
     defaultSettings.include_resizer_script = true;
+    defaultSettings.use_lazy_loader = false;
     defaultSettings.top_and_bottom_rules = true;
     defaultSettings.embed_as_iframe = true; // yes
     defaultSettings.main_background_color = "#ffffff";
@@ -68,10 +69,11 @@ var scriptVersion = '0.120.0';
     defaultSettings.headline = "Headline here or leave blank";
     defaultSettings.standfirst = "Standfirst here or leave blank";
     defaultSettings.source = "Source here or leave blank";
+    defaultSettings.fileName = "index";
+    defaultSettings.center_html_output = false;
 
     defaultSettings.settings_block = [
-     "image_format",
-      "responsiveness",
+     "responsiveness",
       "main_background_color",
       "immersive_padding_fix",
       //"include_resizer_script",
@@ -79,12 +81,14 @@ var scriptVersion = '0.120.0';
       "output",
       "html_output_path",
       "image_source_path",
+      "image_format",
       "png_number_of_colors",
+      "png_transparent",
       "jpg_quality",
       "top_and_bottom_rules",
       "embed_as_iframe",
       "headline",
-      "subheading",
+      "standfirst",
       "source"
     ]
 
@@ -382,11 +386,11 @@ var scriptVersion = '0.120.0';
       content.css += "\t\t}\r";
 
       headerPartial += "<div class='" + nameSpace + "graphic-header'>\r";
-      if (settings.heading != "" && settings.heading != " ") {
-        headerPartial += "<h1>" + cleanHtmlText(settings.heading) + "</h1>\r";
+      if (settings.headline != "" && settings.headline != " ") {
+        headerPartial += "<h1>" + cleanHtmlText(settings.headline) + "</h1>\r";
       }
-      if (settings.subheading != "" && settings.subheading != " ") {
-        headerPartial += "<h2>" + cleanHtmlText(settings.subheading) + "</h2>\r";
+      if (settings.standfirst != "" && settings.standfirst != " ") {
+        headerPartial += "<h2>" + cleanHtmlText(settings.standfirst) + "</h2>\r";
       }
       headerPartial += "</div>\r";
     }
@@ -5175,9 +5179,12 @@ function generateOutputHtml(content, pageName, settings) {
   htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
 
   // 'index' is assigned upstream now (where applicable)
-  // Custom Guardian
-  if (settings.output == 'one-file' && settings.project_type == 'ai2html') {
-    htmlFileDestination = htmlFileDestinationFolder + 'index' + settings.html_output_extension;
+  // if (settings.output == 'one-file' && settings.project_type == 'ai2html') {
+  //   htmlFileDestination = htmlFileDestinationFolder + 'index' + settings.html_output_extension;
+  // }
+  // Custom Guardian to output index.html as default
+  if (settings.fileName) {
+    htmlFileDestination = htmlFileDestinationFolder + settings.fileName + settings.html_output_extension;
   }
 
   // write file
