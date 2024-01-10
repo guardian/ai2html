@@ -65,24 +65,25 @@ var scriptVersion = '0.120.0';
     defaultSettings.embed_as_iframe = true; // yes
     defaultSettings.main_background_color = "#ffffff";
     defaultSettings.immersive_padding_fix = false;
-    defaultSettings.heading = "Heading here";
-    defaultSettings.subheading = "Subheading here";
-    defaultSettings.source = "Source here";
+    defaultSettings.headline = "Headline here or leave blank";
+    defaultSettings.standfirst = "Standfirst here or leave blank";
+    defaultSettings.source = "Source here or leave blank";
 
     defaultSettings.settings_block = [
      "image_format",
       "responsiveness",
+      "main_background_color",
+      "immersive_padding_fix",
       //"include_resizer_script",
-      "use_lazy_loader",
+      //"use_lazy_loader",
       "output",
       "html_output_path",
-      "image_output_path",
       "image_source_path",
       "png_number_of_colors",
       "jpg_quality",
       "top_and_bottom_rules",
       "embed_as_iframe",
-      "heading",
+      "headline",
       "subheading",
       "source"
     ]
@@ -5089,7 +5090,7 @@ function generateOutputHtml(content, pageName, settings) {
     containerClasses += ' ai2html-responsive';
   }
 
-  // Guardian lazyloader script
+  // Guardian lazyloader script not used. Maybe remove in future?
 
   if (isTrue(settings.use_lazy_loader)) {
     // responsiveJs += "\t<!-- lazyload script -->\r";
@@ -5174,9 +5175,10 @@ function generateOutputHtml(content, pageName, settings) {
   htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
 
   // 'index' is assigned upstream now (where applicable)
-  // if (settings.output == 'one-file' && settings.project_type == 'ai2html') {
-  //   htmlFileDestination = htmlFileDestinationFolder + 'index' + settings.html_output_extension;
-  // }
+  // Custom Guardian
+  if (settings.output == 'one-file' && settings.project_type == 'ai2html') {
+    htmlFileDestination = htmlFileDestinationFolder + 'index' + settings.html_output_extension;
+  }
 
   // write file
   saveTextFile(htmlFileDestination, textForFile);
