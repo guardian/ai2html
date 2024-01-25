@@ -98,9 +98,7 @@ var scriptVersion = '0.120.0';
 
     // TO DO
     // dark mode TO TEST
-    // fixed responsiveness
     // font adjustments
-    // special characters
     // lazyloading TO TEST
 
 
@@ -293,7 +291,7 @@ var scriptVersion = '0.120.0';
     content.css += "\t\t}\r";
     content.css += "\t\t}\r";
 
-    content.css += "\t\tbody.use-rules_true {\r";
+    content.css += "\t\t." + nameSpace + "borders-true {\r";
     content.css += "\t\t\tborder-top:1px solid #dcdcdc;\r";
     content.css += "\t\t\tborder-bottom:1px solid #dcdcdc;\r";
     content.css += "\t\t}\r";
@@ -491,7 +489,7 @@ var scriptVersion = '0.120.0';
     headerPartial += "</style>\r";
 
     headerPartial += "</head>\r";
-    headerPartial += "<body class='use-rules_" + settings.top_and_bottom_rules + " immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
+    headerPartial += "<body class='immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
 
     footerPartial = "</body>\r";
     footerPartial += "</html>\r";
@@ -5101,6 +5099,10 @@ function generateOutputHtml(content, pageName, settings) {
 
   // Guardian lazyloader script not used. Maybe remove in future?
 
+  if (isTrue(settings.top_and_bottom_rules)) {
+    containerClasses += ' ' + nameSpace + 'borders-true';
+  }
+
   if (isTrue(settings.use_lazy_loader)) {
     // responsiveJs += "\t<!-- lazyload script -->\r";
     // responsiveJs += "\t<script>\n";
@@ -5161,7 +5163,7 @@ function generateOutputHtml(content, pageName, settings) {
   var iframeHeaderWrapperHtml = ""; // GUARDIAN CUSTOM
   var iframeFooterWrapperHtml = ""; // GUARDIAN CUSTOM
 
-  if (settings.embed_as_iframe) { // GUARDIAN CUSTOM
+  if (isTrue(settings.embed_as_iframe)) { // GUARDIAN CUSTOM
     iframeHeaderWrapperHtml = addIframeWrapperHTML("header", settings) + '\r'; // GUARDIAN CUSTOM
     iframeFooterWrapperHtml = addIframeWrapperHTML("footer", settings) + '\r'; // GUARDIAN CUSTOM
   } // GUARDIAN CUSTOM
