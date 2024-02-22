@@ -23,25 +23,36 @@ var opacityBoost = 1.6;
 var darkModeBaseVal = 26; // #1A1A1A rgb(26, 26, 26) dark mode background
 var skippedColors = [];
 var darkArtboardsTotal = 0;
-var neutralThreshold = 6; // The maximum variation in r, g and b values that comprises a neutral (This figure may need to be adjusted upwards)
+var neutralThreshold = 13; //was 6 // The maximum variation in r, g and b values that comprises a neutral (This figure may need to be adjusted upwards)
 
 var guardianNeutralsMap = [];
 
 guardianNeutralsMap.push( { light: "#ffffff", dark: "#1a1a1a" } ); // White to dark mode background colour
-guardianNeutralsMap.push( { light: "#f6f6f6", dark: "#333333" } );
-guardianNeutralsMap.push( { light: "#efefef", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
-guardianNeutralsMap.push( { light: "#eaeaea", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
-guardianNeutralsMap.push( { light: "#dcdcdc", dark: "#767676" } );
-guardianNeutralsMap.push( { light: "#dadada", dark: "#767676" } );
-guardianNeutralsMap.push( { light: "#b3b3b4", dark: "#767676" } );
-guardianNeutralsMap.push( { light: "#999999", dark: "#999999" } );
-guardianNeutralsMap.push( { light: "#929297", dark: "#999999" } );
-guardianNeutralsMap.push( { light: "#767676", dark: "#dcdcdc" } );
-guardianNeutralsMap.push( { light: "#676767", dark: "#dcdcdc" } );
-guardianNeutralsMap.push( { light: "#333333", dark: "#eaeaea" } );
-guardianNeutralsMap.push( { light: "#1d1d1b", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
-guardianNeutralsMap.push( { light: "#1a1a1a", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
-guardianNeutralsMap.push( { light: "#121212", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
+guardianNeutralsMap.push( { light: "#fff4f2", dark: "#1a1a1a" } ); // Analysis pink to dark mode background colour
+// guardianNeutralsMap.push( { light: "#f6f6f6", dark: "#333333" } );
+// guardianNeutralsMap.push( { light: "#efefef", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
+// guardianNeutralsMap.push( { light: "#eaeaea", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
+// guardianNeutralsMap.push( { light: "#dcdcdc", dark: "#767676" } );
+// guardianNeutralsMap.push( { light: "#dadada", dark: "#767676" } );
+// guardianNeutralsMap.push( { light: "#b3b3b4", dark: "#767676" } );
+// guardianNeutralsMap.push( { light: "#999999", dark: "#999999" } );
+// guardianNeutralsMap.push( { light: "#929297", dark: "#999999" } );
+// guardianNeutralsMap.push( { light: "#767676", dark: "#dcdcdc" } );
+// guardianNeutralsMap.push( { light: "#676767", dark: "#dcdcdc" } );
+// guardianNeutralsMap.push( { light: "#333333", dark: "#eaeaea" } );
+// guardianNeutralsMap.push( { light: "#1d1d1b", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
+// guardianNeutralsMap.push( { light: "#1a1a1a", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
+// guardianNeutralsMap.push( { light: "#121212", dark: "#f6f6f6" } ); // Dark text/objects currently not made pure white
+// guardianNeutralsMap.push( { light: "#000000", dark: "#ffffff" } );
+
+guardianNeutralsMap.push( { light: "#f3f3f3", dark: "#383838" } );
+guardianNeutralsMap.push( { light: "#dcdcdc", dark: "#494949" } );
+guardianNeutralsMap.push( { light: "#bababa", dark: "#707070" } );
+guardianNeutralsMap.push( { light: "#a1a1a1", dark: "#a1a1a1" } );
+guardianNeutralsMap.push( { light: "#707070", dark: "#c8c8c8" } );
+guardianNeutralsMap.push( { light: "#333333", dark: "#c8c8c8" } );
+guardianNeutralsMap.push( { light: "#121212", dark: "#dcdcdc" } );
+guardianNeutralsMap.push( { light: "#1a1a1a", dark: "#dcdcdc" } );
 guardianNeutralsMap.push( { light: "#000000", dark: "#ffffff" } );
 
 var guardianNeutralsInversion = {};
