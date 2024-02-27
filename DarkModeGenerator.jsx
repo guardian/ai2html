@@ -28,7 +28,6 @@ var neutralThreshold = 13; //was 6 // The maximum variation in r, g and b values
 var guardianNeutralsMap = [];
 
 guardianNeutralsMap.push( { light: "#ffffff", dark: "#1a1a1a" } ); // White to dark mode background colour
-guardianNeutralsMap.push( { light: "#fff4f2", dark: "#1a1a1a" } ); // Analysis pink to dark mode background colour
 // guardianNeutralsMap.push( { light: "#f6f6f6", dark: "#333333" } );
 // guardianNeutralsMap.push( { light: "#efefef", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
 // guardianNeutralsMap.push( { light: "#eaeaea", dark: "#565656" } ); // 565656 NOT GUARDIAN COLOUR BUT NEEDS THIS DARKER TONE!!!!!
@@ -54,6 +53,14 @@ guardianNeutralsMap.push( { light: "#333333", dark: "#c8c8c8" } );
 guardianNeutralsMap.push( { light: "#121212", dark: "#dcdcdc" } );
 guardianNeutralsMap.push( { light: "#1a1a1a", dark: "#dcdcdc" } );
 guardianNeutralsMap.push( { light: "#000000", dark: "#ffffff" } );
+
+// analysis colours
+guardianNeutralsMap.push( { light: "#a19a99", dark: "#a1a1a1" } );
+guardianNeutralsMap.push( { light: "#bab2b1", dark: "#707070" } );
+guardianNeutralsMap.push( { light: "#dcd3d1", dark: "#494949" } );
+guardianNeutralsMap.push( { light: "#f3e8e7", dark: "#383838" } );
+guardianNeutralsMap.push( { light: "#fff4f2", dark: "#1a1a1a" } ); // Analysis pink to dark mode background colour
+
 
 var guardianNeutralsInversion = {};
 
