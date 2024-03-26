@@ -71,6 +71,9 @@ var scriptVersion = '0.120.0';
     defaultSettings.source = "Source here or leave blank";
     defaultSettings.fileName = "index";
     defaultSettings.center_html_output = false;
+    defaultSettings.html_output_path = "USE_DOC_NAME";
+    defaultSettings.image_output_path = "USE_DOC_NAME";
+    
 
     defaultSettings.settings_block = [
      "responsiveness",
@@ -79,7 +82,6 @@ var scriptVersion = '0.120.0';
       //"include_resizer_script",
       //"use_lazy_loader",
       "output",
-      "html_output_path",
       "image_source_path",
       "image_format",
       "png_number_of_colors",
@@ -430,8 +432,10 @@ var scriptVersion = '0.120.0';
     content.js += '\r<script>\r';
     content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';
     content.js += 'var parentPage = document;\r';
+    content.js += 'var isInIframe = false;\r';
     content.js += 'if (window.self !== window.top && !(window.location.href.includes("viewer.gutools.co.uk"))) {\r';
     content.js += 'parentPage = window.parent.document;\r';
+    content.js += 'isInIframe = true;\r';
     content.js += '}\r';
     content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
     content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
@@ -439,6 +443,13 @@ var scriptVersion = '0.120.0';
     content.js += "var isIOSApp = (isIOS && isApp) ? true : false;\r";
     content.js += "var isAndroidApp = (isAndroid && isApp) ? true : false;\r";
     content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
+    content.js += "if (isInIframe && window.resize) {\r";
+    content.js += "setTimeout(() => {\r";
+    content.js += "window.resize()\r";
+    content.js += "}, 100);\r";
+    content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
+    content.js += "document.querySelector('body').classList.add('in-app');\r";
+    content.js += "}\r";
     content.js += "if (isApp) {\r";
     content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
     content.js += "document.querySelector('body').classList.add('in-app');\r";
@@ -1001,6 +1012,12 @@ try {
   docSettings = initDocumentSettings(textBlockData.settings);
   docSlug = docSettings.project_name || makeDocumentSlug(getRawDocumentName());
   nameSpace = docSettings.namespace || nameSpace;
+  if (docSettings.html_output_path == "USE_DOC_NAME") { // GUARDIAN CUSTOM
+    docSettings.html_output_path = docSlug + "_ai2html-output/";
+  }
+  if (docSettings.image_output_path == "USE_DOC_NAME") { // GUARDIAN CUSTOM
+    docSettings.image_output_path = docSlug + "_ai2html-output/";
+  }
   extendFontList(fonts, docSettings.fonts || []);
 
   if (!textBlockData.settings && isTrue(docSettings.create_settings_block)) {
@@ -5182,6 +5199,7 @@ function generateOutputHtml(content, pageName, settings) {
 
   textForFile = applyTemplate(textForFile, settings);
   htmlFileDestinationFolder = docPath + settings.html_output_path;
+  //htmlFileDestinationFolder = docPath + pageName + "_ai2html_output/"; // GUARDIAN CUSTOM
   checkForOutputFolder(htmlFileDestinationFolder, 'html_output_path');
   htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
 
