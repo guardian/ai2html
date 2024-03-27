@@ -463,12 +463,11 @@ var scriptVersion = '0.120.0';
   }
 
   function addIframeWrapperHTML(position, settings) {
-      var headerPartial = "<!doctype html>\r";
+    var headerPartial = "<!doctype html>\r";
     headerPartial += "<html lang='en'>\r";
     headerPartial += "<head>\r";
     headerPartial += "<meta name='viewport' content='width=device-width, initial-scale=1'>\r";
-    headerPartial += "<meta http-equiv='content-type' content='text/html; charset=utf-8' />\r";
-
+    headerPartial += "<meta charset='utf-8'>\r";
 
     // zero margin and padding for iframe html
     headerPartial += "<style type='text/css' media='screen,print'>\r"
