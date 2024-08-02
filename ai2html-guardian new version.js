@@ -72,7 +72,7 @@ var scriptVersion = '0.120.0';
     defaultSettings.fileName = "index";
     defaultSettings.center_html_output = false;
     defaultSettings.html_output_path = "USE_DOC_NAME";
-    defaultSettings.image_output_path = "USE_DOC_NAME";
+    defaultSettings.image_output_path = "";
     
 
     defaultSettings.settings_block = [
@@ -295,7 +295,7 @@ var scriptVersion = '0.120.0';
 
     content.css += "\t\t." + nameSpace + "borders-true {\r";
     content.css += "\t\t\tborder-top:1px solid #dcdcdc;\r";
-    content.css += "\t\t\tborder-bottom:1px solid #dcdcdc;\r";
+    // content.css += "\t\t\tborder-bottom:1px solid #dcdcdc;\r";
     content.css += "\t\t}\r";
 
     // Text styles
@@ -345,30 +345,31 @@ var scriptVersion = '0.120.0';
     if ((settings.headline != "" && settings.headline != " ") || (settings.standfirst != "" && settings.standfirst != " ")) {
       content.css += "." + nameSpace + "graphic-header {\r";
       content.css += "\tposition:relative;\r";
+      content.css += "\tpadding-bottom: 24px;\r";
       content.css += "}\r";
       content.css += "." + nameSpace + "graphic-header h1 {\r";
-      content.css += "\tpadding:6px 0 10px 0;\r"; // was 25px
+      content.css += "\tpadding:8px 0 0 0;\r"; // was 25px
       content.css += "\tmargin:0;\r";
       content.css += "\tfont-family:'GH Guardian Headline', Georgia, serif;\r";
-      content.css += "\tfont-size:18px;\r";
-      content.css += "\tfont-weight:700;\r";
-      content.css += "\tline-height: 22px;\r";
+      content.css += "\tfont-size:20px;\r";
+      content.css += "\tfont-weight:500;\r";
+      content.css += "\tline-height: 115%;\r";
       content.css += "\tcolor: #121212;\r"; // was #3333
       content.css += "}\r";
       content.css += "@media screen and (min-width: 380px) {\r";
       content.css += "." + nameSpace + "graphic-header h1 {\r";
       content.css += "\tfont-size:20px;\r";
-      content.css += "\tline-height: 24px;\r";
+      content.css += "\tline-height: 115%;\r";
       content.css += "}\r";
       content.css += "}\r";
 
       content.css += "." + nameSpace + "graphic-header h2 {\r";
-      content.css += "\tpadding:0 0 25px 0;\r";
+      content.css += "\tpadding:8px 0 0 0;\r";
       content.css += "\tmargin:0;\r";
-      content.css += "\tfont-family:'Guardian Text Egyptian Web', Georgia, serif;\r";
-      content.css += "\tfont-size:14px;\r";
-      content.css += "\tfont-weight:200;\r";
-      content.css += "\tline-height: 18px;\r";
+      content.css += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
+      content.css += "\tfont-size:15px;\r";
+      content.css += "\tfont-weight:300;\r";
+      content.css += "\tline-height: 130%;\r";
       content.css += "\tcolor: #121212;\r";
       content.css += "}\r";
 
@@ -403,12 +404,12 @@ var scriptVersion = '0.120.0';
       content.css += "\tmargin-top:0;\r";
       content.css += "}\r";
       content.css += " ." + nameSpace + "graphic-footer p {\r";
-      content.css += "\tpadding:6px 0 6px 0;\r";
+      content.css += "\tpadding:14px 0 0 0;\r";
       content.css += "\tmargin:0;\r";
       content.css += "\tfont-family:'Guardian Text Sans Web', Arial, sans-serif;\r";
       content.css += "\tfont-size:12px;\r";
-      content.css += "\tline-height: 15px;\r";
-      content.css += "\tcolor: #767676;\r";
+      content.css += "\tline-height: 115%;\r";
+      content.css += "\tcolor: #999999;\r";
       content.css += "\tdisplay: inline-block;\r";
       content.css += "\twidth:100%;\r";
       content.css += "}\r";
@@ -1014,11 +1015,11 @@ try {
   docSlug = docSettings.project_name || makeDocumentSlug(getRawDocumentName());
   nameSpace = docSettings.namespace || nameSpace;
   if (docSettings.html_output_path == "USE_DOC_NAME") { // GUARDIAN CUSTOM
-    docSettings.html_output_path = docSlug + "_ai2html-output/";
+    docSettings.html_output_path = getRawDocumentName() + "_ai2html_output/";
   }
-  if (docSettings.image_output_path == "USE_DOC_NAME") { // GUARDIAN CUSTOM
-    docSettings.image_output_path = docSlug + "_ai2html-output/";
-  }
+  // if (docSettings.image_output_path == "USE_DOC_NAME") { // GUARDIAN CUSTOM
+  //   docSettings.image_output_path = getRawDocumentName() + "_ai2html_output/";
+  // }
   extendFontList(fonts, docSettings.fonts || []);
 
   if (!textBlockData.settings && isTrue(docSettings.create_settings_block)) {
@@ -4163,8 +4164,8 @@ function findTaggedLayers(tag) {
 }
 
 function getImageFolder(settings) {
-  // return pathJoin(docPath, settings.html_output_path, settings.image_output_path);
-  return pathJoin(docPath, settings.image_output_path);
+  return pathJoin(docPath, settings.html_output_path, settings.image_output_path);
+  //return pathJoin(docPath, settings.image_output_path); // GUARDIAN CHANGE
 }
 
 function getImageFileName(name, fmt) {
@@ -5200,9 +5201,9 @@ function generateOutputHtml(content, pageName, settings) {
 
   textForFile = applyTemplate(textForFile, settings);
   htmlFileDestinationFolder = docPath + settings.html_output_path;
-  //htmlFileDestinationFolder = docPath + pageName + "_ai2html_output/"; // GUARDIAN CUSTOM
+  //htmlFileDestinationFolder = docPath + getRawDocumentName() + "_ai2html_output/"; // GUARDIAN CUSTOM
   checkForOutputFolder(htmlFileDestinationFolder, 'html_output_path');
-  htmlFileDestination = htmlFileDestinationFolder + pageName + settings.html_output_extension;
+  htmlFileDestination = htmlFileDestinationFolder + 'index' + settings.html_output_extension;
 
   // 'index' is assigned upstream now (where applicable)
   // if (settings.output == 'one-file' && settings.project_type == 'ai2html') {
