@@ -430,6 +430,9 @@ var scriptVersion = '0.120.0';
     // Add Guardian default javascript
 
     content.js += '\r<!-- Custom Guardian JS -->\r';
+    if (settings.embed_as_iframe == "true" || settings.embed_as_iframe == true) {
+    content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
+    }
     content.js += '\r<script>\r';
     content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';
     content.js += 'var parentPage = document;\r';
@@ -444,13 +447,6 @@ var scriptVersion = '0.120.0';
     content.js += "var isIOSApp = (isIOS && isApp) ? true : false;\r";
     content.js += "var isAndroidApp = (isAndroid && isApp) ? true : false;\r";
     content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
-    content.js += "if (isInIframe && window.resize) {\r";
-    content.js += "setTimeout(() => {\r";
-    content.js += "window.resize()\r";
-    content.js += "}, 100);\r";
-    content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
-    content.js += "document.querySelector('body').classList.add('in-app');\r";
-    content.js += "}\r";
     content.js += "if (isApp) {\r";
     content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
     content.js += "document.querySelector('body').classList.add('in-app');\r";
@@ -4982,6 +4978,9 @@ function getResizerScript(containerId) {
             observer = new IntersectionObserver(onIntersectionChange, {});
             observer.observe(container);
           }
+        }
+        if (iframeMessenger) {
+          iframeMessenger.resize();
         }
       }
 
