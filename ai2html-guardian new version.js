@@ -473,6 +473,10 @@ var scriptVersion = '0.120.0';
     headerPartial += "\tmargin:0;\r";
     headerPartial += "\t-webkit-font-smoothing:antialiased;\r";
     headerPartial += "}\r";
+
+    headerPartial += ".ai2html {\r";
+    headerPartial += "\tmargin:16px 0 16px 0;\r";
+    headerPartial += "}\r";
    
     headerPartial += "@media screen and (min-width: 480px) {\r";
     headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
