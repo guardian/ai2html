@@ -432,6 +432,7 @@ var scriptVersion = '0.120.0';
     content.js += '\r<!-- Custom Guardian JS -->\r';
     if (settings.embed_as_iframe == "true" || settings.embed_as_iframe == true) {
     content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
+    content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
     }
     content.js += '\r<script>\r';
     content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';

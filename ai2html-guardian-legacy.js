@@ -715,20 +715,23 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
     iframeHeaderPartial += "\tmargin:0;\r";
     iframeHeaderPartial += "\t-webkit-font-smoothing:antialiased;\r";
     iframeHeaderPartial += "}\r";
-   
+
+    iframeHeaderPartial += ".not-in-app.immersive-padding-fix_true {\r";
+    iframeHeaderPartial += "\tpadding: 0 10px 0 10px;\r";
+    iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "@media screen and (min-width: 480px) {\r";
     iframeHeaderPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    iframeHeaderPartial += "\tpadding-left:10px;\r";
+    iframeHeaderPartial += "\tpadding: 0 20px 0 20px;\r";
     iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "@media screen and (min-width: 740px) {\r";
     iframeHeaderPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    iframeHeaderPartial += "\tpadding-left:20px;\r";
+    iframeHeaderPartial += "\tpadding: 0 20px 0 20px;\r";
     iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "@media screen and (min-width: 1140px) {\r";
     iframeHeaderPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    iframeHeaderPartial += "\tpadding-left:0px;\r";
+    iframeHeaderPartial += "\tpadding: 0 0 0 0;\r";
     iframeHeaderPartial += "}\r";
     iframeHeaderPartial += "}\r";
     
