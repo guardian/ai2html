@@ -682,12 +682,12 @@ htmlCharacterCodes = htmlCharacterCodes.concat(guardianCharacterCodes);
 
     cggCss += "\t\tsub {\r";
     cggCss += "\t\t\tvertical-align: sub;\r";
-    cggCss += "\t\t\tfont-size: smaller;\r";
+    cggCss += "\t\t\tfont-size: 0.7em;\r";
     cggCss += "\t\t}\r";
 
     cggCss += "\t\tsup {\r";
     cggCss += "\t\t\tvertical-align: super;\r";
-    cggCss += "\t\t\tfont-size: smaller;\r";
+    cggCss += "\t\t\tfont-size: 0.7em;\r";
     cggCss += "\t\t}\r";
     
 
