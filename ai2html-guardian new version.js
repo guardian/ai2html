@@ -225,27 +225,27 @@ var scriptVersion = '0.120.0';
         "style": "italic"
       }, {
         "aifont": "TE32TextEgyptian",
-        "family": "'Guardian Text Egyptian Web', Georgia, serif",
+        "family": "GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif",
         "weight": "400",
         "style": ""
       }, {
         "aifont": "TE32TextEgyptian-Regular",
-        "family": "'Guardian Text Egyptian Web', Georgia, serif",
+        "family": "GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif",
         "weight": "400",
         "style": ""
       }, {
         "aifont": "TE32TextEgyptian-Italic",
-        "family": "'Guardian Text Egyptian Web', Georgia, serif",
+        "family": "GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif",
         "weight": "400",
         "style": "italic"
       }, {
         "aifont": "TE32TextEgyptian-Bold",
-        "family": "'Guardian Text Egyptian Web', Georgia, serif",
+        "family": "GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif",
         "weight": "800",
         "style": ""
       }, {
         "aifont": "TE32TextEgyptian-BoldItalic",
-        "family": "'Guardian Egyptian Web', Georgia, serif",
+        "family": "GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif",
         "weight": "800",
         "style": "italic"
       }, {
@@ -388,7 +388,7 @@ var scriptVersion = '0.120.0';
 
       headerPartial += "<div class='" + nameSpace + "graphic-header'>\r";
       if (settings.headline != "" && settings.headline != " ") {
-        headerPartial += "<h1>" + cleanHtmlText(settings.headline) + "</h1>\r";
+        headerPartial += "<h1>" + encodeHtmlEntities(settings.headline) + "</h1>\r";
       }
       if (settings.standfirst != "" && settings.standfirst != " ") {
         headerPartial += "<h2>" + cleanHtmlText(settings.standfirst) + "</h2>\r";
