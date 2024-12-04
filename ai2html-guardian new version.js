@@ -475,19 +475,17 @@ var scriptVersion = '0.120.0';
     headerPartial += "\t-webkit-font-smoothing:antialiased;\r";
     headerPartial += "}\r";
    
+    headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
+    headerPartial += "\tpadding: 0px 10px 0px 10px;\r";
+    headerPartial += "}\r";
     headerPartial += "@media screen and (min-width: 480px) {\r";
     headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    headerPartial += "\tpadding-left:10px;\r";
-    headerPartial += "}\r";
-    headerPartial += "}\r";
-    headerPartial += "@media screen and (min-width: 740px) {\r";
-    headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    headerPartial += "\tpadding-left:20px;\r";
+    headerPartial += "\tpadding: 0px 20px 0px 20px;\r";
     headerPartial += "}\r";
     headerPartial += "}\r";
     headerPartial += "@media screen and (min-width: 1140px) {\r";
     headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
-    headerPartial += "\tpadding-left:0px;\r";
+    headerPartial += "\tpadding:0px;\r";
     headerPartial += "}\r";
     headerPartial += "}\r";
     
@@ -3285,6 +3283,11 @@ function convertAiTextStyle(aiStyle) {
   }
   if ('leading' in aiStyle) {
     cssStyle['line-height'] = aiStyle.leading + 'px';
+
+     // Fix for line height discrepancy affecting Guardian Headline font.
+    if (aiStyle.aifont == "GHGuardianHeadline-Regular" || aiStyle.aifont == "GHGuardianHeadline-Bold") {
+      cssStyle['line-height'] = Math.round(aiStyle.leading * 1.25) + 'px';
+    }
     // Fix for line height error affecting point text in Chrome/Safari at certain browser zooms.
     if (aiStyle.frameType == 'point') {
       cssStyle.height = cssStyle['line-height'];
