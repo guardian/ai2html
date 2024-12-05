@@ -310,6 +310,16 @@ var scriptVersion = '0.120.0';
     content.css += "\t\t\ttext-shadow: rgb(255, 255, 255) 3px 0px 0px, rgb(255, 255, 255) 2.83333px 0.983333px 0px, rgb(255, 255, 255) 2.35px 1.85px 0px, rgb(255, 255, 255) 1.61667px 2.51667px 0px, rgb(255, 255, 255) 0.7px 2.91667px 0px, rgb(255, 255, 255) -0.283333px 2.98333px 0px, rgb(255, 255, 255) -1.25px 2.73333px 0px, rgb(255, 255, 255) -2.06667px 2.16667px 0px, rgb(255, 255, 255) -2.66667px 1.36667px 0px, rgb(255, 255, 255) -2.96667px 0.416667px 0px, rgb(255, 255, 255) -2.95px -0.566667px 0px, rgb(255, 255, 255) -2.6px -1.5px 0px, rgb(255, 255, 255) -1.96667px -2.26667px 0px, rgb(255, 255, 255) -1.11667px -2.78333px 0px, rgb(255, 255, 255) -0.133333px -3px 0px, rgb(255, 255, 255) 0.85px -2.88333px 0px, rgb(255, 255, 255) 1.75px -2.43333px 0px, rgb(255, 255, 255) 2.45px -1.73333px 0px, rgb(255, 255, 255) 2.88333px -0.833333px 0px;\r";
     content.css += "\t\t}\r";
 
+     // Black text outline
+     content.css += "\t\t." + nameSpace + "black-outlined-text p {\r";
+     content.css += "\t\t\ttext-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px  1px 0 #000, 1px  1px 0 #000;\r";
+     content.css += "\t\t}\r";
+ 
+     // Black text outline thicker
+     content.css += "\t\t." + nameSpace + "black-outlined-text-thicker p {\r";
+     content.css += "\t\t\ttext-shadow: rgb(0, 0, 0) 3px 0px 0px, rgb(0, 0, 0) 2.83333px 0.983333px 0px, rgb(0, 0, 0) 2.35px 1.85px 0px, rgb(0, 0, 0) 1.61667px 2.51667px 0px, rgb(0, 0, 0) 0.7px 2.91667px 0px, rgb(0, 0, 0) -0.283333px 2.98333px 0px, rgb(0, 0, 0) -1.25px 2.73333px 0px, rgb(0, 0, 0) -2.06667px 2.16667px 0px, rgb(0, 0, 0) -2.66667px 1.36667px 0px, rgb(0, 0, 0) -2.96667px 0.416667px 0px, rgb(0, 0, 0) -2.95px -0.566667px 0px, rgb(0, 0, 0) -2.6px -1.5px 0px, rgb(0, 0, 0) -1.96667px -2.26667px 0px, rgb(0, 0, 0) -1.11667px -2.78333px 0px, rgb(0, 0, 0) -0.133333px -3px 0px, rgb(0, 0, 0) 0.85px -2.88333px 0px, rgb(0, 0, 0) 1.75px -2.43333px 0px, rgb(0, 0, 0) 2.45px -1.73333px 0px, rgb(0, 0, 0) 2.88333px -0.833333px 0px;\r";
+     content.css += "\t\t}\r";
+
     // White text background 
     content.css += "\t\t." + nameSpace + "white-background-text {\r";
     content.css += "\t\t\tbackground-color: #FFF;\r";
@@ -325,6 +335,15 @@ var scriptVersion = '0.120.0';
     // Basic glow
     content.css += "\t\t." + nameSpace + "glow p {\r";
     content.css += "\t\t\ttext-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);\r";
+    content.css += "\t\t}\r";
+
+    // Body copy
+    content.css += "\t\t." + nameSpace + "bodycopy p {\r";
+    content.css += "\t\t\tfont-family: GuardianTextEgyptian, 'Guardian Text Egyptian Web', Georgia, serif !important;\r";
+    content.css += "\t\t\tfont-size: 17px !important;\r";
+    content.css += "\t\t\tfont-weight: 400 !important;\r";
+    content.css += "\t\t\tline-height: 1.4 !important;\r";
+    content.css += "\t\t\tmargin-bottom: 12px !important;\r";
     content.css += "\t\t}\r";
 
     // Subscript
