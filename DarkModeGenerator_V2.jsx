@@ -327,7 +327,7 @@ function duplicateArtboard(i, items) {
 
     var splitNameArray = thisAb.name.split("_"); // or should this be a space ?
     var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
-    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic
+    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic (has to be less than 300 because of mobile artboard naming convention)
       additionalSuffix = " " + splitNameIndex;
     }
   
