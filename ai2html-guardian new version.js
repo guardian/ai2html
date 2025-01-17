@@ -358,6 +358,36 @@ var scriptVersion = '0.120.0';
     content.css += "\t\t\tfont-size: smaller;\r";
     content.css += "\t\t}\r";
 
+    // Main content wrapper
+    content.css += "." + nameSpace + "graphic-main {\r";
+    content.css += "\tposition:relative;\r";
+    content.css += "}\r";
+
+    // Step initiation and transition css
+    content.css += "." + nameSpace + "graphic-main {\r";
+    content.css += "\tposition:relative;\r";
+    content.css += "}\r";
+
+    content.css += ".ai2html .gv-step {\r";
+      content.css += "\tdisplay: block;\r";
+      content.css += "\tposition: absolute;\r";
+      content.css += "\ttop: 0;\r";
+      content.css += "\tleft: 0;\r";
+      content.css += "\tz-index: 99;\r";
+      content.css += "\twidth: 100%;\r";
+      content.css += "\theight: 100%;\r";
+      content.css += "\ttransition: opacity 0.5s;\r";
+      content.css += "\topacity: 0;\r";
+  content.css += "}\r";
+
+content.css += ".ai2html .gv-step.gv-step_0 {\r";
+          content.css += "\tdisplay: block;\r";
+          content.css += "\tposition: relative;\r";
+          content.css += "\tz-index: 90;\r";
+         content.css += "\topacity: 1;\r";
+content.css += "}\r";
+
+
     var headerPartial = "", footerPartial = "";
 
     // add header 
@@ -443,7 +473,7 @@ var scriptVersion = '0.120.0';
       footerPartial += "</div>\r";
     }
 
-    content.html = '<!-- Custom Guardian header HTML -->\r' + headerPartial + content.html + '\r';
+    content.html = '<!-- Custom Guardian header HTML -->\r' + headerPartial + '<div class="' + nameSpace + 'graphic-main">\r' + content.html + '</div>\r';
     content.html += '\r<!-- Custom Guardian footer HTML -->\r' + footerPartial + '\r';
   
     // Add Guardian default javascript
@@ -451,21 +481,16 @@ var scriptVersion = '0.120.0';
     content.js += '\r<!-- Custom Guardian JS -->\r';
     if (settings.embed_as_iframe == "true" || settings.embed_as_iframe == true) {
     content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
-    content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
-    }
-    content.js += '\r<script>\r';
-    content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';
-    content.js += 'var parentPage = document;\r';
-    content.js += 'var isInIframe = false;\r';
-    content.js += 'if (window.self !== window.top && !(window.location.href.includes("viewer.gutools.co.uk"))) {\r';
-    content.js += 'parentPage = window.parent.document;\r';
-    content.js += 'isInIframe = true;\r';
-    content.js += '}\r';
+    //content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
+    content.js += '\r<script>iframeMessenger.enableAutoResize();\r';
+    content.js += "iframeMessenger.getLocation(checkApp);\r";
+
+    content.js += "function checkApp(locationObj) {\r";
     content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
     content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
-    content.js += "var isApp = (parentPage.body.classList.contains('ios') || parentPage.body.classList.contains('android')) && url.includes('file:');\r";
-    content.js += "var isIOSApp = (isIOS && isApp) ? true : false;\r";
-    content.js += "var isAndroidApp = (isAndroid && isApp) ? true : false;\r";
+    content.js += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    content.js += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    content.js += "var isApp = isIOSApp || isAndroidApp;\r";
     content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
     content.js += "if (isApp) {\r";
     content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
@@ -474,7 +499,31 @@ var scriptVersion = '0.120.0';
     content.js += "if (isApp && darkModeArtboardsPresent) {\r";
     content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
     content.js += "}\r";
-    content.js += '\r</script>\r';
+    content.js += "}\r";
+    content.js += "</script>\r";
+    }
+    //content.js += '\r<script>\r';
+    // content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';
+    // content.js += 'var parentPage = document;\r';
+    // content.js += 'var isInIframe = false;\r';
+    // content.js += 'if (window.self !== window.top && !(window.location.href.includes("viewer.gutools.co.uk"))) {\r';
+    // content.js += 'parentPage = window.parent.document;\r';
+    // content.js += 'isInIframe = true;\r';
+    // content.js += '}\r';
+    // content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
+    // content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
+    // content.js += "var isApp = (parentPage.body.classList.contains('ios') || parentPage.body.classList.contains('android')) && url.includes('file:');\r";
+    // content.js += "var isIOSApp = (isIOS && isApp) ? true : false;\r";
+    // content.js += "var isAndroidApp = (isAndroid && isApp) ? true : false;\r";
+    // content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
+    // content.js += "if (isApp) {\r";
+    // content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
+    // content.js += "document.querySelector('body').classList.add('in-app');\r";
+    // content.js += "}\r";
+    // content.js += "if (isApp && darkModeArtboardsPresent) {\r";
+    // content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
+    // content.js += "}\r";
+    //content.js += '\r</script>\r';
     content.js += '\r<!-- End custom Guardian JS -->\r';
 
   }
