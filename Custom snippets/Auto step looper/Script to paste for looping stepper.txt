@@ -1,0 +1,53 @@
+ai2html-js
+<script>
+	var stepDisplayDuration = 5000; // step display time in milliseconds
+	var totalFrames = 8;
+	var currentFrame = 0;
+	var started = false;
+	var ai2htmlEls = [].slice.apply(document.querySelectorAll(".ai2html"));
+	var stepEls = [].slice.apply(document.querySelectorAll(".gv-step"));
+	var interval;
+	
+	ai2htmlEls.map(ai2htmlEl => {
+		let observer = new IntersectionObserver((entries, observer) => {
+	
+			entries.forEach(entry => {
+				const startAnim = entry.intersectionRatio >= 0.75;
+			  
+				if (startAnim && !started) {
+				started = true;
+				interval = setInterval(updateView, stepDisplayDuration);
+				}
+			});
+		}, { threshold: [0, 0.75, 1] });
+		observer.observe(ai2htmlEl);
+	})
+	
+	function updateView() {
+
+	if (started) {
+	
+	currentFrame ++;
+	if (currentFrame >= totalFrames) {
+	currentFrame = 0;
+	}
+	
+	for (var ii = 0; ii <= currentFrame; ii++) {
+	stepEls.forEach(stepEl => {
+	if (stepEl.classList.contains("gv-step_" + ii)) {
+	stepEl.style.opacity = 1;
+	}
+	});
+	}
+	
+	for (ii = currentFrame + 1; ii < totalFrames; ii++) {
+	stepEls.forEach(stepEl => {
+	if (stepEl.classList.contains("gv-step_" + ii)) {
+	stepEl.style.opacity = 0;
+	}
+	});
+	}
+	}
+	}
+	
+</script>
