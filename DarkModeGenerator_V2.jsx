@@ -320,8 +320,18 @@ function duplicateArtboard(i, items) {
         thisAbRect[2],
         thisAbRect[3] - spacing - abHeight
     ]
+
+    // add detect code for steps
+
+    var additionalSuffix = "";
+
+    var splitNameArray = thisAb.name.split("_"); // or should this be a space ?
+    var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
+    if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic
+      additionalSuffix = " " + splitNameIndex;
+    }
   
-      newAb.name = thisAb.name + suffix;
+      newAb.name = thisAb.name + suffix + additionalSuffix;
 
       // Create dark mode background rectangle
       //doc.activeLayer = doc.layers[doc.layers.length-1]; // select base layer
