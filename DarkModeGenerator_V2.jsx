@@ -18,6 +18,7 @@ var spacing = 300;
 var suffix = "_dark-mode";
 var abLength = artboards.length;
 var mode = 0;
+var colourMode = 0;
 var invertWhiteText = false;
 var opacityBoost = 1.6;
 var darkModeBaseVal = 26; // #1A1A1A rgb(26, 26, 26) dark mode background
@@ -26,6 +27,8 @@ var darkArtboardsTotal = 0;
 var neutralThreshold = 13; //was 6 // The maximum variation in r, g and b values that comprises a neutral (This figure may need to be adjusted upwards)
 
 var guardianNeutralsMap = [];
+var guardianColoursMap = [];
+var guardianColoursLookup = {};
 
 guardianNeutralsMap.push( { light: "#ffffff", dark: "#1a1a1a" } ); // White to dark mode background colour
 // guardianNeutralsMap.push( { light: "#f6f6f6", dark: "#333333" } );
@@ -62,6 +65,58 @@ guardianNeutralsMap.push( { light: "#f3e8e7", dark: "#383838" } );
 guardianNeutralsMap.push( { light: "#fff4f2", dark: "#1a1a1a" } ); // Analysis pink to dark mode background colour
 
 
+guardianColoursMap.push( { type: "news", light: "#0094DA", dark: "#009CE3" } );
+guardianColoursMap.push( { type: "news", light: "#C70000", dark: "#CE0E09" } );
+guardianColoursMap.push( { type: "news", light: "#23B4A9", dark: "#35BBB1" } );
+guardianColoursMap.push( { type: "news", light: "#A1A1A1", dark: "#A1A1A1" } );
+guardianColoursMap.push( { type: "news", light: "#CBA36E", dark: "#CBA36E" } );
+guardianColoursMap.push( { type: "news", light: "#F678BB", dark: "#F678BB" } );
+guardianColoursMap.push( { type: "news", light: "#FF7F0F", dark: "#FF8B25" } );
+guardianColoursMap.push( { type: "news", light: "#005689", dark: "#00669D" } );
+guardianColoursMap.push( { type: "news", light: "#8B0000", dark: "#9A0000" } );
+guardianColoursMap.push( { type: "news", light: "#0C7A73", dark: "#128981" } );
+guardianColoursMap.push( { type: "news", light: "#494949", dark: "#5F5F5F" } );
+guardianColoursMap.push( { type: "news", light: "#866D50", dark: "#866D50" } );
+guardianColoursMap.push( { type: "news", light: "#9C2274", dark: "#9C2274" } );
+guardianColoursMap.push( { type: "news", light: "#C74600", dark: "#C74600" } );
+guardianColoursMap.push( { type: "news", light: "#D4EDFF", dark: "#244057" } );
+guardianColoursMap.push( { type: "news", light: "#FFDBD4", dark: "#5f2116" } );
+guardianColoursMap.push( { type: "news", light: "#D9F2EF", dark: "#254a46" } );
+guardianColoursMap.push( { type: "news", light: "#E7E7E7", dark: "#383838" } );
+guardianColoursMap.push( { type: "news", light: "#F7EBDC", dark: "#493D30" } );
+guardianColoursMap.push( { type: "news", light: "#FFE6F4", dark: "#6b2251" } );
+guardianColoursMap.push( { type: "news", light: "#FFE2CD", dark: "#64381a" } );
+
+guardianColoursMap.push( { type: "sentiment", light: "#004E7C", dark: "#004E7C" } );
+guardianColoursMap.push( { type: "sentiment", light: "#0077B6", dark: "#0077B6" } );
+guardianColoursMap.push( { type: "sentiment", light: "#00B2FF", dark: "#00B2FF" } );
+guardianColoursMap.push( { type: "sentiment", light: "#FF5943", dark: "#FF5943" } );
+guardianColoursMap.push( { type: "sentiment", light: "#C70000", dark: "#C70000" } );
+guardianColoursMap.push( { type: "sentiment", light: "#8B0000", dark: "#8B0000" } );
+
+guardianColoursMap.push( { type: "politics", party: "Lab", light: "#C70000", dark: "#e33824" } );
+guardianColoursMap.push( { type: "politics", party: "Con", light: "#0077B6", dark: "#009ae1" } );
+guardianColoursMap.push( { type: "politics", party: "Lib_Dem", light: "#FF7F0F", dark: "#FF7F0F" } );
+guardianColoursMap.push( { type: "politics", party: "Reform", light: "#3DBBE2", dark: "#3DBBE2" } );
+guardianColoursMap.push( { type: "politics", party: "Green", light: "#39A566", dark: "#39A566" } );
+guardianColoursMap.push( { type: "politics", party: "SNP", light: "#F5DC00", dark: "#F5DC00" } );
+guardianColoursMap.push( { type: "politics", party: "Other", light: "#848484", dark: "#707070" } );
+
+guardianColoursMap.push( { type: "structure", light: "#121212", dark: "#DCDCDC" } );
+guardianColoursMap.push( { type: "structure", light: "#707070", dark: "#C8C8C8" } );
+guardianColoursMap.push( { type: "structure", light: "#BABABA", dark: "#707070" } );
+guardianColoursMap.push( { type: "structure", light: "#DCDCDC", dark: "#494949" } );
+guardianColoursMap.push( { type: "structure", light: "#F3F3F3", dark: "#383838" } );
+
+// additional
+guardianColoursMap.push( { type: "structure", light: "#FFFFFF", dark: "#1a1a1a" } );
+
+
+
+
+
+
+
 var guardianNeutralsInversion = {};
 
 for (var i = 0; i < guardianNeutralsMap.length; i++) {
@@ -90,11 +145,11 @@ dialog.alignChildren = ['fill', 'center'];
 var abGroup = dialog.add('group');
 abGroup.orientation = 'column';
 abGroup.alignChildren = ['fill', 'top'];
-abGroup.add('statictext', undefined, "Neutrals/structure conversion mode");
-var modeList = abGroup.add('dropdownlist', [0, 0, 280, 30], ["1. Guardian graphics neutrals (Strict)", "2. Guardian graphics neutrals (Nearest)", "3. Invert - lighten darks", "4. Invert - lighten darks +", "5. Invert - lighten darks ++", "6. Invert - lighten darks +++"]);
-modeList.selection = 0;
+// abGroup.add('statictext', undefined, "Neutrals/structure conversion mode");
+// var modeList = abGroup.add('dropdownlist', [0, 0, 280, 30], ["1. Guardian graphics neutrals (Strict)", "2. Guardian graphics neutrals (Nearest)", "3. Invert - lighten darks", "4. Invert - lighten darks +", "5. Invert - lighten darks ++", "6. Invert - lighten darks +++"]);
+// modeList.selection = 0;
 
-abGroup.add('statictext', undefined, "Colours conversion mode");
+abGroup.add('statictext', undefined, "Colour conversion mode");
 var colourModeList = abGroup.add('dropdownlist', [0, 0, 280, 30], ["1. None", "2. Categorical: news", "3. Categorical: politics", "4. Categorical: sentiment"]);
 colourModeList.selection = 0;
 
@@ -105,8 +160,8 @@ var inputsGroup = dialog.add('group');
   inputsGroup.add('statictext', undefined, "Opacity multiplier");
   var opacityVal = inputsGroup.add('edittext', [0, 0, 60, 30], opacityBoost);
 
-  var invertWhiteTextVal = inputsGroup.add('checkbox', undefined, 'Invert white text');
-  invertWhiteTextVal.value = false;
+  // var invertWhiteTextVal = inputsGroup.add('checkbox', undefined, 'Invert white text');
+  // invertWhiteTextVal.value = false;
 
   // Buttons
   var btnsGroup = dialog.add('group');
@@ -116,8 +171,12 @@ var inputsGroup = dialog.add('group');
   var ok = btnsGroup.add('button', undefined, "OK",  { name: 'ok' });
 
   // Change listeners
-  modeList.onChange = function() {
-    mode = modeList.selection.index;
+  // modeList.onChange = function() {
+  //   mode = modeList.selection.index;
+  // }
+
+  colourModeList.onChange = function() {
+    colourMode = colourModeList.selection.index;
   }
 
    spacingVal.onChange = function () {
@@ -138,8 +197,9 @@ dialog.center();
 dialog.show();
 
 function okClick() {
-invertWhiteText = invertWhiteTextVal.value;
+//invertWhiteText = invertWhiteTextVal.value;
 dialog.close();
+getColours();
 generate();
 }
 
@@ -151,6 +211,36 @@ function convertToNum(str, def) {
   str = str[0] ? str[0] + '.' + str.slice(1).join('') : '';
   if (isNaN(str) || str.length == 0) return parseFloat(def);
   return parseFloat(str);
+}
+
+function getColours() {
+
+
+  for (var i = 0; i < guardianColoursMap.length; i++) {
+
+    var key = String(guardianColoursMap[i].light).toLowerCase();
+    var val = String(guardianColoursMap[i].dark).toLowerCase();
+
+    
+    if (guardianColoursMap[i].type == "structure") {
+      guardianColoursLookup[key] = val;
+    }
+
+    if (colourMode == 1 && guardianColoursMap[i].type == "news") {
+      guardianColoursLookup[key] = val;
+     
+    }
+
+    if (colourMode == 2 && guardianColoursMap[i].type == "politics") {
+      guardianColoursLookup[key] = val;
+    }
+
+    if (colourMode == 3 && guardianColoursMap[i].type == "sentiment") {
+      guardianColoursLookup[key] = val;
+    }
+
+  }
+
 }
 
 // Main wrapper function
@@ -355,7 +445,7 @@ function duplicateArtboard(i, items) {
         abCoordSystem = CoordinateSystem.ARTBOARDCOORDINATESYSTEM,
         isDocCoords = app.coordinateSystem == docCoordSystem,
         dupArr = getDuplicates(items);
-        dupArr = makeDarkMode(dupArr);
+        dupArr = makeDarkMode2(dupArr);
   
     // Move copied items to the new artboard
     for (var i = 0, dLen = dupArr.length; i < dLen; i++) {
@@ -381,6 +471,33 @@ function duplicateArtboard(i, items) {
 
 
   // Cycle through items and tweak opacities and colours
+
+  function makeDarkMode2(collection) {
+
+    for (var i = 0, ii, len = collection.length; i < len; i++) {
+
+      if(collection[i].typename == "GroupItem") {
+        adjustOpacity(collection[i]);  
+        makeDarkMode2(collection[i].pageItems);
+      }
+      if(collection[i].typename == "TextFrame") {   
+        changeCharacterColors2(collection[i]);
+      }
+      if(collection[i].typename == "PathItem") {
+        adjustOpacity(collection[i]);     
+       changePathColors2(collection[i]);
+      }
+      if(collection[i].typename == "CompoundPathItem" && collection[i].pathItems.length) { 
+        adjustOpacity(collection[i]);  
+        for (ii = 0; ii < collection[i].pathItems.length; ii ++)  {
+          adjustOpacity(collection[i]);  
+          changePathColors2(collection[i].pathItems[ii]);
+        }
+      }
+    }
+    return collection;
+
+  }
 
   function makeDarkMode(collection) {
 
@@ -436,6 +553,31 @@ function duplicateArtboard(i, items) {
   }
   }
 
+  function changeCharacterColors2(textObject) {
+
+    if(textObject.textRange.length > 0) {
+
+      var textRange = textObject.textRange;
+      var paras = textRange.paragraphs;
+
+    for (var iii=0; iii<paras.length; iii++) {
+      if (paras != undefined && paras.length != 0) {
+        try {
+        var p = paras[iii];
+
+        for (var ii=0, n=p.characters.length; ii<n; ii++) {
+          var c = p.characters[ii];
+         c.fillColor = invertTextColor2(c.fillColor);
+         
+        }
+      } catch(error) {
+        //alert(error);
+      }
+      }
+    }
+  }
+  }
+
   function changePathColors(pathObject) {
     try {
     //if (pathObject.stroked) {
@@ -444,6 +586,20 @@ function duplicateArtboard(i, items) {
 
     //if (pathObject.filled) {
       pathObject.fillColor = invertPathColor(pathObject.fillColor);
+    //}
+  } catch(error) {
+    //alert(error);
+  }
+  }
+
+  function changePathColors2(pathObject) {
+    try {
+    //if (pathObject.stroked) {
+      pathObject.strokeColor = invertPathColor2(pathObject.strokeColor);
+    //}
+
+    //if (pathObject.filled) {
+      pathObject.fillColor = invertPathColor2(pathObject.fillColor);
     //}
   } catch(error) {
     //alert(error);
@@ -516,6 +672,66 @@ function duplicateArtboard(i, items) {
         col.red = newColor.r;
         col.green = newColor.g;
         col.blue = newColor.b;
+      }
+    }
+    return col;
+  }
+
+  function invertTextColor2(col) {
+    if (col.typename == 'RGBColor') {
+      r = col.red;
+      g = col.green;
+      b = col.blue;
+
+      var hexCol = rgbToHex(r, g, b);
+      var newCol = guardianColoursLookup[hexCol];
+
+      if (newCol != undefined) {
+        var newColRGB = hexToRgb(newCol);
+        if (newColRGB != null) {
+          col.red = newColRGB.r;
+          col.green = newColRGB.g;
+          col.blue = newColRGB.b;
+        }
+      }
+
+      // white text set to remain white - this should probably be made optional
+
+    //   if (isApproxMatch(r, g) && isApproxMatch(g, b)) { // looks like a neutral
+
+    //     var newColor = getInvertedColor(r, g, b, true) // invert value
+
+    //     if ( r ==255 && !invertWhiteText ) {
+    //       newColor = { r:255, g: 255, b: 255 };
+    //     }
+        
+    //     col.red = newColor.r;
+    //     col.green = newColor.g;
+    //     col.blue = newColor.b;
+    //   }
+    }
+    return col;
+  }
+
+  function invertPathColor2(col) {
+
+    if (col.typename == 'RGBColor') {
+      r = col.red;
+      g = col.green;
+      b = col.blue;
+
+      var hexCol = rgbToHex(r, g, b);
+      //alert("hexCol=" + hexCol);
+      var newCol = guardianColoursLookup[hexCol];
+      //alert("newCol=" + newCol);
+
+      if (newCol != undefined) {
+        var newColRGB = hexToRgb(newCol);
+        if (newColRGB != null) {
+          col.red = newColRGB.r;
+          col.green = newColRGB.g;
+          col.blue = newColRGB.b;
+        }
       }
     }
     return col;
