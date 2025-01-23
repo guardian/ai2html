@@ -277,9 +277,9 @@ var scriptVersion = '0.120.0';
 
     // Dark mode styles
 
-    content.css += "\t\t.not-in-app .artboard-dark-mode {\r";
-    content.css += "\t\t\tdisplay: none !important;\r";
-    content.css += "\t\t}\r";
+    // content.css += "\t\t.not-in-app .artboard-dark-mode {\r";
+    // content.css += "\t\t\tdisplay: none !important;\r";
+    // content.css += "\t\t}\r";
 
     content.css += "@media (prefers-color-scheme: dark) {\r";
     content.css += "\t\t.dark-mode-ready .artboard-light-mode {\r";
@@ -483,22 +483,19 @@ content.css += "}\r";
     content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
     //content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
     content.js += '\r<script>iframeMessenger.enableAutoResize();\r';
-    content.js += "iframeMessenger.getLocation(checkApp);\r";
-
-    content.js += "function checkApp(locationObj) {\r";
-    content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
-    content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
-    content.js += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    content.js += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
-    content.js += "var isApp = isIOSApp || isAndroidApp;\r";
+   
+    // content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
+    // content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
+    // content.js += "var isIOSApp = (isIOS && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    // content.js += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
+    // content.js += "var isApp = isIOSApp || isAndroidApp;\r";
     content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
-    content.js += "if (isApp) {\r";
-    content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
-    content.js += "document.querySelector('body').classList.add('in-app');\r";
-    content.js += "}\r";
-    content.js += "if (isApp && darkModeArtboardsPresent) {\r";
+    // content.js += "if (isApp) {\r";
+    // content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
+    // content.js += "document.querySelector('body').classList.add('in-app');\r";
+    // content.js += "}\r";
+    content.js += "if (darkModeArtboardsPresent) {\r";
     content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
-    content.js += "}\r";
     content.js += "}\r";
     content.js += "</script>\r";
     }

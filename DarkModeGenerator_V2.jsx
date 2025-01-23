@@ -425,10 +425,10 @@ function duplicateArtboard(i, items) {
 
       // Create dark mode background rectangle
       //doc.activeLayer = doc.layers[doc.layers.length-1]; // select base layer
-      var top=newAb.artboardRect[1];
-      var left=newAb.artboardRect[0];
-      var width=newAb.artboardRect[2]-newAb.artboardRect[0];
-      var height=newAb.artboardRect[1]-newAb.artboardRect[3];
+      var top=newAb.artboardRect[1] + 1;
+      var left=newAb.artboardRect[0] - 1;
+      var width=newAb.artboardRect[2]-newAb.artboardRect[0] + 2;
+      var height=newAb.artboardRect[1]-newAb.artboardRect[3] + 2;
       var rect = doc.pathItems.rectangle (top, left, width, height);
       var backgroundColor = new RGBColor();
       backgroundColor.red = darkModeBaseVal; // #1A1A1A dark mode background
