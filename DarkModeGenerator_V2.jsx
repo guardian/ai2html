@@ -150,7 +150,7 @@ abGroup.alignChildren = ['fill', 'top'];
 // modeList.selection = 0;
 
 abGroup.add('statictext', undefined, "Colour conversion mode");
-var colourModeList = abGroup.add('dropdownlist', [0, 0, 280, 30], ["1. None", "2. Categorical: news", "3. Categorical: politics", "4. Categorical: sentiment"]);
+var colourModeList = abGroup.add('dropdownlist', [0, 0, 280, 30], ["1. Structure (neutrals only)", "2. Categorical: news", "3. Categorical: politics", "4. Categorical: sentiment"]);
 colourModeList.selection = 0;
 
 var inputsGroup = dialog.add('group');
