@@ -499,59 +499,6 @@ function duplicateArtboard(i, items) {
 
   }
 
-  function makeDarkMode(collection) {
-
-    var arr = [];
-    for (var i = 0, ii, len = collection.length; i < len; i++) {
-
-      if(collection[i].typename == "GroupItem") {
-        adjustOpacity(collection[i]);  
-        makeDarkMode(collection[i].pageItems);
-      }
-      if(collection[i].typename == "TextFrame") {   
-        changeCharacterColors(collection[i]);
-      }
-      if(collection[i].typename == "PathItem") {
-        adjustOpacity(collection[i]);     
-        changePathColors(collection[i]);
-      }
-      if(collection[i].typename == "CompoundPathItem" && collection[i].pathItems.length) { 
-        adjustOpacity(collection[i]);  
-        for (ii = 0; ii < collection[i].pathItems.length; ii ++)  {
-          adjustOpacity(collection[i]);  
-          changePathColors(collection[i].pathItems[ii]);
-        }
-      }
-    }
-    return collection;
-
-  }
-
-
-  function changeCharacterColors(textObject) {
-
-    if(textObject.textRange.length > 0) {
-
-      var textRange = textObject.textRange;
-      var paras = textRange.paragraphs;
-
-    for (var iii=0; iii<paras.length; iii++) {
-      if (paras != undefined && paras.length != 0) {
-        try {
-        var p = paras[iii];
-
-        for (var ii=0, n=p.characters.length; ii<n; ii++) {
-          var c = p.characters[ii];
-         c.fillColor = invertTextColor(c.fillColor);
-         
-        }
-      } catch(error) {
-        //alert(error);
-      }
-      }
-    }
-  }
-  }
 
   function changeCharacterColors2(textObject) {
 
@@ -578,20 +525,6 @@ function duplicateArtboard(i, items) {
   }
   }
 
-  function changePathColors(pathObject) {
-    try {
-    //if (pathObject.stroked) {
-      pathObject.strokeColor = invertPathColor(pathObject.strokeColor);
-    //}
-
-    //if (pathObject.filled) {
-      pathObject.fillColor = invertPathColor(pathObject.fillColor);
-    //}
-  } catch(error) {
-    //alert(error);
-  }
-  }
-
   function changePathColors2(pathObject) {
     try {
     //if (pathObject.stroked) {
@@ -604,77 +537,6 @@ function duplicateArtboard(i, items) {
   } catch(error) {
     //alert(error);
   }
-  }
-
-  function getInvertedColor(r, g, b, isText) {
-
-    var originalCol = {r:r, g:g, b:b }, newCol = originalCol;
-    
-    if (mode == 0) {
-      newCol = guardianNeutralsInversion[String(r)].rgb;
-    if (newCol === undefined) {
-      newCol = originalCol;
-      skippedColors.push(rgbToHex(r, g, b)); 
-    }
-  } else if (mode == 1) {
-      newCol = getNearestGuardianNeutralsInversion(r);
-    } else if (isText && mode > 1) {
-      newCol = {r: 255-r, g: 255-g, b: 255-b }; // change to newVal = {r: 255-r, g: 255-g, b: 255-b };
-    } else if (mode > 1) {
-      newCol = {r: 255-r, g: 255-g, b: 255-b }; // Straight invert first change to newVal = {r: 255-r, g: 255-g, b: 255-b };
-      var multiplier1 = 2.5, multiplier2 = 2.0;
-      if (mode == 3) {
-        multiplier1 = 3;
-        multiplier2 = 2.2;
-      }
-      if (mode == 4) {
-        multiplier1 = 3.5;
-        multiplier2 = 2.4;
-      }
-      if (mode == 5) {
-        multiplier1 = 4;
-        multiplier2 = 2.6;
-      }
-
-      if (newCol.r == 0) { newCol = {r: darkModeBaseVal, g: darkModeBaseVal, b: darkModeBaseVal } } // Is now dark mode background colour (was white) chamge to newVal.r == 0 newVal = {r: darkModeBaseVal, g: darkModeBaseVal, b: darkModeBaseVal }
-        else if (newCol.r < 35) { 
-          // Make very dark colours lighter
-          newCol.r *= multiplier1; newCol.r += darkModeBaseVal;
-          newCol.g *= multiplier1; newCol.g += darkModeBaseVal;
-          newCol.b *= multiplier1; newCol.b += darkModeBaseVal;
-        } else if (newCol.r < 100) {
-          // Make semi dark colours lighter by smaller amount
-          newCol.r *= multiplier2; newCol.r += darkModeBaseVal;
-          newCol.g *= multiplier2; newCol.g += darkModeBaseVal;
-          newCol.b *= multiplier2; newCol.b += darkModeBaseVal; };
-    }
-
-    return newCol;
-    
-  }
-
-  function invertTextColor(col) {
-    if (col.typename == 'RGBColor') {
-      r = col.red;
-      g = col.green;
-      b = col.blue;
-
-      // white text set to remain white - this should probably be made optional
-
-      if (isApproxMatch(r, g) && isApproxMatch(g, b)) { // looks like a neutral
-
-        var newColor = getInvertedColor(r, g, b, true) // invert value
-
-        if ( r ==255 && !invertWhiteText ) {
-          newColor = { r:255, g: 255, b: 255 };
-        }
-        
-        col.red = newColor.r;
-        col.green = newColor.g;
-        col.blue = newColor.b;
-      }
-    }
-    return col;
   }
 
   function invertTextColor2(col) {
@@ -694,21 +556,6 @@ function duplicateArtboard(i, items) {
           col.blue = newColRGB.b;
         }
       }
-
-      // white text set to remain white - this should probably be made optional
-
-    //   if (isApproxMatch(r, g) && isApproxMatch(g, b)) { // looks like a neutral
-
-    //     var newColor = getInvertedColor(r, g, b, true) // invert value
-
-    //     if ( r ==255 && !invertWhiteText ) {
-    //       newColor = { r:255, g: 255, b: 255 };
-    //     }
-        
-    //     col.red = newColor.r;
-    //     col.green = newColor.g;
-    //     col.blue = newColor.b;
-    //   }
     }
     return col;
   }
@@ -732,24 +579,6 @@ function duplicateArtboard(i, items) {
           col.green = newColRGB.g;
           col.blue = newColRGB.b;
         }
-      }
-    }
-    return col;
-  }
-
-  function invertPathColor(col) {
-
-    if (col.typename == 'RGBColor') {
-      r = col.red;
-      g = col.green;
-      b = col.blue;
-
-      if (isApproxMatch(r, g) && isApproxMatch(g, b)) { // looks like a neutral
-
-        var newColor = getInvertedColor(r, g, b, false) // invert value
-        col.red = newColor.r;
-        col.green = newColor.g;
-        col.blue = newColor.b;
       }
     }
     return col;
