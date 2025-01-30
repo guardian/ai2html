@@ -43,7 +43,7 @@ ai2html-css
     border: 1px solid #999999 !important;
     border-radius: 999px;
 	background-color: transparent !important;
-    color: #767676 !important;
+    color: #999999 !important;
     padding: 5px 12px;
     font-weight: 700;
     display: flex;
