@@ -1,9 +1,5 @@
 ai2html-css
 
-.gv-button-container {
-
-}
-
 .gv-button-container.gv-button-align-left {
 	text-align: left;
 }
