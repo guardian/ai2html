@@ -1,0 +1,74 @@
+ai2html-css
+
+.gv-button-container {
+
+}
+
+.gv-button-container.gv-button-align-left {
+	text-align: left;
+}
+
+.gv-button-container.gv-button-align-centre {
+	text-align: center;
+}
+
+.gv-button-container.gv-button-align-centre .gv-button {
+	margin: 10px 10px 0 10px;
+}
+
+.gv-button-container.gv-button-align-right {
+	text-align: right;
+}
+
+.gv-button-container.gv-button-align-right .gv-button {
+	margin: 10px 0 0 20px;
+}
+
+.gv-button {
+	display: inline-block;
+	cursor: pointer;
+	min-width: 44px;
+    min-height: 44px;
+	background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: inherit;
+    font: inherit;
+    border-radius: 0;
+	margin: 10px 20px 0 0;
+}
+
+.gv-button-inner {
+    font-family:'Guardian Text Sans Web', Arial, sans-serif;
+	font-weight:700;
+    font-size: 14px;
+    line-height: 18px;
+    border: 1px solid #999999 !important;
+    border-radius: 999px;
+	background-color: transparent !important;
+    color: #767676 !important;
+    padding: 5px 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    transition: all .3s ease-in-out 0s;
+}
+
+.gv-button.gv-selected .gv-button-inner {
+	background-color: #121212 !important;
+	color: #fff !important;
+	border: 1px solid #121212 !important;
+}
+
+.gv-button:hover.gv-selected .gv-button-inner {
+	background-color: #121212 !important;
+	color: #fff !important;
+	border: 1px solid #121212 !important;
+}
+
+.gv-button:hover .gv-button-inner {
+	background-color: #999999 !important;
+	color: #fff !important;
+	border: 1px solid #999999 !important;
+}

@@ -1,0 +1,61 @@
+ai2html-js
+<script>
+	var navButtons = [ "View one", "View two", "View three" ];
+	var position = "top left";  // top or bottom, left, centre or right
+	var totalFrames = navButtons.length;
+	var currentFrame = 0;
+	var stepEls = [].slice.apply(document.querySelectorAll(".gv-step"));
+	var positionArr = position.split(" ");
+	var ai2htmlEl = document.querySelector(".ai2html");
+	var mainGraphic = document.querySelector(".gv-graphic-main");
+
+	var container = document.createElement("div");
+	container.classList.add("gv-button-container");
+	container.classList.add("gv-button-align-" + positionArr[1]);
+	ai2htmlEl.appendChild(container);
+
+	if (positionArr[0] == "bottom") {
+			mainGraphic.after(container);
+	} else {
+			mainGraphic.before(container);
+	}
+
+	for (var i=0; i < navButtons.length; i++) {
+		var button = document.createElement("button");
+		button.classList.add("gv-button");
+		button.innerHTML = "<div class='gv-button-inner'>" + navButtons[i] + "</div>";
+		container.appendChild(button);
+		button.setAttribute("data-index", i);
+		if (i == 0) {
+			button.classList.add("gv-selected");
+		}
+
+		button.addEventListener("click", function(e) {
+			let el = e.currentTarget;
+			document.querySelector(".gv-button.gv-selected").classList.remove("gv-selected");
+			el.classList.add("gv-selected");
+			currentFrame = +el.getAttribute("data-index") || 0;
+  			updateView();
+		}); 
+	}
+	
+	function updateView() {
+	
+	for (var ii = 0; ii <= currentFrame; ii++) {
+	stepEls.forEach(stepEl => {
+	if (stepEl.classList.contains("gv-step_" + ii)) {
+	stepEl.style.opacity = 1;
+	}
+	});
+	}
+	
+	for (ii = currentFrame + 1; ii < totalFrames; ii++) {
+	stepEls.forEach(stepEl => {
+	if (stepEl.classList.contains("gv-step_" + ii)) {
+	stepEl.style.opacity = 0;
+	}
+	});
+	}
+	}
+	
+</script>
