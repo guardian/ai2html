@@ -1,0 +1,86 @@
+ai2html-css
+
+.gv-button-container.gv-button-align-left {
+	text-align: left;
+}
+
+.gv-button-container.gv-button-align-centre {
+	text-align: center;
+}
+
+.gv-button-container.gv-button-align-centre .gv-button {
+	margin: 10px 10px 0 10px;
+}
+
+.gv-button-container.gv-button-align-right {
+	text-align: right;
+}
+
+.gv-button-container.gv-button-align-right .gv-button {
+	margin: 10px 0 0 20px;
+}
+
+.gv-button {
+	display: inline-block;
+	cursor: pointer;
+	min-width: 44px;
+	background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: inherit;
+    font: inherit;
+    border-radius: 0;
+	margin: 0px 20px 10px 0;
+}
+
+.gv-button-inner {
+    font-family:'Guardian Text Sans Web', Arial, sans-serif;
+	font-weight:700;
+    font-size: 14px;
+    line-height: 18px;
+    border: 1px solid #999999 !important;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    transition: all .3s ease-in-out 0s;
+background-color: #121212 !important;
+	color: #fff !important;
+	border: 1px solid #121212 !important;
+
+}
+
+.gv-button:disabled .gv-button-inner {
+	background-color: transparent !important;
+    	color: #999999 !important;
+	 border: 1px solid #999999 !important;
+opacity: 0.5;
+}
+
+.gv-readout {
+ font-family:'Guardian Text Sans Web', Arial, sans-serif;
+	font-weight:700;
+    font-size: 14px;
+    line-height: 18px;
+color: #121212;
+margin-bottom: 5px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+
+	.gv-button .gv-button-inner {
+	background-color: #ffffff !important;
+	color: #121212 !important;
+	border: 1px solid #ffffff !important;
+	}
+
+	.gv-button:hover .gv-button-inner {
+	background-color: #ffffff !important;
+	color: #121212 !important;
+	border: 1px solid #ffffff !important;
+	}
+
+}

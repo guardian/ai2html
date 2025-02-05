@@ -1,11 +1,11 @@
 ai2html-js
 <script>
 
-	var startDate = "23/03/1969";
+	var startDate = "23/03/1969"; // DD/MM/YYYY
 	var startTime = "00:00:00";
 
-	var endDate = "23/03/1969";
-	var endTime = "23:59:59";
+	var endDate = "24/03/1969"; // DD/MM/YYYY
+	var endTime = "00:00:00";
 
 	var showDay = true;
 	var showDate = true;
@@ -19,8 +19,6 @@ ai2html-js
 	var startDateArr = startDate.split("/");
 	var endDateArr = endDate.split("/");
 
-
-	//var startDateUTC = new Date('1995-12-17T03:24:00')
 
 	var startDateUTC = new Date(startDateArr[2] + "-" + startDateArr[1] + "-" + startDateArr[0] + "T" + startTime);
 	var endDateUTC = new Date(endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0] + "T" + endTime);
@@ -48,24 +46,26 @@ ai2html-js
 			mainGraphic.before(container);
 	}
 
-		var readout = document.createElement("div");
-		readout.classList.add("gv-readout");
-		readout.innerHTML = "<span class='gv-readout-inner'>23 Sept</div>";
-		container.appendChild(readout);
-
-	
+		
 		var button = document.createElement("button");
 		button.classList.add("gv-button");
 		button.innerHTML = "<div class='gv-button-inner'>Replay</div>";
 		container.appendChild(button);
+		button.disabled = true;
 		
 
 		button.addEventListener("click", function(e) {
 			if (currentVideo) {
 				currentVideo.currentTime = 0;
     				currentVideo.play();
+				button.disabled = true;
 			}
 		});
+
+		var readout = document.createElement("div");
+		readout.classList.add("gv-readout");
+		readout.innerHTML = "<span class='gv-readout-inner'>23 Sept</div>";
+		container.appendChild(readout);
 
 
 
@@ -88,6 +88,7 @@ videos.map(video => {
 		observer.observe(video);
 
 		video.addEventListener('ended', function () {
+			button.disabled = false;
     		
   		}, false);
 })
