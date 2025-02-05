@@ -1,0 +1,144 @@
+ai2html-js
+<script>
+
+	var startDate = "23/03/1969";
+	var startTime = "00:00:00";
+
+	var endDate = "23/03/1969";
+	var endTime = "23:59:59";
+
+	var showDay = true;
+	var showDate = true;
+	var showMonth = true;
+	var showYear = true;
+	var showHours = true;
+	var showMinutes = true;
+	var showSeconds = false;
+	var hour12 = true;
+
+	var startDateArr = startDate.split("/");
+	var endDateArr = endDate.split("/");
+
+
+	//var startDateUTC = new Date('1995-12-17T03:24:00')
+
+	var startDateUTC = new Date(startDateArr[2] + "-" + startDateArr[1] + "-" + startDateArr[0] + "T" + startTime);
+	var endDateUTC = new Date(endDateArr[2] + "-" + endDateArr[1] + "-" + endDateArr[0] + "T" + endTime);
+
+	var timeDifference = endDateUTC.getTime() - startDateUTC.getTime();
+	
+	var position = "top left";  // top or bottom, left, centre or right
+
+	var positionArr = position.split(" ");
+	var ai2htmlEl = document.querySelector(".ai2html");
+	var mainGraphic = document.querySelector(".gv-graphic-main");
+	var videos = [].slice.apply(document.querySelectorAll("video"));
+
+	var currentVideo = null;
+	var isPlaying = true;
+
+	var container = document.createElement("div");
+	container.classList.add("gv-button-container");
+	container.classList.add("gv-button-align-" + positionArr[1]);
+	ai2htmlEl.appendChild(container);
+
+	if (positionArr[0] == "bottom") {
+			mainGraphic.after(container);
+	} else {
+			mainGraphic.before(container);
+	}
+
+		var readout = document.createElement("div");
+		readout.classList.add("gv-readout");
+		readout.innerHTML = "<span class='gv-readout-inner'>23 Sept</div>";
+		container.appendChild(readout);
+
+	
+		var button = document.createElement("button");
+		button.classList.add("gv-button");
+		button.innerHTML = "<div class='gv-button-inner'>Replay</div>";
+		container.appendChild(button);
+		
+
+		button.addEventListener("click", function(e) {
+			if (currentVideo) {
+				currentVideo.currentTime = 0;
+    				currentVideo.play();
+			}
+		});
+
+
+
+videos.map(video => {
+		video.loop = false;
+		let observer = new IntersectionObserver((entries, observer) => {
+	
+			entries.forEach(entry => {
+				const playVideo = entry.intersectionRatio >= 0.75;
+			  
+				if (playVideo) {
+				video.play();
+				currentVideo = video;
+				} else {
+				video.pause();
+				}
+
+			});
+		}, { threshold: [0, 0.75, 1] });
+		observer.observe(video);
+
+		video.addEventListener('ended', function () {
+    		
+  		}, false);
+})
+
+requestAnimationFrame(update);
+
+function update() {
+	if (currentVideo && isPlaying) {
+		var videoProgress = currentVideo.currentTime / currentVideo.duration;
+		var timeProgress = videoProgress * timeDifference;
+
+		var currentDisplayDate = new Date(startDateUTC.getTime() + timeProgress);
+
+		
+		var options = {};
+
+		if (showDay) {
+			options.weekday = "long";
+		}
+		if (showDate) {
+			options.day = "numeric";
+		}
+
+		if (showMonth) {
+			options.month = "long";
+		}
+		if (showYear) {
+			options.year = "numeric";
+		}
+		if (showHours) {
+			options.hour = "numeric" // "2-digit"
+		}
+		if (showMinutes) {
+			options.minute = "numeric" // "2-digit"
+		}
+	
+		if (showSeconds) {
+			options.second = "numeric" // "2-digit"
+		}
+		if (hour12) {
+			options.hour12 = true // false
+		}
+		
+
+		var displayText = currentDisplayDate.toLocaleDateString('en-GB', options)
+		
+		readout.innerHTML = "<span class='gv-readout-inner'>" + displayText + "</div>";
+	}
+
+requestAnimationFrame(update);
+
+}
+		
+</script>
