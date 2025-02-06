@@ -41,22 +41,30 @@ ai2html-css
     line-height: 18px;
     border: 1px solid #999999 !important;
     border-radius: 999px;
-    padding: 5px 12px;
+    padding: 5px 10px 5px 5px;
     font-weight: 700;
     display: flex;
     align-items: center;
     transition: all .3s ease-in-out 0s;
-background-color: #121212 !important;
+	background-color: #121212 !important;
 	color: #fff !important;
 	border: 1px solid #121212 !important;
 
 }
+
+.gv-button-inner span {
+	margin-left: 5px;
+}	
 
 .gv-button:disabled .gv-button-inner {
 	background-color: transparent !important;
     	color: #999999 !important;
 	 border: 1px solid #999999 !important;
 opacity: 0.5;
+}
+
+.gv-button:disabled .gv-button-inner svg path {
+	fill: #999999 !important;
 }
 
 .gv-readout {

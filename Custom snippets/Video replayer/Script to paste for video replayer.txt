@@ -34,6 +34,35 @@ ai2html-js
 
 	var currentVideo = null;
 	var isPlaying = true;
+	
+	var options = {};
+
+	if (showDay) {
+			options.weekday = "long";
+		}
+		if (showDate) {
+			options.day = "numeric";
+		}
+
+		if (showMonth) {
+			options.month = "long";
+		}
+		if (showYear) {
+			options.year = "numeric";
+		}
+		if (showHours) {
+			options.hour = "numeric" // "2-digit"
+		}
+		if (showMinutes) {
+			options.minute = "numeric" // "2-digit"
+		}
+	
+		if (showSeconds) {
+			options.second = "numeric" // "2-digit"
+		}
+		if (hour12) {
+			options.hour12 = true // false
+		}
 
 	var container = document.createElement("div");
 	container.classList.add("gv-button-container");
@@ -49,7 +78,8 @@ ai2html-js
 		
 		var button = document.createElement("button");
 		button.classList.add("gv-button");
-		button.innerHTML = "<div class='gv-button-inner'>Replay</div>";
+		button.innerHTML = '<div class="gv-button-inner"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.019 22C15.4358 22 18.4654 20.2688 20.2422 17.6492L20.1283 17.0342L19.331 16.5558L18.716 16.7153C17.2354 18.8109 14.8208 20.2005 12.019 20.2005C7.5315 20.2005 3.84129 16.5102 3.84129 11.9772C3.84129 7.46697 7.5315 3.79954 12.019 3.79954C14.593 3.79954 16.8026 4.93849 18.3288 6.76082L15.0258 7.30752L15.0258 8.44647L20.8572 8.44647L21.29 8.01367L21.29 2L20.1739 2L19.6044 5.43963C17.7821 3.32118 15.0941 2 12.019 2C6.48366 2 1.99619 6.46469 1.99619 11.9772C1.99619 17.5353 6.48366 22 12.019 22Z" fill="#ffffff"/></svg><span>Replay</span></div>';
+
 		container.appendChild(button);
 		button.disabled = true;
 		
@@ -64,7 +94,8 @@ ai2html-js
 
 		var readout = document.createElement("div");
 		readout.classList.add("gv-readout");
-		readout.innerHTML = "<span class='gv-readout-inner'>23 Sept</div>";
+		var txt = startDateUTC.toLocaleDateString('en-GB', options)	
+		readout.innerHTML = "<span class='gv-readout-inner'>" + txt + "</div>";
 		container.appendChild(readout);
 
 
@@ -102,35 +133,8 @@ function update() {
 
 		var currentDisplayDate = new Date(startDateUTC.getTime() + timeProgress);
 
+
 		
-		var options = {};
-
-		if (showDay) {
-			options.weekday = "long";
-		}
-		if (showDate) {
-			options.day = "numeric";
-		}
-
-		if (showMonth) {
-			options.month = "long";
-		}
-		if (showYear) {
-			options.year = "numeric";
-		}
-		if (showHours) {
-			options.hour = "numeric" // "2-digit"
-		}
-		if (showMinutes) {
-			options.minute = "numeric" // "2-digit"
-		}
-	
-		if (showSeconds) {
-			options.second = "numeric" // "2-digit"
-		}
-		if (hour12) {
-			options.hour12 = true // false
-		}
 		
 
 		var displayText = currentDisplayDate.toLocaleDateString('en-GB', options)
