@@ -66,6 +66,7 @@ var scriptVersion = '0.120.0';
     defaultSettings.embed_as_iframe = true; // yes
     defaultSettings.main_background_color = "#ffffff";
     defaultSettings.immersive_padding_fix = false;
+    defaultSettings.immersive_column_align = false;
     defaultSettings.headline = "Headline here or leave blank";
     defaultSettings.standfirst = "Standfirst here or leave blank";
     defaultSettings.source = "Source here or leave blank";
@@ -79,6 +80,7 @@ var scriptVersion = '0.120.0';
      "responsiveness",
       "main_background_color",
       "immersive_padding_fix",
+      "immersive_column_align",
       //"include_resizer_script",
       //"use_lazy_loader",
       "output",
@@ -395,6 +397,15 @@ content.css += "}\r";
       content.css += "." + nameSpace + "graphic-header {\r";
       content.css += "\tposition:relative;\r";
       content.css += "\tpadding-bottom: 24px;\r";
+      content.css += "\tmax-width: 620px;\r";
+      content.css += "}\r";
+      content.css += ".immersive-column-align_true ." + nameSpace + "graphic-header {\r";
+      content.css += "@media screen and (min-width: 1100px) {\r";
+      content.css += "\tmargin-left:160px;\r";
+      content.css += "}\r";
+      content.css += "@media screen and (min-width: 1260px) {\r";
+      content.css += "\tmargin-left:240px;\r";
+      content.css += "}\r";
       content.css += "}\r";
       content.css += "." + nameSpace + "graphic-header h1 {\r";
       content.css += "\tpadding:8px 0 0 0;\r"; // was 25px
@@ -451,6 +462,15 @@ content.css += "}\r";
       content.css += "\tposition:relative;\r";
       content.css += "\theight:auto;\r";
       content.css += "\tmargin-top:0;\r";
+      content.css += "\tmax-width: 620px;\r";
+      content.css += "}\r";
+      content.css += ".immersive-column-align_true ." + nameSpace + "graphic-footer {\r";
+      content.css += "@media screen and (min-width: 1100px) {\r";
+      content.css += "\tmargin-left:160px;\r";
+      content.css += "}\r";
+      content.css += "@media screen and (min-width: 1260px) {\r";
+      content.css += "\tmargin-left:240px;\r";
+      content.css += "}\r";
       content.css += "}\r";
       content.css += " ." + nameSpace + "graphic-footer p {\r";
       content.css += "\tpadding:14px 0 0 0;\r";
@@ -548,7 +568,7 @@ content.css += "}\r";
     headerPartial += "\tpadding: 0px 20px 0px 20px;\r";
     headerPartial += "}\r";
     headerPartial += "}\r";
-    headerPartial += "@media screen and (min-width: 1140px) {\r";
+    headerPartial += "@media screen and (min-width: 1100px) {\r";
     headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
     headerPartial += "\tpadding:0px;\r";
     headerPartial += "}\r";
@@ -562,7 +582,7 @@ content.css += "}\r";
     headerPartial += "</style>\r";
 
     headerPartial += "</head>\r";
-    headerPartial += "<body class='immersive-padding-fix_" + settings.immersive_padding_fix + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
+    headerPartial += "<body class='immersive-padding-fix_" + settings.immersive_padding_fix + " immersive-column-align_"  + settings.immersive_column_align + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
 
     footerPartial = "</body>\r";
     footerPartial += "</html>\r";
