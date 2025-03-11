@@ -261,6 +261,13 @@ var scriptVersion = '0.120.0';
         "weight": "400",
         "style": ""
       }
+      , {
+        "aifont": "GHGuardianHeadline-Medium",
+        "family": "'GH Guardian Headline', Georgia, serif",
+        "weight": "500",
+        "style": ""
+      }
+      
     ];
 
   }
