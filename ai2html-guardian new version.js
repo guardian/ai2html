@@ -289,6 +289,9 @@ var scriptVersion = '0.120.0';
     // content.css += "\t\t.not-in-app .artboard-dark-mode {\r";
     // content.css += "\t\t\tdisplay: none !important;\r";
     // content.css += "\t\t}\r";
+    content.css += "\t\tbody:not(.dark-mode-ready) .artboard-dark-mode {\r";
+    content.css += "\t\t\tdisplay: none !important;\r";
+    content.css += "\t\t}\r";
 
     content.css += "@media (prefers-color-scheme: dark) {\r";
     content.css += "\t\t.dark-mode-ready .artboard-light-mode {\r";
@@ -517,11 +520,18 @@ content.css += "}\r";
     // content.js += "var isAndroidApp = (isAndroid && (locationObj.protocol === 'file://' || locationObj.protocol === 'file:')) ? true : false;\r";
     // content.js += "var isApp = isIOSApp || isAndroidApp;\r";
     content.js += "var darkModeArtboardsPresent = document.querySelector('.artboard-dark-mode') !== null;\r";
+
+    // content.js += "const urlParams = new URLSearchParams(window.location.search);\r";
+    // content.js += "const darkParam = urlParams.get('dark');\r";
+    
+    content.js += "let params = new URL(document.location.toString()).searchParams;\r";
+    content.js += "let darkParam = params.get('dark');\r";
+    content.js += "console.log('ai2html dark mode allowed = ' + darkParam);\r";
     // content.js += "if (isApp) {\r";
     // content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
     // content.js += "document.querySelector('body').classList.add('in-app');\r";
     // content.js += "}\r";
-    content.js += "if (darkModeArtboardsPresent) {\r";
+    content.js += "if ((darkModeArtboardsPresent && darkParam != 'false') && (darkModeArtboardsPresent && darkParam != false)) {\r";
     content.js += "document.querySelector('body').classList.add('dark-mode-ready');\r";
     content.js += "}\r";
     content.js += "</script>\r";
