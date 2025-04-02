@@ -526,7 +526,7 @@ content.css += "}\r";
     
     content.js += "let params = new URL(document.location.toString()).searchParams;\r";
     content.js += "let darkParam = params.get('dark');\r";
-    content.js += "console.log('ai2html dark mode allowed = ' + darkParam);\r";
+    //content.js += "console.log('ai2html dark mode allowed = ' + darkParam);\r";
     // content.js += "if (isApp) {\r";
     // content.js += "document.querySelector('body').classList.remove('not-in-app');\r";
     // content.js += "document.querySelector('body').classList.add('in-app');\r";
