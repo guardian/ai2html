@@ -14,7 +14,8 @@
 var i, artboardOriginal, artboardOriginalRect, artboardCopy, artboardCopyRect, abHeight;
 var doc = app.activeDocument;
 var artboards = doc.artboards;
-var spacing = 300;
+var spacingX = 0;
+var spacingY = 300;
 var suffix = "_dark-mode";
 var abLength = artboards.length;
 var mode = 0;
@@ -155,8 +156,10 @@ colourModeList.selection = 0;
 
 var inputsGroup = dialog.add('group');
       inputsGroup.orientation = 'row';
-      inputsGroup.add('statictext', undefined, "Y offset");
-  var spacingVal = inputsGroup.add('edittext', [0, 0, 60, 30], spacing);
+      inputsGroup.add('statictext', undefined, "X offset");
+  var spacingValX = inputsGroup.add('edittext', [0, 0, 60, 30], spacingX);
+   inputsGroup.add('statictext', undefined, "Y offset");
+  var spacingValY = inputsGroup.add('edittext', [0, 0, 60, 30], spacingY);
   inputsGroup.add('statictext', undefined, "Opacity multiplier");
   var opacityVal = inputsGroup.add('edittext', [0, 0, 60, 30], opacityBoost);
 
@@ -179,9 +182,13 @@ var inputsGroup = dialog.add('group');
     colourMode = colourModeList.selection.index;
   }
 
-   spacingVal.onChange = function () {
-    this.text = convertToNum(this.text, spacing);
-    spacing = +this.text;
+   spacingValX.onChange = function () {
+    this.text = convertToNum(this.text, spacingX);
+    spacingX = +this.text;
+  }
+    spacingValY.onChange = function () {
+    this.text = convertToNum(this.text, spacingY);
+    spacingY = +this.text;
   }
   opacityVal.onChange = function () {
     this.text = convertToNum(this.text, opacityBoost);
@@ -396,20 +403,37 @@ function restoreItemsState(_layers, lKey, hKey) {
  */
 function duplicateArtboard(i, items) {
     var thisAb = doc.artboards[i],
-        thisAbRect = thisAb.artboardRect,
-        
-        abHeight = thisAbRect[1] - thisAbRect[3];
+        thisAbRect = thisAb.artboardRect,   
+        abHeight = thisAbRect[1] - thisAbRect[3],
+        abWidth = thisAbRect[2] - thisAbRect[0], x1,y1,x2,y2;
+
 
     //doc.artboards.setActiveArtboardIndex(i);
   
       var newAb = doc.artboards.add(thisAbRect);
 
-      newAb.artboardRect = [
-        thisAbRect[0],
-        thisAbRect[1] - spacing - abHeight,
-        thisAbRect[2],
-        thisAbRect[3] - spacing - abHeight
-    ]
+      if (spacingX > 0) {
+        x1 = thisAbRect[0] + spacingX + abWidth;
+        x2 = thisAbRect[2] + spacingX + abWidth;
+      } else {
+        x1 = thisAbRect[0];
+        x2 = thisAbRect[2];
+      }
+
+      if (spacingY > 0) {
+        y1 = thisAbRect[1] - spacingY - abHeight;
+        y2 = thisAbRect[3] - spacingY - abHeight;
+      } else {
+        y1 = thisAbRect[1];
+        y2 = thisAbRect[3];
+      }
+
+       newAb.artboardRect = [
+        x1,
+        y1,
+        x2,
+        y2
+      ]
 
     // add detect code for steps
 
@@ -448,10 +472,25 @@ function duplicateArtboard(i, items) {
         dupArr = makeDarkMode2(dupArr);
   
     // Move copied items to the new artboard
-    for (var i = 0, dLen = dupArr.length; i < dLen; i++) {
+     for (var i = 0, dLen = dupArr.length; i < dLen; i++) {
       var pos = isDocCoords ? dupArr[i].position : doc.convertCoordinate(dupArr[i].position, docCoordSystem, abCoordSystem);
-      dupArr[i].position = [pos[0], pos[1] - (abHeight + spacing)];
-    }
+
+      var yOffset, xOffset;
+
+      if (spacingY > 0) {
+         yOffset = abHeight + spacingY;
+      } else {
+        yOffset = 0;
+      }
+      if (spacingX > 0) {
+         xOffset = abWidth + spacingX;
+      } else {
+        xOffset = 0;
+      }
+        dupArr[i].position = [pos[0] + xOffset, pos[1] - yOffset];
+      }
+
+      //dupArr[i].position = [pos[0], pos[1] - (abHeight + spacingY)];
   }
   
   /**
