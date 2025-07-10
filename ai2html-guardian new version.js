@@ -74,7 +74,6 @@ var scriptVersion = '0.120.0';
     defaultSettings.center_html_output = false;
     defaultSettings.html_output_path = "USE_DOC_NAME";
     defaultSettings.image_output_path = "";
-    
 
     defaultSettings.settings_block = [
      "responsiveness",
