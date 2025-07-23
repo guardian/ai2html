@@ -437,12 +437,23 @@ function duplicateArtboard(i, items) {
 
     // add detect code for steps
 
-    var additionalSuffix = "";
+    var additionalSuffix = "", splitNameIndex, forceMinWidth = "";
 
-    var splitNameArray = thisAb.name.split("_"); // or should this be a space ?
-    var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
+    var splitNameArray = thisAb.name.split(" "); // should this be a space or underscore ?
+
+    var lastSplitPart = splitNameArray[splitNameArray.length - 1];
+
+    if (String(lastSplitPart).indexOf(":") > -1) { // It probably has a forced artboard minwidth
+      forceMinWidth = ":" + lastSplitPart.split(":")[1];
+      splitNameIndex = +lastSplitPart.split(":")[0];
+    } else {
+      splitNameIndex = +splitNameArray[splitNameArray.length - 1];
+    }
+
+
+    // var splitNameIndex = +splitNameArray[splitNameArray.length - 1];
     if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic (has to be less than 300 because of mobile artboard naming convention)
-      additionalSuffix = " " + splitNameIndex;
+      additionalSuffix = " " + splitNameIndex + forceMinWidth;
     }
   
       newAb.name = thisAb.name + suffix + additionalSuffix;
