@@ -437,7 +437,7 @@ function duplicateArtboard(i, items) {
 
     // add detect code for steps
 
-    var additionalSuffix = "", splitNameIndex, forceMinWidth = "";
+    var additionalSuffix = "", splitNameIndex, forceMinWidth = "", abName = thisAb.name;
 
     var splitNameArray = thisAb.name.split(" "); // should this be a space or underscore ?
 
@@ -445,6 +445,7 @@ function duplicateArtboard(i, items) {
 
     if (String(lastSplitPart).indexOf(":") > -1) { // It probably has a forced artboard minwidth
       forceMinWidth = ":" + lastSplitPart.split(":")[1];
+      abName = abName.replace(new RegExp(forceMinWidth, 'g'), ''); // Remove any existing forced min width from the name as colon will cause issues in ai2html
       splitNameIndex = +lastSplitPart.split(":")[0];
     } else {
       splitNameIndex = +splitNameArray[splitNameArray.length - 1];
@@ -455,8 +456,10 @@ function duplicateArtboard(i, items) {
     if (typeof (splitNameIndex) == 'number' && splitNameIndex < 300) { // assume is a step for stepper type graphic (has to be less than 300 because of mobile artboard naming convention)
       additionalSuffix = " " + splitNameIndex + forceMinWidth;
     }
+
+     
   
-      newAb.name = thisAb.name + suffix + additionalSuffix;
+      newAb.name = abName + suffix + additionalSuffix;
 
       // Create dark mode background rectangle
       //doc.activeLayer = doc.layers[doc.layers.length-1]; // select base layer
