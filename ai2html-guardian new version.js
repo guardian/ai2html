@@ -409,6 +409,12 @@ content.css += "}\r";
       //content.css += "\tmax-width: 620px;\r";
       content.css += "}\r";
       content.css += ".immersive-column-align_true ." + nameSpace + "graphic-header {\r";
+      content.css += "\tmargin-left:10px;\r";
+      content.css += "\tmargin-right:10px;\r";
+      content.css += "@media screen and (min-width: 480px) {\r";
+      content.css += "\tmargin-left:20px;\r";
+      content.css += "\tmargin-right:20px;\r";
+      content.css += "}\r";
       content.css += "@media screen and (min-width: 1100px) {\r";
       content.css += "\tmargin-left:160px;\r";
       content.css += "}\r";
@@ -474,6 +480,12 @@ content.css += "}\r";
       //content.css += "\tmax-width: 620px;\r";
       content.css += "}\r";
       content.css += ".immersive-column-align_true ." + nameSpace + "graphic-footer {\r";
+      content.css += "\tmargin-left:10px;\r";
+      content.css += "\tmargin-right:10px;\r";
+      content.css += "@media screen and (min-width: 480px) {\r";
+      content.css += "\tmargin-left:20px;\r";
+      content.css += "\tmargin-right:20px;\r";
+      content.css += "}\r";
       content.css += "@media screen and (min-width: 1100px) {\r";
       content.css += "\tmargin-left:160px;\r";
       content.css += "}\r";
@@ -576,16 +588,16 @@ content.css += "}\r";
     headerPartial += "\t-webkit-font-smoothing:antialiased;\r";
     headerPartial += "}\r";
    
-    headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
+    headerPartial += ".immersive-padding-fix_true {\r";
     headerPartial += "\tpadding: 0px 10px 0px 10px;\r";
     headerPartial += "}\r";
     headerPartial += "@media screen and (min-width: 480px) {\r";
-    headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
+    headerPartial += ".immersive-padding-fix_true {\r";
     headerPartial += "\tpadding: 0px 20px 0px 20px;\r";
     headerPartial += "}\r";
     headerPartial += "}\r";
     headerPartial += "@media screen and (min-width: 1100px) {\r";
-    headerPartial += ".not-in-app.immersive-padding-fix_true {\r";
+    headerPartial += ".immersive-padding-fix_true {\r";
     headerPartial += "\tpadding:0px;\r";
     headerPartial += "}\r";
     headerPartial += "}\r";
@@ -598,7 +610,7 @@ content.css += "}\r";
     headerPartial += "</style>\r";
 
     headerPartial += "</head>\r";
-    headerPartial += "<body class='immersive-padding-fix_" + settings.immersive_padding_fix + " immersive-column-align_"  + settings.immersive_column_align + " not-in-app' style='background-color:" + settings.main_background_color + ";'>\r";
+    headerPartial += "<body style='background-color:" + settings.main_background_color + ";'>\r";
 
     footerPartial = "</body>\r";
     footerPartial += "</html>\r";
@@ -5225,6 +5237,8 @@ function generateOutputHtml(content, pageName, settings) {
   if (isTrue(settings.top_and_bottom_rules)) {
     containerClasses += ' ' + nameSpace + 'borders-true';
   }
+
+  containerClasses += 'immersive-padding-fix_' + settings.immersive_padding_fix + ' immersive-column-align_'  + settings.immersive_column_align;
 
   if (isTrue(settings.use_lazy_loader)) {
     // responsiveJs += "\t<!-- lazyload script -->\r";
