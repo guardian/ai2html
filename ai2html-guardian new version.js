@@ -389,6 +389,7 @@ var scriptVersion = '0.120.0';
       content.css += "\theight: 100%;\r";
       content.css += "\ttransition: opacity 0.5s;\r";
       content.css += "\topacity: 0;\r";
+      content.css += "\twill-change: opacity;\r";
   content.css += "}\r";
 
 content.css += ".ai2html .gv-step.gv-step_0 {\r";
