@@ -412,9 +412,9 @@ content.css += "}\r";
       content.css += ".immersive-column-align_true ." + nameSpace + "graphic-header {\r";
       content.css += "\tmargin-left:10px;\r";
       content.css += "\tmargin-right:10px;\r";
-      content.css += "@media screen and (min-width: 480px) {\r";
-      content.css += "\tmargin-left:20px;\r";
-      content.css += "\tmargin-right:20px;\r";
+      content.css += "@media screen and (min-width: 940px) {\r";
+      content.css += "\tmargin-left:0px;\r";
+      content.css += "\tmargin-right:0px;\r";
       content.css += "}\r";
       content.css += "@media screen and (min-width: 1100px) {\r";
       content.css += "\tmargin-left:160px;\r";
@@ -483,9 +483,9 @@ content.css += "}\r";
       content.css += ".immersive-column-align_true ." + nameSpace + "graphic-footer {\r";
       content.css += "\tmargin-left:10px;\r";
       content.css += "\tmargin-right:10px;\r";
-      content.css += "@media screen and (min-width: 480px) {\r";
-      content.css += "\tmargin-left:20px;\r";
-      content.css += "\tmargin-right:20px;\r";
+      content.css += "@media screen and (min-width: 940px) {\r";
+      content.css += "\tmargin-left:0px;\r";
+      content.css += "\tmargin-right:0px;\r";
       content.css += "}\r";
       content.css += "@media screen and (min-width: 1100px) {\r";
       content.css += "\tmargin-left:160px;\r";
@@ -592,7 +592,7 @@ content.css += "}\r";
     headerPartial += ".immersive-padding-fix_true {\r";
     headerPartial += "\tpadding: 0px 10px 0px 10px;\r";
     headerPartial += "}\r";
-    headerPartial += "@media screen and (min-width: 480px) {\r";
+    headerPartial += "@media screen and (min-width: 940px) {\r";
     headerPartial += ".immersive-padding-fix_true {\r";
     headerPartial += "\tpadding: 0px 20px 0px 20px;\r";
     headerPartial += "}\r";
@@ -5236,7 +5236,7 @@ function generateOutputHtml(content, pageName, settings) {
   // Guardian lazyloader script not used. Maybe remove in future?
 
   if (isTrue(settings.top_and_bottom_rules)) {
-    containerClasses += ' ' + nameSpace + 'borders-true';
+    containerClasses += ' ' + nameSpace + 'borders-true ';
   }
 
   containerClasses += 'immersive-padding-fix_' + settings.immersive_padding_fix + ' immersive-column-align_'  + settings.immersive_column_align;
