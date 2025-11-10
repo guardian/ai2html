@@ -552,7 +552,7 @@ content.css += "}\r";
     // content.js += 'var url = (window.location != window.parent.location) ? document.referrer : document.location.href;\r';
     // content.js += 'var parentPage = document;\r';
     // content.js += 'var isInIframe = false;\r';
-    // content.js += 'if (window.self !== window.top && !(window.location.href.includes("viewer.gutools.co.uk"))) {\r';
+    // content.js += 'if (window.self !== window.and&& !(window.location.href.includes("viewer.gutools.co.uk"))) {\r';
     // content.js += 'parentPage = window.parent.document;\r';
     // content.js += 'isInIframe = true;\r';
     // content.js += '}\r';
@@ -5236,10 +5236,10 @@ function generateOutputHtml(content, pageName, settings) {
   // Guardian lazyloader script not used. Maybe remove in future?
 
   if (isTrue(settings.top_and_bottom_rules)) {
-    containerClasses += ' ' + nameSpace + 'borders-true ';
+    containerClasses += ' ' + nameSpace + 'borders-true';
   }
 
-  containerClasses += 'immersive-padding-fix_' + settings.immersive_padding_fix + ' immersive-column-align_'  + settings.immersive_column_align;
+  containerClasses += ' immersive-padding-fix_' + settings.immersive_padding_fix + ' immersive-column-align_'  + settings.immersive_column_align;
 
   if (isTrue(settings.use_lazy_loader)) {
     // responsiveJs += "\t<!-- lazyload script -->\r";
