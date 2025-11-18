@@ -529,6 +529,11 @@ function duplicateArtboard(i, items) {
 
     for (var i = 0, ii, len = collection.length; i < len; i++) {
 
+      if (collection[i].layer.name == "darkmode_ignore") {
+        // leave item unchanged
+        continue;
+      }
+
       if(collection[i].typename == "GroupItem") {
         adjustOpacity(collection[i]);  
         makeDarkMode2(collection[i].pageItems);
