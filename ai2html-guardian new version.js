@@ -59,7 +59,7 @@ var scriptVersion = '0.120.0';
   function applyGuardianSettings() {
 
     defaultSettings.namespace = "gv-";
-    defaultSettings.responsiveness = "auto";
+    defaultSettings.responsiveness = "dynamic";
     defaultSettings.include_resizer_script = true;
     defaultSettings.use_lazy_loader = false;
     defaultSettings.top_and_bottom_rules = true;
@@ -74,6 +74,7 @@ var scriptVersion = '0.120.0';
     defaultSettings.center_html_output = false;
     defaultSettings.html_output_path = "USE_DOC_NAME";
     defaultSettings.image_output_path = "";
+    defaultSettings.include_iframemessenger = true;
 
     defaultSettings.settings_block = [
      "responsiveness",
@@ -522,9 +523,11 @@ content.css += "}\r";
 
     content.js += '\r<!-- Custom Guardian JS -->\r';
     if (settings.embed_as_iframe == "true" || settings.embed_as_iframe == true) {
+      if (settings.include_iframemessenger == "true" || settings.include_iframemessenger == true) {
     content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
     //content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
     content.js += '\r<script>iframeMessenger.enableAutoResize();\r';
+      }
    
     // content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
     // content.js += "var isAndroid = /Android/i.test(navigator.userAgent);\r";
