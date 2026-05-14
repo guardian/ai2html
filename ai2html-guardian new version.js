@@ -527,6 +527,8 @@ content.css += "}\r";
     content.js += '\r<script src="https://interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js" type="text/javascript"></script>\r';
     //content.js += '\r<script>iframeMessenger.enableAutoResize();</script>\r';
     content.js += '\r<script>iframeMessenger.enableAutoResize();\r';
+      } else {
+        content.js += '\r<script>\r';
       }
    
     // content.js += "var isIOS = /(iPad|iPhone|iPod touch)/i.test(navigator.userAgent);\r";
