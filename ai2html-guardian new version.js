@@ -75,6 +75,7 @@ var scriptVersion = '0.120.0';
     defaultSettings.html_output_path = "USE_DOC_NAME";
     defaultSettings.image_output_path = "";
     defaultSettings.include_iframemessenger = true;
+    defaultSettings.generate_fallback_images = true;
 
     defaultSettings.settings_block = [
      "responsiveness",
@@ -91,6 +92,7 @@ var scriptVersion = '0.120.0';
       "jpg_quality",
       "top_and_bottom_rules",
       "embed_as_iframe",
+      "generate_fallback_images",
       "headline",
       "standfirst",
       "source"
@@ -1177,7 +1179,7 @@ if (errors.length > 0) {
   var promptForPromo = isTrue(docSettings.write_image_files) && isTrue(docSettings.create_promo_image);
   var showPromo = showCompletionAlert(promptForPromo);
   if (showPromo) createPromoImage(docSettings);
-  createFallbackImages(docSettings);
+  if (isTrue(docSettings.generate_fallback_images)) createFallbackImages(docSettings);
 }
 
 
@@ -4532,6 +4534,30 @@ function createPromoImage(settings) {
 
 // Create fallback images from all artboards for Apple News etc
 function createFallbackImages(settings) {
+
+  // don't create fallbacks if multiple artboards with same width
+
+  var abws = [];
+
+   forEachUsableArtboard(function(ab, i) {
+
+      var info = convertAiBounds(ab.artboardRect);
+      var width = Math.round(info.width);
+
+      var found = false;
+      for (var j = 0; j < abws.length; j++) {
+        if (abws[j] === width) {
+          found = true;
+          break;
+        }
+      }
+      if (found) {
+        return;
+      }
+      abws.push(width);
+    });
+
+  alert('Create fallback images');
 
   checkForOutputFolder(pathJoin(getImageFolder(settings) + "/fallback", "fallback"));
 
