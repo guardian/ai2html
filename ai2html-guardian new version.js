@@ -1177,6 +1177,7 @@ if (errors.length > 0) {
   var promptForPromo = isTrue(docSettings.write_image_files) && isTrue(docSettings.create_promo_image);
   var showPromo = showCompletionAlert(promptForPromo);
   if (showPromo) createPromoImage(docSettings);
+  createFallbackImages(docSettings);
 }
 
 
@@ -4517,6 +4518,49 @@ function createPromoImage(settings) {
   doc.artboards.setActiveArtboardIndex(abIndex);
   exportRasterImage(outputPath, ab, format, opts);
   alert('Promo image created\nLocation: ' + outputPath);
+}
+
+
+//  forEachUsableArtboard(function(ab, i) {
+//     var info = convertAiBounds(ab.artboardRect);
+//     var area = info.width * info.height;
+//     if (area > largestArea) {
+//       largestId = i;
+//       largestArea = area;
+//     }
+//   });
+
+// Create fallback images from all artboards for Apple News etc
+function createFallbackImages(settings) {
+
+  checkForOutputFolder(pathJoin(getImageFolder(settings) + "/fallback", "fallback"));
+
+  forEachUsableArtboard(function(ab, i) {
+
+    var name = getArtboardName(ab);
+    var type = "light_";
+    if (name.toString().indexOf("dark-mode") > -1)  {
+      type = "dark_"
+    }
+
+    var info = convertAiBounds(ab.artboardRect);
+    var width = Math.round(info.width);
+ 
+  var format = 'png',
+      imgFile = getImageFileName('fallback_' + type + width, format),
+      outputPath = pathJoin(getImageFolder(settings) + "/fallback", imgFile),
+      opts = {
+        image_width: width,
+        jpg_quality: settings.jpg_quality,
+        png_number_of_colors: settings.png_number_of_colors,
+        png_transparent: false
+      };
+  
+
+  doc.artboards.setActiveArtboardIndex(i);
+  exportRasterImage(outputPath, ab, format, opts);
+   });
+  alert('Fallback images created');
 }
 
 // Returns 1 or 2 (corresponding to standard pixel scale and 'retina' pixel scale)
