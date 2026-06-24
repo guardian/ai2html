@@ -4538,26 +4538,37 @@ function createFallbackImages(settings) {
   // don't create fallbacks if multiple artboards with same width
 
   var abws = [];
+  var stop = false;
 
    forEachUsableArtboard(function(ab, i) {
 
       var info = convertAiBounds(ab.artboardRect);
       var width = Math.round(info.width);
 
+        var name = getArtboardName(ab);
+    var type = "light_";
+    if (name.toString().indexOf("dark-mode") > -1)  {
+      type = "dark_"
+    }
+
       var found = false;
       for (var j = 0; j < abws.length; j++) {
-        if (abws[j] === width) {
+        if (abws[j] === (type + width)) {
           found = true;
+          stop = true;
           break;
         }
       }
-      if (found) {
-        return;
-      }
-      abws.push(width);
+      abws.push(type + width);
     });
 
+  if (stop) {
+    return; // abort createFallbackImages
+  }
+
   alert('Create fallback images');
+
+  var lines = [];
 
   checkForOutputFolder(pathJoin(getImageFolder(settings) + "/fallback", "fallback"));
 
@@ -4585,7 +4596,15 @@ function createFallbackImages(settings) {
 
   doc.artboards.setActiveArtboardIndex(i);
   exportRasterImage(outputPath, ab, format, opts);
+
+  lines.push(imgFile);
    });
+
+   var manifestStr = lines.join('\n');
+   var manifestPath = pathJoin(getImageFolder(settings) + "/fallback", "manifest.txt");
+  saveTextFile(manifestPath, manifestStr);
+
+
   alert('Fallback images created');
 }
 
