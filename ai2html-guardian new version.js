@@ -4604,6 +4604,13 @@ function createFallbackImages(settings) {
    var manifestPath = pathJoin(getImageFolder(settings) + "/fallback", "manifest.txt");
   saveTextFile(manifestPath, manifestStr);
 
+  var furnitureLines = [];
+  furnitureLines.push("headline: " + settings.headline);
+  furnitureLines.push("standfirst: " + settings.standfirst);
+  furnitureLines.push("source: " + settings.source);
+  var furnitureStr = furnitureLines.join('\n');
+  var furniturePath = pathJoin(getImageFolder(settings) + "/fallback", "furniture.txt");
+  saveTextFile(furniturePath, furnitureStr);
 
   alert('Fallback images created');
 }
